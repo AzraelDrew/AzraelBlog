@@ -1,0 +1,130 @@
+import Vue from 'vue';
+import Vuex from 'vuex';
+import axios from 'axios';
+import Qs from 'qs';
+import router from '../router';
+Vue.use(Vuex);
+
+export default new Vuex.Store({
+  state: {
+    userinfo: {},
+  },
+  getters: {
+    // 查询登录状态
+    loginState(state) {
+      return state.userinfo.token;
+    },
+  },
+  // mutations用于更改state 且只能在mutations中更改
+  mutations: {
+    svaeUserInfo(state, userinfo) {
+      state.userinfo = userinfo;
+    },
+    // 清楚用户登录状态
+    clearUserInfo(state) {
+      state.userinfo = {};
+    },
+  },
+  actions: {
+    // 登录
+    // 第一个参数为调用mutations中的方法的函数  第二个参数为 Vue component中的数据
+    blogLogin({ commit }, fromData) {
+      axios({
+        url: 'http://localhost:9000/api/azrael-login/',
+        method: 'POST',
+        data: Qs.stringify(fromData),
+      }).then(res => {
+        if (res.data === 'none') {
+          alert('用户名不存在!');
+          return;
+        }
+        if (res.data === 'pwderr') {
+          alert('密码错误');
+          return;
+        }
+        commit('svaeUserInfo', res.data);
+        // 缓存token到本地实现自动登录
+        localStorage.setItem('token', res.data.token);
+        router.push({ name: 'Home' });
+      });
+    },
+    // 注册
+    blogRegister({ commit }, fromData) {
+      axios({
+        url: 'http://localhost:9000/api/azrael-register/',
+        method: 'POST',
+        data: Qs.stringify(fromData),
+      }).then(res => {
+        if (res.data === 'repeat') {
+          alert('用户名已存在!');
+          return;
+        }
+        commit('svaeUserInfo', res.data);
+        // 缓存token到本地实现自动登录
+        localStorage.setItem('token', res.data.token);
+        router.push({ name: 'Home' });
+      });
+    },
+
+    // 自动登录
+    autoLogin({ commit }) {
+      let token = localStorage.getItem('token');
+      if (token) {
+        axios({
+          url: 'http://localhost:9000/api/auto-login/',
+          method: 'POST',
+          data: Qs.stringify({ token }),
+        }).then(res => {
+          // console.log(res);
+          if (res.data === 'TokenTimeOut') {
+            alert('用户信息过期,请重新登录');
+            return;
+          }
+          commit('svaeUserInfo', res.data);
+          // 缓存token到本地实现自动登录
+          localStorage.setItem('token', res.data.token);
+          router.push({ name: 'Home' });
+        });
+      }
+    },
+    // 登出
+    blogLogOut({ commit }, token) {
+      commit('clearUserInfo');
+      localStorage.removeItem('token');
+      // router.push({ name: 'Login' });
+      axios({
+        url: 'http://localhost:9000/api/azrael-logout/',
+        method: 'POST',
+        data: Qs.stringify({ token }),
+      }).then(res => {
+        console.log(res.data);
+      });
+    },
+    // 用户权限判断
+    checkUserPerm({ getters }, checkInfo) {
+      // 用户
+      let token = getters.loginState;
+      // 表
+      let contentType = checkInfo.contentType;
+      // 权限
+      let permissions = checkInfo.permissions;
+      axios({
+        url: 'http://localhost:9000/api/azrael-checkperm/',
+        method: 'POST',
+        data: Qs.stringify({ token, contentType, permissions: JSON.stringify(permissions) }),
+      }).then(res => {
+        console.log(res.data);
+        if (res.data === 'nologin') {
+          alert('用户信息错误');
+          return;
+        }
+        if (res.data === 'nopermission') {
+          alert('用户权限不足，请联系管理员');
+          router.push({ name: 'Home' });
+          return;
+        }
+      });
+    },
+  },
+  modules: {},
+});

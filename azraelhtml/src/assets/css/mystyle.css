@@ -1,0 +1,153 @@
+body,
+html {
+  margin: 0;
+  padding: 0;
+  background: url('../img/3.png') no-repeat fixed;
+  background-size: 100% 100%;
+  /* 图片跟随滚动 */
+  /* background-attachment:fixed; */
+}
+.dweb {
+  background: #00000060;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
+  border-radius: 0.25rem;
+}
+
+.dweb .header {
+  font-size: 18px;
+  color: #5edbb5;
+  text-align: center;
+  font-weight: 500;
+}
+/* 顶部导航 */
+#top-menu {
+  width: 100vw;
+  height: 60px;
+  position: fixed;
+  top: 0;
+  z-index: 1001;
+}
+
+/* 左侧边栏导航 */
+#left-menu {
+  width: 200px;
+  height: 100vh;
+  position: fixed;
+  z-index: 1001;
+  transition: all 0.3s ease;
+}
+#left-menu.xs {
+  margin-left: -200px;
+  transition: all 0.3s ease;
+}
+#left-menu #left-btn {
+  color: #009186;
+  font-size: 40px;
+  position: absolute;
+  left: 210px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+}
+
+/* 页面内容 */
+
+#content {
+  position: relative;
+  top: 60px;
+  margin-left: 220px;
+  margin-right: 20px;
+  padding: 10px 0;
+  transition: all 0.3s ease;
+}
+#content.xs {
+  transition: all 0.3s ease;
+  margin-left: 20px;
+}
+
+/* 页面底部 */
+#footer {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 500;
+  margin-top: 10px;
+  text-align: center;
+  padding: 10px 0;
+}
+
+/* element ui */
+.el-submenu__title:hover {
+  background-color: #00000060 !important;
+}
+.el-menu-item:hover {
+  background-color: #00000060 !important;
+}
+.el-menu {
+  border-right: none;
+}
+.el-menu i {
+  color: #a2f3ea;
+}
+.el-form-item__label {
+  color: #5edbb5 !important;
+}
+.el-input input {
+  background-color: #00000060;
+  color: #ffffff;
+  border: none;
+}
+.el-textarea textarea {
+  background-color: #00000060;
+  color: #ffffff;
+  border: none;
+}
+
+.el-breadcrumb__inner.is-link {
+  color: #fff;
+}
+.el-breadcrumb__inner {
+  color: #fff;
+}
+.el-breadcrumb__item:last-child .el-breadcrumb__inner {
+  color: #5edbb5;
+  cursor: pointer;
+}
+.el-breadcrumb__item:last-child .el-breadcrumb__inner:hover {
+  color: #ffcd77;
+  cursor: pointer;
+}
+.el-pagination.is-background .el-pager li:not(.disabled).active {
+  color: #fff;
+  background: #5edbb5;
+}
+.el-pagination.is-background .el-pager li {
+  background: #00000060;
+  color: #fff;
+}
+.el-pagination.is-background button {
+  background-color: #00000060 !important;
+  color: #fff !important;
+}
+
+/* summernote */
+.note-btn {
+  color: #80cdcb;
+}
+.note-btn:hover {
+  color: #ffcd77;
+}
+.dropdown-menu {
+  background-color: #00000060;
+  color: #80cdcb;
+}
+.dropdown-menu a {
+  color: #80cdcb;
+}
+.popover {
+  background-color: #69626260;
+  border-radius: 10px;
+}
+.note-editable {
+  background-color: #00000030;
+  color: #fff;
+}
