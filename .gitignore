@@ -1,7 +1,8 @@
 .DS_Store
 /*/node_modules
 /dist
-
+/*/db.sqllite3
+/*/upload
 
 # local env files
 .env.local
