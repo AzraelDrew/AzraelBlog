@@ -66,6 +66,7 @@
 </template>
 
 <script>
+// import store from "../store";
 import axios from "axios";
 import Qs from "qs";
 export default {
@@ -102,24 +103,36 @@ export default {
     // 删除文章
     deleteArticle(id) {
       if (confirm("Are you sure you want to delete")) {
-        axios({
-          url: "http://localhost:9000/api/delete-article/",
-          method: "DELETE",
-          data: Qs.stringify({
-            id,
-            token: this.$store.getters.loginState,
-          }),
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-        }).then((res) => {
-          // console.log(res.data);
-          if (res.data === "nologin") {
-            alert("用户登录信息错误");
-            return;
-          }
-          if (res.data === "OK") {
-            this.getArticleList(this.currentPpage);
+        let checkInfo = {
+          contentType: "Blog_article",
+          permissions: ["delete"],
+        };
+        this.$store.dispatch("checkUserPerm", checkInfo).then((res) => {
+          // console.log(res);
+          // 当有权限是才会跳转到用户管理页面  否则不会跳转(看不见用户管理界面)
+          if (res) {
+            axios({
+              url: "http://localhost:9000/api/delete-article/",
+              method: "DELETE",
+              data: Qs.stringify({
+                id,
+                token: this.$store.getters.loginState,
+              }),
+              headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+              },
+            }).then((res) => {
+              // console.log(res.data);
+              if (res.data === "nologin") {
+                alert("用户登录信息错误");
+                return;
+              }
+              if (res.data === "nopermission") {
+                alert("权限不足");
+              }
+              this.getArticleList(this.currentPpage);
+            });
+            // next();
           }
         });
       }

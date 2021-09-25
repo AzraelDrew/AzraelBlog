@@ -129,6 +129,20 @@ html {
   color: #fff !important;
 }
 
+.el-transfer-panel {
+  background-color: #00000060 !important;
+  border: none;
+}
+.el-transfer-panel .el-transfer-panel__header {
+  background-color: #00000060 !important;
+}
+.el-transfer-panel .el-transfer-panel__header .el-checkbox .el-checkbox__label {
+  color: #fff;
+}
+.el-checkbox.el-transfer-panel__item {
+  color: #fff;
+}
+
 /* summernote */
 .note-btn {
   color: #80cdcb;

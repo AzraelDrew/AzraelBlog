@@ -68,8 +68,13 @@ const routes = [
           contentType: 'auth_user',
           permissions: ['add', 'change', 'delete', 'view'],
         };
-        store.dispatch('checkUserPerm', checkInfo);
-        next();
+        store.dispatch('checkUserPerm', checkInfo).then(res => {
+          console.log(res);
+          // 当有权限是才会跳转到用户管理页面  否则不会跳转(看不见用户管理界面)
+          if (res) {
+            next();
+          }
+        });
       } else {
         next('/login');
       }

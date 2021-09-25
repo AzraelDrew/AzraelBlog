@@ -7,8 +7,8 @@ urlpatterns = [
     # 文章列表
     path('atricle-list/', api.article_list),
     # 删除文章
-
     path('delete-article/', api.delete_article),
+
     # 用户管理
     # 登录
     path('azrael-login/', api.azrael_login),
@@ -20,6 +20,11 @@ urlpatterns = [
     path('auto-login/', api.auto_login),
     # 权限鉴定
     path('azrael-checkperm/', api.azrael_checkperm),
+    # 用户列表
+    path('azrael-userlist/', api.azrael_userlist),
+
+    # 用户组
+    path('azrael-group/', api.azrael_group),
 
 
 

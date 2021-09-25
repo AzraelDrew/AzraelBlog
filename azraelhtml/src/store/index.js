@@ -101,29 +101,37 @@ export default new Vuex.Store({
       });
     },
     // 用户权限判断
-    checkUserPerm({ getters }, checkInfo) {
+    async checkUserPerm({ getters }, checkInfo) {
       // 用户
       let token = getters.loginState;
       // 表
       let contentType = checkInfo.contentType;
       // 权限
       let permissions = checkInfo.permissions;
-      axios({
+
+      // 鉴权结果   必须等axios请求完成返回结果后才执行后面的代码
+      let perm_data;
+      await axios({
         url: 'http://localhost:9000/api/azrael-checkperm/',
         method: 'POST',
         data: Qs.stringify({ token, contentType, permissions: JSON.stringify(permissions) }),
       }).then(res => {
-        console.log(res.data);
+        // console.log(res.data);
         if (res.data === 'nologin') {
+          perm_data = false;
           alert('用户信息错误');
           return;
         }
         if (res.data === 'nopermission') {
+          perm_data = false;
           alert('用户权限不足，请联系管理员');
-          router.push({ name: 'Home' });
           return;
         }
+        if (res.data === 'OK') {
+          perm_data = true;
+        }
       });
+      return perm_data;
     },
   },
   modules: {},

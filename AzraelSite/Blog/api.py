@@ -4,7 +4,7 @@ from rest_framework.decorators import api_view
 from rest_framework.authtoken.models import Token
 from django.contrib.auth.hashers import check_password, make_password
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group, Permission, ContentType
 from bs4 import BeautifulSoup
 from PIL import Image
 from io import BytesIO
@@ -31,9 +31,10 @@ def azrael_checkperm(request):
     if user_token:
         user = user_token[0].user
         for p in permissions:
+            app_str = content_type.split('_')[0]
             model_str = content_type.split("_")[1]
-            perm_str = content_type + '.'+p+"_"+model_str
-            # print(perm_str)
+            perm_str = app_str + '.'+p+"_"+model_str
+            print(perm_str)
             check = user.has_perm(perm_str)
             print(check)
             if check == False:
@@ -237,7 +238,130 @@ def delete_article(request):
     user_token = Token.objects.filter(key=token)
     if len(user_token) == 0:
         return Response("nologin")
-
+    user = user_token[0].user
+    user_perm = user.has_perm("Blog.delete_article")
+    print("文章删除权限")
+    print(user_perm)
+    if user_perm == False:
+        return Response("nopermission")
     article = Article.objects.get(id=article_id)
     article.delete()
     return Response("OK")
+
+
+@api_view(['GET', 'POST', 'DELETE', 'PUT'])
+def azrael_group(request):
+
+    # 用户分配用户组
+    if request.method == "POST":
+        token = request.POST["token"]
+        permList = [
+            'auth.add_user',
+            'auth.delete_user'
+            'auth.change_user'
+            'auth.view_user'
+        ]
+        checkUser = userLoginAndPerm(token, permList)
+        print(checkUser)
+        if checkUser != 'perm_pass':
+            return Response(checkUser)
+
+        group_name = request.POST["group"]
+        userlist_name = json.loads(request.POST["userlist"])
+        group = Group.objects.get(name=group_name)
+        for username in userlist_name:
+            user = User.objects.get(username=username)
+            # user.groups.add(group)
+            group.user_set.add(user)  # 和上一行代码效果相同   是多对多的关系
+        return Response("OK")
+
+    # 删除用户组
+    if request.method == "DELETE":
+        token = request.POST["token"]
+        permList = [
+            'auth.add_user',
+            'auth.delete_user'
+            'auth.change_user'
+            'auth.view_user'
+        ]
+        checkUser = userLoginAndPerm(token, permList)
+        print(checkUser)
+        if checkUser != 'perm_pass':
+            return Response(checkUser)
+
+        name = request.POST["name"]
+        group = Group.objects.get(name=name)
+        group.delete()
+        return Response("OK")
+    # 获取用户组
+    if request.method == "GET":
+        groups = Group.objects.all()
+        groups_data = []
+        for g in groups:
+            g_item = {"name": g.name}
+            groups_data.append(g_item)
+        return Response(groups_data)
+    # 新建用户组
+    if request.method == "PUT":
+        token = request.POST['token']
+        permList = [
+            'auth.add_user',
+            'auth.delete_user'
+            'auth.change_user'
+            'auth.view_user'
+        ]
+        checkUser = userLoginAndPerm(token, permList)
+        print(checkUser)
+        if checkUser != 'perm_pass':
+            return Response(checkUser)
+
+        new_name = request.POST['new_group']
+        perm_list = json.loads(request.POST['perm_list'])
+
+        new_group = Group.objects.filter(name=new_name)
+        if new_group:
+            return Response('same name')
+        new_group = Group.objects.create(name=new_name)
+
+        for perm in perm_list:
+            app_str = perm['content_type'].split('_')[0]
+            model_str = perm['content_type'].split('_')[1]
+            contentType = ContentType.objects.get(
+                app_label=app_str, model=model_str)
+            for method in perm['perm_methods']:
+                print(method)
+                codename = method + '_' + model_str
+                permission = Permission.objects.get(
+                    content_type=contentType, codename=codename)
+                new_group.permissions.add(permission)
+        return Response('OK')
+
+# 检查用户登录与权限
+
+
+def userLoginAndPerm(token, permList):
+    user_token = Token.objects.filter(key=token)
+    if user_token:
+        user = user_token[0].user
+        for perm_str in permList:
+            perm_user = user.has_perm(perm_str)
+            if perm_user:
+                return 'perm_pass'
+            else:
+                return 'noperm'
+    else:
+        return 'nologin'
+
+# 用户列表
+
+
+@api_view(['GET'])
+def azrael_userlist(request):
+    userlist = User.objects.all()
+    userlist_data = []
+    for user in userlist:
+        user_item = {
+            'name': user.username
+        }
+        userlist_data.append(user_item)
+    return Response(userlist_data)
