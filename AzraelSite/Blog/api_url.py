@@ -25,6 +25,8 @@ urlpatterns = [
 
     # 用户组
     path('azrael-group/', api.azrael_group),
+    # 栏目管理
+    path('azrael-lanmu/', api.azrael_lanmu),
 
 
 

@@ -3,7 +3,7 @@
     <div class="dweb nav">
       <el-breadcrumb separator-class="el-icon-arrow-right">
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item>文章列表</el-breadcrumb-item>
+        <el-breadcrumb-item>用户列表</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="body">
@@ -176,6 +176,29 @@ export default {
             ],
             checkList: [],
           },
+          {
+            name: "栏目管理",
+            content_type: "Blog_lanmu",
+            perm_methods: [
+              {
+                name: "增",
+                codename: "add",
+              },
+              {
+                name: "删",
+                codename: "delete",
+              },
+              {
+                name: "改",
+                codename: "change",
+              },
+              {
+                name: "查",
+                codename: "view",
+              },
+            ],
+            checkList: [],
+          },
         ],
       },
       all_groups: [],
@@ -216,6 +239,10 @@ export default {
         }
         if (res.data == "noperm") {
           alert("权限不足");
+          return;
+        }
+        if (res.data == "OK") {
+          alert("用户权限分配成功");
           return;
         }
       });
@@ -355,7 +382,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped >
 #user .dweb {
   padding: 10px;
 }
@@ -387,11 +414,12 @@ export default {
   align-items: center;
 }
 .perm-list.dweb {
-  /* padding: 10px !important; */
   height: 200px;
+  /* 
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; */
+  /* padding: 10px !important; */
   /* overflow-y: scroll; */
 }
 /* .card.dweb .text-item {

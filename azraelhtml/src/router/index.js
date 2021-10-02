@@ -80,7 +80,29 @@ const routes = [
       }
     },
   },
-  //文章列表
+  {
+    path: '/lanmu-admin',
+    name: 'LanmuAdmin',
+    component: () => import('../views/LanmuAdmin'),
+    beforeEnter(to, from, next) {
+      if (store.state.userinfo.token) {
+        // 判断用户权限
+        let checkInfo = {
+          contentType: 'Blog_lanmu',
+          permissions: ['add', 'change', 'delete', 'view'],
+        };
+        store.dispatch('checkUserPerm', checkInfo).then(res => {
+          // console.log(res);
+          // 当有权限是才会跳转到用户管理页面  否则不会跳转(看不见用户管理界面)
+          if (res) {
+            next();
+          }
+        });
+      } else {
+        next('/login');
+      }
+    },
+  },
 ];
 
 const routerPush = VueRouter.prototype.push;

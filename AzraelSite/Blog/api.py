@@ -1,4 +1,4 @@
-from Blog.models import Article, UserInfo
+from Blog.models import Article, UserInfo, Lanmu
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.authtoken.models import Token
@@ -355,7 +355,7 @@ def userLoginAndPerm(token, permList):
 # 用户列表
 
 
-@api_view(['GET'])
+@api_view(['GET', 'POST', 'DELETE', 'PUT'])
 def azrael_userlist(request):
     userlist = User.objects.all()
     userlist_data = []
@@ -365,3 +365,35 @@ def azrael_userlist(request):
         }
         userlist_data.append(user_item)
     return Response(userlist_data)
+
+
+# 栏目管理
+@api_view(['PUT'])
+def azrael_lanmu(request):
+    token = request.POST["token"]
+    permList = [
+        'Blog.add_lanmu',
+        'Blog.delete_lanmu'
+        'Blog.change_lanmu'
+        'Blog.view_lanmu'
+    ]
+    checkUser = userLoginAndPerm(token, permList)
+    lanmu_tree = json.loads(request.POST["lanmu_tree"])
+    # print(lanmu_tree)
+    loopSvaeLamu(lanmu_tree, None)
+    return Response("OK")
+
+
+# 循环保存栏目树形结构
+def loopSvaeLamu(tree_data, parent_id):
+    parent_lanmu = Lanmu.objects.filter(id=parent_id)
+    if parent_lanmu:
+        for tree in tree_data:
+            new_lanmu = Lanmu(name=tree["label"], belong=parent_lanmu[0])
+            new_lanmu.save()
+    else:
+        for tree in tree_data:
+            new_lanmu = Lanmu(name=tree["label"])
+            new_lanmu.save()
+            if len(tree["children"]) > 0:
+                loopSvaeLamu(tree["children"], new_lanmu.id)
