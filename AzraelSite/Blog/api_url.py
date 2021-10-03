@@ -8,6 +8,8 @@ urlpatterns = [
     path('atricle-list/', api.article_list),
     # 删除文章
     path('delete-article/', api.delete_article),
+    # 文章数据
+    path('atricle-data/', api.atricle_data),
 
     # 用户管理
     # 登录

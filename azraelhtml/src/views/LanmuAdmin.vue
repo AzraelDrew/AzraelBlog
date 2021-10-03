@@ -21,11 +21,15 @@
               node-key="id"
               default-expand-all
               draggable
+              :render-content="renderContent"
+              @node-click="choosed_lanmu_articleList"
             >
             </el-tree>
           </div>
           <div class="save-tree tree body dweb" style="float: left">
-            <el-button type="warning" size="mini">恢复结构</el-button>
+            <el-button @click="getLanmuTree()" type="warning" size="mini"
+              >恢复结构</el-button
+            >
             <el-button @click="saveLanmuTree()" type="success" size="mini"
               >保存结构</el-button
             >
@@ -56,11 +60,27 @@
                       <span>发布者：admin</span>
                     </el-col>
                     <el-col class="text-item" :xs="12" :lg="7">
-                      <el-button
-                        type="warning"
-                        icon="el-icon-plus"
-                        circle
-                      ></el-button>
+                      <el-popover placement="right" width="200" trigger="click">
+                        <el-tree
+                          :data="lanmu_tree"
+                          node-key="id"
+                          default-expand-all
+                          @node-click="choosed_lanmu"
+                        >
+                        </el-tree>
+                        <el-button
+                          type="warning"
+                          icon="el-icon-plus"
+                          circle
+                          slot="reference"
+                        ></el-button>
+                        <el-button
+                          size="mini"
+                          type="warning"
+                          @click="saveArticleToLanmu(item.id)"
+                          >确定</el-button
+                        >
+                      </el-popover>
                     </el-col>
                   </el-row>
                 </div>
@@ -93,6 +113,7 @@ export default {
     return {
       maxId: 0,
       currentPpage: 1,
+      currentLanmu: "nobelong",
       pageSize: 5,
       total: 100,
       article_list: [],
@@ -101,79 +122,65 @@ export default {
 
       new_lanmu_name: "",
       // 栏目结构数据
-      lanmu_tree: [
-        {
-          id: 1,
-          label: "一级 1",
-          children: [
-            {
-              id: 4,
-              label: "二级 1-1",
-              children: [
-                {
-                  id: 9,
-                  label: "三级 1-1-1",
-                },
-                {
-                  id: 10,
-                  label: "三级 1-1-2",
-                },
-              ],
-            },
-          ],
-        },
-        {
-          id: 2,
-          label: "一级 2",
-          children: [
-            {
-              id: 5,
-              label: "二级 2-1",
-            },
-            {
-              id: 6,
-              label: "二级 2-2",
-            },
-          ],
-        },
-        {
-          id: 3,
-          label: "一级 3",
-          children: [
-            {
-              id: 7,
-              label: "二级 3-1",
-            },
-            {
-              id: 8,
-              label: "二级 3-2",
-              children: [
-                {
-                  id: 11,
-                  label: "三级 3-2-1",
-                },
-                {
-                  id: 12,
-                  label: "三级 3-2-2",
-                },
-                {
-                  id: 13,
-                  label: "三级 3-2-3",
-                },
-              ],
-            },
-          ],
-        },
-      ],
+      lanmu_tree: [],
+      // 文章栏目分配
+      choosed_lanmu_id: 0,
+      choosed_article_id: 0,
     };
   },
   components: {
     BreadMenu,
   },
   mounted() {
-    this.getArticleList(this.currentPpage, this.pageSize, this.total);
+    this.getArticleList(this.currentPpage, this.currentLanmu);
+    this.getLanmuTree();
   },
   methods: {
+    // 选择栏目查看文章
+    choosed_lanmu_articleList(node) {
+      let lanmu_name = node.label;
+      this.getArticleList(1, lanmu_name);
+    },
+    // 选择文章保存栏目
+    choosed_lanmu(node) {
+      this.choosed_lanmu_id = node.id;
+      this.choosed_lanmu_name = node.label;
+    },
+    saveArticleToLanmu(article_id) {
+      axios({
+        url: "http://127.0.0.1:9000/api/add-article/",
+        method: "PUT",
+        data: Qs.stringify({
+          token: this.$store.getters.loginState,
+          lanmu_id: this.choosed_lanmu_id,
+          article_id: article_id,
+        }),
+      }).then((res) => {
+        if (res.data == "nologin") {
+          alert("尚未登录");
+          return;
+        }
+        if (res.data == "noperm") {
+          alert("权限不足");
+          return;
+        }
+        if (res.data == "OK") {
+          console.log(res.data);
+          this.getArticleList(1, this.choosed_lanmu_name);
+          this.getLanmuTree();
+        }
+      });
+    },
+    // 获取栏目数据
+    getLanmuTree() {
+      axios({
+        url: "http://localhost:9000/api/azrael-lanmu/",
+        method: "GET",
+      }).then((res) => {
+        console.log(res.data);
+        this.lanmu_tree = res.data;
+      });
+    },
     // 保存栏目结构
     saveLanmuTree() {
       // console.log(this.lanmu_tree);
@@ -193,6 +200,8 @@ export default {
         if (res.data == "noperm") {
           alert("权限不足");
           return;
+        }
+        if (res.data == "OK") {
         }
       });
     },
@@ -231,13 +240,14 @@ export default {
       });
       return checkTree;
     },
-    getArticleList(page) {
+    getArticleList(page, lanmu) {
       axios({
         url: "http://localhost:9000/api/atricle-list/",
         method: "GET",
         params: {
           page,
           pageSize: this.pageSize,
+          lanmu: lanmu,
         },
       }).then((res) => {
         this.article_list = res.data.data;
@@ -246,7 +256,53 @@ export default {
     },
     currentChange(val) {
       this.currentPpage = val;
-      this.getArticleList(val);
+      this.getArticleList(val, this.currentLanmu);
+    },
+    remove(node, data) {
+      console.log(data);
+      axios({
+        url: "http://localhost:9000/api/azrael-lanmu/",
+        method: "DELETE",
+        data: Qs.stringify({
+          token: this.$store.getters.loginState,
+          id: data.id,
+        }),
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      }).then((res) => {
+        console.log(res.data);
+        if (res.data == "nologin") {
+          alert("尚未登录");
+          return;
+        }
+        if (res.data == "noperm") {
+          alert("权限不足");
+          return;
+        }
+        if (res.data == "OK") {
+          this.getLanmuTree();
+        }
+      });
+    },
+
+    renderContent(h, { node, data, store }) {
+      return (
+        <span class="custom-tree-node">
+          <span>{node.label}</span>
+          <span> ({node.data.article_num})</span>
+          <span>
+            <el-button
+              size="mini"
+              type="text"
+              style="position:absolute;right: 10px;"
+              on-click={() => this.remove(node, data)}
+            >
+              删除
+            </el-button>
+          </span>
+        </span>
+      );
     },
   },
 };
@@ -279,5 +335,9 @@ export default {
 }
 .save-tree button {
   margin: 5px;
+}
+.body.dweb h5 {
+  color: #fff;
+  font-weight: 500;
 }
 </style>

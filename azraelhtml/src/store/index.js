@@ -116,7 +116,7 @@ export default new Vuex.Store({
         method: 'POST',
         data: Qs.stringify({ token, contentType, permissions: JSON.stringify(permissions) }),
       }).then(res => {
-        console.log(res.data);
+        // console.log(res.data);
         if (res.data === 'nologin') {
           perm_data = false;
           alert('用户信息错误');

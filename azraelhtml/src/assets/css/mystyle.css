@@ -50,6 +50,27 @@ html {
   align-items: center;
 }
 
+.dweb.body .header {
+  height: 30px;
+  line-height: 30px;
+  overflow: hidden;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 500;
+  color: #fff;
+}
+
+.clear {
+  clear: both;
+}
+
+.article-content {
+  color: #fff;
+}
+.article-content img {
+  margin-right: 10px;
+  width: 40%;
+}
 /* 页面内容 */
 
 #content {
@@ -151,6 +172,14 @@ html {
 }
 .el-tree-node:focus > .el-tree-node__content {
   background-color: #80cdcb;
+}
+.el-popover {
+  background-color: #00000060;
+  border: none;
+}
+.el-popover .el-tree {
+  background: none;
+  border: none;
 }
 
 /* summernote */

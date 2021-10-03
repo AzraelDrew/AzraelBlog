@@ -20,7 +20,7 @@ class UserInfo(models.Model):
 class Lanmu(models.Model):
     name = models.CharField(null=True, blank=True, max_length=80)
     belong = models.ForeignKey(
-        "self", on_delete=models.CASCADE, null=True, blank=True, related_name='lanmu_children')
+        "self", on_delete=models.SET_NULL, null=True, blank=True, related_name='lanmu_children')
 
     def __str__(self):
         return self.name
@@ -36,7 +36,7 @@ class Article(models.Model):
     belong = models.ForeignKey(
         User, on_delete=models.CASCADE, null=True, blank=True, related_name='article_user')
     belong_lanmu = models.ForeignKey(
-        User, on_delete=models.CASCADE, null=True, blank=True, related_name='article_lanmu')
+        Lanmu, on_delete=models.SET_NULL, null=True, blank=True, related_name='article_lanmu')
 
     def __int__(self):
         return self.id

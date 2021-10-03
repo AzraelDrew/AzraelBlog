@@ -133,11 +133,57 @@ def azrael_register(request):
     }
     return Response(userinfo_data)
 
+
+# 文章数据
+
+
+@api_view(['GET'])
+def atricle_data(request):
+    article_id = request.GET['article_id']
+    article = Article.objects.get(id=article_id)
+    article_data = {
+        "title": article.title,
+        "cover": article.cover,
+        "describe": article.describe,
+        "content": article.content,
+        "nickName": article.belong.username,
+        "lanmu": "",
+        "pre_id": 0,
+        "next_id": 0
+    }
+    pre_data = Article.objects.filter(id__lt=article_id)
+    if pre_data:
+        article_data["pre_id"] = pre_data.last().id
+    next_data = Article.objects.filter(id__gt=article_id)
+    if next_data:
+        article_data["next_id"] = next_data.first().id
+
+    if article.belong_lanmu:
+        article_data["lanmu"] = article.belong_lanmu.name
+        return Response(article_data)
+
 # 发布文章
 
 
-@api_view(['POST'])
+@api_view(['POST', 'PUT'])
 def add_article(request):
+    token = request.POST['token']
+    if request.method == "PUT":
+        permList = [
+            'Blog.change_article'
+        ]
+        checkUser = userLoginAndPerm(token, permList)
+        if checkUser != 'perm_pass':
+            return Response(checkUser)
+
+        lanmu_id = request.POST['lanmu_id']
+        article_id = request.POST['article_id']
+
+        lanmu = Lanmu.objects.get(id=lanmu_id)
+        article = Article.objects.get(id=article_id)
+        article.belong_lanmu = lanmu
+        article.save()
+        return Response("OK")
     title = request.POST['title']
     describe = request.POST['describe']
     cover = request.POST['cover']
@@ -199,8 +245,13 @@ def add_article(request):
 def article_list(request):
     page = request.GET['page']
     pageSize = request.GET['pageSize']
-
-    articles = Article.objects.all()
+    lanmu = request.GET['lanmu']
+    if lanmu == "all":
+        articles = Article.objects.all()
+    elif lanmu == "nobelong":
+        articles = Article.objects.filter(belong_lanmu=None)
+    else:
+        articles = Article.objects.filter(belong_lanmu__name=lanmu)
     total = len(articles)
     paginator = Paginator(articles, pageSize)
     try:
@@ -229,6 +280,7 @@ def article_list(request):
 
 
 # 删除文章
+
 
 @api_view(['DELETE'])
 def delete_article(request):
@@ -368,32 +420,102 @@ def azrael_userlist(request):
 
 
 # 栏目管理
-@api_view(['PUT'])
-def azrael_lanmu(request):
-    token = request.POST["token"]
-    permList = [
-        'Blog.add_lanmu',
-        'Blog.delete_lanmu'
-        'Blog.change_lanmu'
-        'Blog.view_lanmu'
-    ]
-    checkUser = userLoginAndPerm(token, permList)
-    lanmu_tree = json.loads(request.POST["lanmu_tree"])
-    # print(lanmu_tree)
-    loopSvaeLamu(lanmu_tree, None)
-    return Response("OK")
 
+
+@api_view(['GET', 'POST', 'DELETE', 'PUT'])
+def azrael_lanmu(request):
+    if request.method == "GET":
+        lanmu = Lanmu.objects.filter(belong=None)
+
+        lanmu_data = loopGetLanmu(lanmu)
+        return Response(lanmu_data)
+
+    if request.method == "DELETE":
+        token = request.POST['token']
+        permList = [
+            'Blog.delete_lanmu',
+        ]
+        checkUser = userLoginAndPerm(token, permList)
+        print(checkUser)
+        if checkUser != 'perm_pass':
+            return Response(checkUser)
+
+        lanmu_id = request.POST['id']
+
+        lanmu = Lanmu.objects.get(id=lanmu_id)
+        lanmu.delete()
+        return Response('OK')
+
+    if request.method == "PUT":
+        token = request.POST['token']
+        permList = [
+            'Blog.add_lanmu',
+            'Blog.delete_lanmu',
+            'Blog.change_lanmu',
+            'Blog.view_lanmu'
+        ]
+        checkUser = userLoginAndPerm(token, permList)
+        print(checkUser)
+        if checkUser != 'perm_pass':
+            return Response(checkUser)
+
+        lanmu_tree = json.loads(request.POST['lanmu_tree'])
+
+        print(lanmu_tree)
+        loopSaveLanmu(lanmu_tree, None)
+        return Response('OK')
+
+
+# 循环获取栏目数据
+
+def loopGetLanmu(lanmu_list):
+    lanmu_data = []
+    for lanmu in lanmu_list:
+        lanmu_item = {
+            "id": lanmu.id,
+            "label": lanmu.name,
+            "children": [],
+            "article_num": len(lanmu.article_lanmu.all())
+        }
+        children = lanmu.lanmu_children.all()
+        print(lanmu)
+        print(children)
+        if children:
+            children_data = loopGetLanmu(children)
+            for c in children_data:
+                lanmu_item['children'].append(c)
+        lanmu_data.append(lanmu_item)
+    return lanmu_data
 
 # 循环保存栏目树形结构
-def loopSvaeLamu(tree_data, parent_id):
+
+
+def loopSaveLanmu(tree_data, parent_id):
     parent_lanmu = Lanmu.objects.filter(id=parent_id)
     if parent_lanmu:
         for tree in tree_data:
-            new_lanmu = Lanmu(name=tree["label"], belong=parent_lanmu[0])
-            new_lanmu.save()
+            saved_lanmu = Lanmu.objects.filter(id=tree['id'])
+            if saved_lanmu:
+                saved_lanmu[0].belong = parent_lanmu[0]
+                saved_lanmu[0].save()
+                if len(tree['children']) > 0:
+                    loopSaveLanmu(tree['children'], saved_lanmu[0].id)
+            else:
+                new_lanmu = Lanmu(name=tree['label'], belong=parent_lanmu[0])
+                new_lanmu.save()
+                if len(tree['children']) > 0:
+                    loopSaveLanmu(tree['children'], new_lanmu.id)
     else:
         for tree in tree_data:
-            new_lanmu = Lanmu(name=tree["label"])
-            new_lanmu.save()
-            if len(tree["children"]) > 0:
-                loopSvaeLamu(tree["children"], new_lanmu.id)
+            saved_lanmu = Lanmu.objects.filter(id=tree['id'])
+            if saved_lanmu:
+                saved_lanmu[0].belong = None
+                saved_lanmu[0].save()
+                loopSaveLanmu(tree['children'], saved_lanmu[0].id)
+            else:
+                new_lanmu = Lanmu(name=tree['label'])
+                new_lanmu.save()
+                if len(tree['children']) > 0:
+                    loopSaveLanmu(tree['children'], new_lanmu.id)
+
+    return

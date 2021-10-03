@@ -35,6 +35,7 @@
               </el-col>
               <el-col class="text-item" :xs="12" :lg="7">
                 <el-button
+                  @click="toArticle(item.id)"
                   type="success"
                   icon="el-icon-search"
                   circle
@@ -74,22 +75,29 @@ export default {
   data() {
     return {
       currentPpage: 1,
+      currentLanmu: "all",
       pageSize: 5,
       total: 100,
       article_list: [],
     };
   },
   mounted() {
-    this.getArticleList(this.currentPpage, this.pageSize, this.total);
+    this.getArticleList(this.currentPpage, this.currentLanmu);
   },
   methods: {
-    getArticleList(page) {
+    // 跳转内容页
+    toArticle(id) {
+      this.$router.push({ path: "/article", query: { id: id } });
+    },
+    // 获取文章列表
+    getArticleList(page, lanmu) {
       axios({
         url: "http://localhost:9000/api/atricle-list/",
         method: "GET",
         params: {
           page,
           pageSize: this.pageSize,
+          lanmu: lanmu,
         },
       }).then((res) => {
         this.article_list = res.data.data;
@@ -98,7 +106,7 @@ export default {
     },
     currentChange(val) {
       this.currentPpage = val;
-      this.getArticleList(val);
+      this.getArticleList(val, this.currentLanmu);
     },
     // 删除文章
     deleteArticle(id) {
