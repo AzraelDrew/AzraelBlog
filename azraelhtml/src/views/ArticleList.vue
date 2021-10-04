@@ -138,7 +138,7 @@ export default {
               if (res.data === "nopermission") {
                 alert("权限不足");
               }
-              this.getArticleList(this.currentPpage);
+              this.getArticleList(this.currentPpage, this.currentLanmu);
             });
             // next();
           }

@@ -29,7 +29,10 @@ urlpatterns = [
     path('azrael-group/', api.azrael_group),
     # 栏目管理
     path('azrael-lanmu/', api.azrael_lanmu),
-
-
-
+    # 评论
+    path('pinglun/', api.pinglun),
+    # 收藏等信息
+    path('user-article-info/', api.user_article_info),
+    path('article-like/', api.articleLike),
+    path('article-favor/', api.articleFavor),
 ]

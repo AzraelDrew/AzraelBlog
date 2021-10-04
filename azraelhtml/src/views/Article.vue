@@ -56,48 +56,34 @@
         <!-- 点赞收藏打赏 -->
         <div class="body dweb like-btn">
           <el-row>
-            <el-col :span="8">
-              <i class="iconfont icondianzan1"></i>
-              <!-- <i class="iconfont icondianzan1" style="color: #a85652"></i> -->
+            <el-col :span="12">
+              <i
+                v-if="user_article_info.like"
+                class="iconfont icondianzan1"
+                style="color: #a85652"
+                @click="toLike()"
+              ></i>
+              <i v-else @click="toLike()" class="iconfont icondianzan1"></i>
             </el-col>
-            <el-col :span="8">
-              <i class="iconfont iconshoucang"></i>
-              <!-- <i class="iconfont iconshoucang" style="color: #f5c328"></i> -->
-            </el-col>
-            <el-col :span="8">
-              <i class="iconfont icondashang"></i>
-              <!-- <i class="iconfont icondashang" style="color: #f5c328"></i> -->
+            <el-col :span="12">
+              <i
+                v-if="user_article_info.favor"
+                class="iconfont iconshoucang"
+                style="color: #f5c328"
+                @click="toFavor()"
+              ></i>
+              <i v-else @click="toFavor()" class="iconfont iconshoucang"></i>
             </el-col>
           </el-row>
         </div>
         <div class="body dweb">
-          <div class="body dweb pinglun-item">
-            admin 说：<br />
-            hahahahahaah
-          </div>
-          <div class="body dweb pinglun-item">
-            admin 说：<br />
-            hahahahahaah
-          </div>
-          <div class="body dweb pinglun-item">
-            a admin 说：<br />
-            hahahahahaah
-          </div>
-          <div class="body dweb pinglun-item">
-            admin 说：<br />
-            hahahahahaah
-          </div>
-          <div class="body dweb pinglun-item">
-            admin 说：<br />
-            hahahahahaah
-          </div>
-          <div class="body dweb pinglun-item">
-            admin 说：<br />
-            hahahahahaah
-          </div>
-          <div class="body dweb pinglun-item">
-            admin 说：<br />
-            hahahahahaah
+          <div
+            v-for="(item, index) in pinglun_data"
+            :key="index"
+            class="body dweb pinglun-item"
+          >
+            {{ item.nickName }} 说：<br />
+            {{ item.text }}
           </div>
         </div>
         <div class="dweb">
@@ -119,10 +105,12 @@
             :rows="2"
             placeholder="请输入内容"
             v-model="new_pinglun"
-            :maxlength="100"
+            :maxlength="120"
           >
           </el-input>
-          <el-button type="success">发表评论</el-button>
+          <el-button @click="saveNewPinglun()" type="success"
+            >发表评论</el-button
+          >
         </div>
       </el-col>
     </el-row>
@@ -142,21 +130,130 @@ export default {
       new_pinglun: "",
       ping_lun_total: 100,
       ping_lun_pageSize: 5,
+      pinglun_data: [],
+      user_article_info: {},
     };
   },
   components: { BreadMenu },
   watch: {
     $route(to) {
+      this.article_id = to.query.id;
       this.getArticleData(to.query.id);
+      this.getAllPinglun(1, this.ping_lun_pageSize);
+      this.getUserArticleInfo();
     },
   },
   mounted() {
     this.getArticleData(this.article_id);
+    this.getAllPinglun(1, this.ping_lun_pageSize);
+    this.getUserArticleInfo();
   },
   methods: {
+    // 打赏
+    //点赞
+    toLike() {
+      axios({
+        url: "http://localhost:9000/api/article-like/",
+        method: "post",
+        data: Qs.stringify({
+          token: this.$store.getters.loginState,
+          article_id: this.article_id,
+        }),
+      }).then((res) => {
+        // console.log(res.data)
+        if (res.data == "nologin") {
+          alert("尚未登录");
+          return;
+        }
+        if (res.data == "ok") {
+          this.getUserArticleInfo();
+        }
+      });
+    },
+    //收藏
+    toFavor() {
+      axios({
+        url: "http://localhost:9000/api/article-favor/",
+        method: "post",
+        data: Qs.stringify({
+          token: this.$store.getters.loginState,
+          article_id: this.article_id,
+        }),
+      }).then((res) => {
+        // console.log(res.data)
+        if (res.data == "nologin") {
+          alert("尚未登录");
+          return;
+        }
+        if (res.data == "ok") {
+          this.getUserArticleInfo();
+        }
+      });
+    },
+    // 获取收藏等信息
+    getUserArticleInfo() {
+      let token = this.$store.getters.loginState;
+      if (token) {
+        axios({
+          url: "http://localhost:9000/api/user-article-info/",
+          method: "POST",
+          data: Qs.stringify({
+            token: token,
+            article_id: this.article_id,
+          }),
+        }).then((res) => {
+          console.log(res.data);
+          this.user_article_info = res.data;
+        });
+      }
+    },
+    // 获取所以评论
+    getAllPinglun(page, pagesize) {
+      axios({
+        url: "http://localhost:9000/api/pinglun/",
+        method: "GET",
+        params: {
+          page,
+          pagesize,
+          article_id: this.article_id,
+        },
+      }).then((res) => {
+        console.log(res.data);
+        this.pinglun_data = res.data.data;
+        this.ping_lun_total = res.data.total;
+      });
+    },
+    // 发表评论
+    saveNewPinglun() {
+      if (this.new_pinglun.length == 0) {
+        alert("内容为空");
+        return;
+      }
+      axios({
+        url: "http://localhost:9000/api/pinglun/",
+        method: "POST",
+        data: Qs.stringify({
+          token: this.$store.getters.loginState,
+          article_id: this.article_id,
+          text: this.new_pinglun,
+        }),
+      }).then((res) => {
+        console.log(res.data);
+        if (res.data == "nologin") {
+          alert("尚未登录");
+          return;
+        }
+        if (res.data == "noperm") {
+          alert("权限不足");
+          return;
+        }
+        this.getAllPinglun(1, this.ping_lun_pageSize);
+        this.new_pinglun = "";
+      });
+    },
     // 评论翻页
     pingluncurrentChange(page) {
-      console.log(page);
+      this.getAllPinglun(page, this.ping_lun_pageSize);
     },
     // 跳转文章
     toOtherPage(id) {
@@ -167,7 +264,6 @@ export default {
       this.$router.push({ path: "/article", query: { id: id } });
     },
     getArticleData(id) {
-      // console.log(id);
       axios({
         url: "http://localhost:9000/api/atricle-data/",
         method: "GET",
@@ -175,7 +271,6 @@ export default {
           article_id: id,
         },
       }).then((res) => {
-        // console.log(res.data);
         this.article_data = res.data;
       });
     },
