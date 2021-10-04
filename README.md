@@ -31,24 +31,24 @@ mkdir upload
 ```shell
 替换/etc/nginx/nginx.conf
 
-server {
+server{
                                 listen          80;
                                 server_name     139.224.209.63;
                                 index index.html
                                 charset         utf-8;
 
                                 location /static {
-                                        alias   /var/www/studyapi/AzraelSite/Blog/static;
+                                alias   /var/www/studyapi/AzraelSite/Blog/static;
 
                                 }
                                 location /upload {
-                                        alias   /var/www/studyapi/AzraelSite/upload;
+                                alias   /var/www/studyapi/AzraelSite/upload;
 
                                 }
 
                                 location / {
-                                        uwsgi_pass   127.0.0.1:9090;
-                                        include      /etc/nginx/uwsgi_params;
+                                uwsgi_pass   127.0.0.1:9090;
+                                include      /etc/nginx/uwsgi_params;
                                 }
 }
 server{
@@ -58,8 +58,8 @@ server{
 
 
                                 location / {
-                                        root    /var/www/study;
-                                        index   index.html ;
+                                root    /var/www/study;
+                                index   index.html ;
                                 }
 
 }
