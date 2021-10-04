@@ -31,35 +31,37 @@ mkdir upload
 ```shell
 替换/etc/nginx/nginx.conf
 
-server{
+server {
                                 listen          80;
                                 server_name     139.224.209.63;
                                 index index.html
                                 charset         utf-8;
 
                                 location /static {
-                                alias   /var/www/studyapi/AzraelSite/Blog/static;
+                                        alias   /usr/local/lib/python3.8/dist-packages/django/contrib/admin/static/;
 
                                 }
                                 location /upload {
-                                alias   /var/www/studyapi/AzraelSite/upload;
+                                        alias   /var/www/studyapi/AzraelSite/upload;
 
                                 }
 
                                 location / {
-                                uwsgi_pass   127.0.0.1:9090;
-                                include      /etc/nginx/uwsgi_params;
+                                        uwsgi_pass   127.0.0.1:9090;
+                                        include      /etc/nginx/uwsgi_params;
+                                        client_max_body_size 20m;
+
                                 }
 }
 server{
-                                listen          8000;    #需要在服务器后台开启端口
+                                listen          8000;
                                 server_name     139.224.209.63;
                                 charset         utf-8;
 
 
                                 location / {
-                                root    /var/www/study;
-                                index   index.html ;
+                                        root    /var/www/study/dist;
+                                        index   index.html ;
                                 }
 
 }
@@ -90,7 +92,7 @@ vacuum = true
 
 cd azraelhtml
 
-sudp cp -r summernote-zh-CN.js ./node_modules/summernote/lang/
+sudo cp -r summernote-zh-CN.js ./node_modules/summernote/lang/
 ```
 
 > Nginx
