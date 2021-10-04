@@ -75,7 +75,6 @@ export default new Vuex.Store({
           method: 'POST',
           data: Qs.stringify({ token }),
         }).then(res => {
-          // console.log(res);
           if (res.data === 'TokenTimeOut') {
             alert('用户信息过期,请重新登录');
             return;
@@ -96,9 +95,7 @@ export default new Vuex.Store({
         url: 'http://139.224.209.63/api/azrael-logout/',
         method: 'POST',
         data: Qs.stringify({ token }),
-      }).then(res => {
-        console.log(res.data);
-      });
+      }).then(res => {});
     },
     // 用户权限判断
     async checkUserPerm({ getters }, checkInfo) {
@@ -116,7 +113,6 @@ export default new Vuex.Store({
         method: 'POST',
         data: Qs.stringify({ token, contentType, permissions: JSON.stringify(permissions) }),
       }).then(res => {
-        // console.log(res.data);
         if (res.data === 'nologin') {
           perm_data = false;
           alert('用户信息错误');

@@ -85,7 +85,6 @@ export default {
 
   methods: {
     choosMenu(index) {
-      // console.log(index);
       this.$router.push({ path: index });
     },
     changeDevice() {
@@ -111,8 +110,6 @@ export default {
     },
     blogLogOut() {
       this.$store.dispatch("blogLogOut", this.$store.getters.loginState);
-      // this.$store.commit("clearUserInfo");
-      // this.$router.push({ name: "Home" });
     },
   },
 };

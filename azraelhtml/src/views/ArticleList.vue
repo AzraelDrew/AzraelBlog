@@ -116,7 +116,6 @@ export default {
           permissions: ["delete"],
         };
         this.$store.dispatch("checkUserPerm", checkInfo).then((res) => {
-          // console.log(res);
           // 当有权限是才会跳转到用户管理页面  否则不会跳转(看不见用户管理界面)
           if (res) {
             axios({
@@ -130,7 +129,6 @@ export default {
                 "Content-Type": "application/x-www-form-urlencoded",
               },
             }).then((res) => {
-              // console.log(res.data);
               if (res.data === "nologin") {
                 alert("用户登录信息错误");
                 return;

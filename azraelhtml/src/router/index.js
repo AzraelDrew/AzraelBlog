@@ -69,7 +69,6 @@ const routes = [
           permissions: ['add', 'change', 'delete', 'view'],
         };
         store.dispatch('checkUserPerm', checkInfo).then(res => {
-          console.log(res);
           // 当有权限是才会跳转到用户管理页面  否则不会跳转(看不见用户管理界面)
           if (res) {
             next();
@@ -93,7 +92,6 @@ const routes = [
           permissions: ['add', 'change', 'delete', 'view'],
         };
         store.dispatch('checkUserPerm', checkInfo).then(res => {
-          // console.log(res);
           // 当有权限是才会跳转到用户管理页面  否则不会跳转(看不见用户管理界面)
           if (res) {
             next();
@@ -117,7 +115,6 @@ const routes = [
           permissions: ['view'],
         };
         store.dispatch('checkUserPerm', checkInfo).then(res => {
-          // console.log(res);
           // 当有权限是才会跳转到用户管理页面  否则不会跳转(看不见用户管理界面)
           if (res) {
             next();
@@ -139,10 +136,4 @@ const router = new VueRouter({
   routes,
 });
 
-// // 全局路由守卫
-// router.beforeEach((to, from, next) => {
-//   console.log(from.path);
-//   console.log(to.path);
-//   next();
-// });
 export default router;

@@ -160,7 +160,6 @@ export default {
           article_id: this.article_id,
         }),
       }).then((res) => {
-        // console.log(res.data)
         if (res.data == "nologin") {
           alert("尚未登录");
           return;
@@ -180,7 +179,6 @@ export default {
           article_id: this.article_id,
         }),
       }).then((res) => {
-        // console.log(res.data)
         if (res.data == "nologin") {
           alert("尚未登录");
           return;
@@ -202,7 +200,6 @@ export default {
             article_id: this.article_id,
           }),
         }).then((res) => {
-          console.log(res.data);
           this.user_article_info = res.data;
         });
       }
@@ -218,7 +215,6 @@ export default {
           article_id: this.article_id,
         },
       }).then((res) => {
-        console.log(res.data);
         this.pinglun_data = res.data.data;
         this.ping_lun_total = res.data.total;
       });
@@ -238,7 +234,6 @@ export default {
           text: this.new_pinglun,
         }),
       }).then((res) => {
-        console.log(res.data);
         if (res.data == "nologin") {
           alert("尚未登录");
           return;

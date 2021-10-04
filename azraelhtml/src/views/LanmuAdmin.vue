@@ -165,7 +165,6 @@ export default {
           return;
         }
         if (res.data == "OK") {
-          console.log(res.data);
           this.getArticleList(1, this.choosed_lanmu_name);
           this.getLanmuTree();
         }
@@ -177,13 +176,11 @@ export default {
         url: "http://139.224.209.63/api/azrael-lanmu/",
         method: "GET",
       }).then((res) => {
-        console.log(res.data);
         this.lanmu_tree = res.data;
       });
     },
     // 保存栏目结构
     saveLanmuTree() {
-      // console.log(this.lanmu_tree);
       axios({
         url: "http://139.224.209.63/api/azrael-lanmu/",
         method: "PUT",
@@ -192,7 +189,6 @@ export default {
           lanmu_tree: JSON.stringify(this.lanmu_tree),
         }),
       }).then((res) => {
-        console.log(res.data);
         if (res.data == "nologin") {
           alert("尚未登录");
           return;
@@ -259,7 +255,6 @@ export default {
       this.getArticleList(val, this.currentLanmu);
     },
     remove(node, data) {
-      console.log(data);
       axios({
         url: "http://139.224.209.63/api/azrael-lanmu/",
         method: "DELETE",
@@ -271,7 +266,6 @@ export default {
           "Content-Type": "application/x-www-form-urlencoded",
         },
       }).then((res) => {
-        console.log(res.data);
         if (res.data == "nologin") {
           alert("尚未登录");
           return;

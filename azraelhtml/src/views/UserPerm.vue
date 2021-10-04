@@ -232,7 +232,6 @@ export default {
           userlist: JSON.stringify(userlist),
         }),
       }).then((res) => {
-        console.log(res.data);
         if (res.data == "nologin") {
           alert("尚未登录");
           return;
@@ -257,7 +256,6 @@ export default {
         url: "http://139.224.209.63/api/azrael-userlist/",
         method: "GET",
       }).then((res) => {
-        console.log(res.data);
         let userlist = res.data;
         userlist.forEach((user) => {
           this.userlist.push({
@@ -274,7 +272,6 @@ export default {
         url: "http://139.224.209.63/api/azrael-group/",
         method: "GET",
       }).then((res) => {
-        console.log(res.data);
         this.all_groups = res.data;
       });
     },
@@ -291,7 +288,6 @@ export default {
           name: name,
         }),
       }).then((res) => {
-        console.log(res.data);
         if (res.data == "nologin") {
           alert("尚未登录");
           return;
@@ -341,7 +337,6 @@ export default {
                 perm_list: JSON.stringify(perm_list),
               }),
             }).then((res) => {
-              console.log(res.data);
               if (res.data == "nologin") {
                 alert("尚未登录");
                 return;

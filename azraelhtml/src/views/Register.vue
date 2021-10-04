@@ -61,19 +61,7 @@ export default {
         alert("两次密码不一致!");
         return;
       }
-      // 提交注册
-      // axios({
-      //   url: 'http://139.224.209.63/api/azrael-register/',
-      //   method: 'POST',
-      //   data: Qs.stringify(this.fromData),
-      // }).then(res => {
-      //   // console.log(res.data);
-      //   if (res.data === 'repeat') {
-      //     alert('用户名已存在!');
-      //     return;
-      //   }
-      //   this.$store.commit('svaeUserInfo', res.data);
-      // });
+
       this.$store.dispatch("blogRegister", this.fromData);
     },
 

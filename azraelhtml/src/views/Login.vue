@@ -48,27 +48,7 @@ export default {
         alert("帐号或密码不能为空!");
         return;
       }
-      // else {
-      // axios({
-      //   url: "http://139.224.209.63/api/azrael-login/",
-      //   method: "POST",
-      //   data: Qs.stringify(this.fromData),
-      // }).then((res) => {
-      //   if (res.data === "none") {
-      //     alert("用户名不存在!");
-      //     return;
-      //   }
-      //   if (res.data === "pwderr") {
-      //     alert("密码错误");
-      //     return;
-      //   }
-      //   // console.log(res.data);
-      // //this.$store.commit 调用mutations中的方法
-      //   this.$store.commit("svaeUserInfo", res.data);
-      // });
-      // }
 
-      // this.$store.dispatch 调用actions中的方法
       this.$store.dispatch("blogLogin", this.fromData);
     },
     toRegister() {

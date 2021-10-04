@@ -110,7 +110,6 @@ export default {
             self.cover_list.push(url);
           },
           onMediaDelete(target) {
-            console.log(target);
             let imgData = target[0].src;
             for (let i = 0; self.cover_list.length; i++) {
               if (self.cover_list[i] === imgData) {
@@ -141,7 +140,6 @@ export default {
         )
         //article_data作为第二个参数时是body请求
         .then((res) => {
-          console.log(res);
           if (res.data === "title") {
             alert("文章标题不可为空");
             return;
