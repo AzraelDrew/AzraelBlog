@@ -153,7 +153,7 @@ export default {
     //点赞
     toLike() {
       axios({
-        url: "http://localhost:9000/api/article-like/",
+        url: "http://139.224.209.63/api/article-like/",
         method: "post",
         data: Qs.stringify({
           token: this.$store.getters.loginState,
@@ -173,7 +173,7 @@ export default {
     //收藏
     toFavor() {
       axios({
-        url: "http://localhost:9000/api/article-favor/",
+        url: "http://139.224.209.63/api/article-favor/",
         method: "post",
         data: Qs.stringify({
           token: this.$store.getters.loginState,
@@ -195,7 +195,7 @@ export default {
       let token = this.$store.getters.loginState;
       if (token) {
         axios({
-          url: "http://localhost:9000/api/user-article-info/",
+          url: "http://139.224.209.63/api/user-article-info/",
           method: "POST",
           data: Qs.stringify({
             token: token,
@@ -210,7 +210,7 @@ export default {
     // 获取所以评论
     getAllPinglun(page, pagesize) {
       axios({
-        url: "http://localhost:9000/api/pinglun/",
+        url: "http://139.224.209.63/api/pinglun/",
         method: "GET",
         params: {
           page,
@@ -230,7 +230,7 @@ export default {
         return;
       }
       axios({
-        url: "http://localhost:9000/api/pinglun/",
+        url: "http://139.224.209.63/api/pinglun/",
         method: "POST",
         data: Qs.stringify({
           token: this.$store.getters.loginState,
@@ -265,7 +265,7 @@ export default {
     },
     getArticleData(id) {
       axios({
-        url: "http://localhost:9000/api/atricle-data/",
+        url: "http://139.224.209.63/api/atricle-data/",
         method: "GET",
         params: {
           article_id: id,

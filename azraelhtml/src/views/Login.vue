@@ -50,7 +50,7 @@ export default {
       }
       // else {
       // axios({
-      //   url: "http://localhost:9000/api/azrael-login/",
+      //   url: "http://139.224.209.63/api/azrael-login/",
       //   method: "POST",
       //   data: Qs.stringify(this.fromData),
       // }).then((res) => {

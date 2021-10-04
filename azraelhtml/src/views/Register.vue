@@ -63,7 +63,7 @@ export default {
       }
       // 提交注册
       // axios({
-      //   url: 'http://localhost:9000/api/azrael-register/',
+      //   url: 'http://139.224.209.63/api/azrael-register/',
       //   method: 'POST',
       //   data: Qs.stringify(this.fromData),
       // }).then(res => {

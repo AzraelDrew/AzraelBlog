@@ -136,7 +136,7 @@ export default {
       };
       axios
         .post(
-          "http://localhost:9000/api/add-article/",
+          "http://139.224.209.63/api/add-article/",
           Qs.stringify(article_data)
         )
         //article_data作为第二个参数时是body请求

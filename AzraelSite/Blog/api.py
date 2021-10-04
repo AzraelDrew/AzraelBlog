@@ -13,7 +13,7 @@ import datetime
 import base64
 import os
 import json
-hostUrl = 'http://127.0.0.1:9000/'
+hostUrl = 'http://139.224.209.63/'
 
 
 # 权限鉴定

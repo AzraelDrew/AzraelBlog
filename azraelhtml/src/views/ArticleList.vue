@@ -92,7 +92,7 @@ export default {
     // 获取文章列表
     getArticleList(page, lanmu) {
       axios({
-        url: "http://localhost:9000/api/atricle-list/",
+        url: "http://139.224.209.63/api/atricle-list/",
         method: "GET",
         params: {
           page,
@@ -120,7 +120,7 @@ export default {
           // 当有权限是才会跳转到用户管理页面  否则不会跳转(看不见用户管理界面)
           if (res) {
             axios({
-              url: "http://localhost:9000/api/delete-article/",
+              url: "http://139.224.209.63/api/delete-article/",
               method: "DELETE",
               data: Qs.stringify({
                 id,

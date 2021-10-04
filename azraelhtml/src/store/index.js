@@ -30,7 +30,7 @@ export default new Vuex.Store({
     // 第一个参数为调用mutations中的方法的函数  第二个参数为 Vue component中的数据
     blogLogin({ commit }, fromData) {
       axios({
-        url: 'http://localhost:9000/api/azrael-login/',
+        url: 'http://139.224.209.63/api/azrael-login/',
         method: 'POST',
         data: Qs.stringify(fromData),
       }).then(res => {
@@ -51,7 +51,7 @@ export default new Vuex.Store({
     // 注册
     blogRegister({ commit }, fromData) {
       axios({
-        url: 'http://localhost:9000/api/azrael-register/',
+        url: 'http://139.224.209.63/api/azrael-register/',
         method: 'POST',
         data: Qs.stringify(fromData),
       }).then(res => {
@@ -71,7 +71,7 @@ export default new Vuex.Store({
       let token = localStorage.getItem('token');
       if (token) {
         axios({
-          url: 'http://localhost:9000/api/auto-login/',
+          url: 'http://139.224.209.63/api/auto-login/',
           method: 'POST',
           data: Qs.stringify({ token }),
         }).then(res => {
@@ -93,7 +93,7 @@ export default new Vuex.Store({
       localStorage.removeItem('token');
       // router.push({ name: 'Login' });
       axios({
-        url: 'http://localhost:9000/api/azrael-logout/',
+        url: 'http://139.224.209.63/api/azrael-logout/',
         method: 'POST',
         data: Qs.stringify({ token }),
       }).then(res => {
@@ -112,7 +112,7 @@ export default new Vuex.Store({
       // 鉴权结果   必须等axios请求完成返回结果后才执行后面的代码
       let perm_data;
       await axios({
-        url: 'http://localhost:9000/api/azrael-checkperm/',
+        url: 'http://139.224.209.63/api/azrael-checkperm/',
         method: 'POST',
         data: Qs.stringify({ token, contentType, permissions: JSON.stringify(permissions) }),
       }).then(res => {

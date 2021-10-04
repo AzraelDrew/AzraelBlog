@@ -224,7 +224,7 @@ export default {
         return;
       }
       axios({
-        url: "http://localhost:9000/api/azrael-group/",
+        url: "http://139.224.209.63/api/azrael-group/",
         method: "POST",
         data: Qs.stringify({
           token: this.$store.getters.loginState,
@@ -254,7 +254,7 @@ export default {
     // 获取用户列表
     getUserList() {
       axios({
-        url: "http://localhost:9000/api/azrael-userlist/",
+        url: "http://139.224.209.63/api/azrael-userlist/",
         method: "GET",
       }).then((res) => {
         console.log(res.data);
@@ -271,7 +271,7 @@ export default {
     // 获取所有用户组
     getAllUserGroup() {
       axios({
-        url: "http://localhost:9000/api/azrael-group/",
+        url: "http://139.224.209.63/api/azrael-group/",
         method: "GET",
       }).then((res) => {
         console.log(res.data);
@@ -281,7 +281,7 @@ export default {
     // 删除用户组
     deleteGroup(name) {
       axios({
-        url: "http://localhost:9000/api/azrael-group/",
+        url: "http://139.224.209.63/api/azrael-group/",
         method: "DELETE",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
@@ -333,7 +333,7 @@ export default {
         this.$store.dispatch("checkUserPerm", checkInfo).then((res) => {
           if (res) {
             axios({
-              url: "http://localhost:9000/api/azrael-group/",
+              url: "http://139.224.209.63/api/azrael-group/",
               method: "PUT",
               data: Qs.stringify({
                 token: this.$store.getters.loginState,
@@ -415,18 +415,5 @@ export default {
 }
 .perm-list.dweb {
   height: 200px;
-  /* 
-  display: flex;
-  justify-content: center;
-  align-items: center; */
-  /* padding: 10px !important; */
-  /* overflow-y: scroll; */
 }
-/* .card.dweb .text-item {
-  color: #fff;
-  height: 80px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-} */
 </style>
