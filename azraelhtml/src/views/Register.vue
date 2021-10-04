@@ -10,10 +10,10 @@
               <el-input v-model="fromData.username"></el-input>
             </el-form-item>
             <el-form-item label="密码">
-              <el-input v-model="fromData.password"></el-input>
+              <el-input v-model="fromData.password" type="password"></el-input>
             </el-form-item>
             <el-form-item label="密码">
-              <el-input v-model="fromData.password2"></el-input>
+              <el-input v-model="fromData.password2" type="password"></el-input>
             </el-form-item>
           </div>
           <el-form-item class="btn">
