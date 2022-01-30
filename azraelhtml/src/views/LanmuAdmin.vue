@@ -57,7 +57,7 @@
                       <span>{{ item.title }}</span>
                     </el-col>
                     <el-col class="text-item" :xs="12" :lg="7">
-                      <span>发布者：admin</span>
+                      <span>发布者:admin</span>
                     </el-col>
                     <el-col class="text-item" :xs="12" :lg="7">
                       <el-popover placement="right" width="200" trigger="click">
@@ -105,22 +105,22 @@
 </template>
 
 <script>
-import BreadMenu from "../components/BreadMenu.vue";
-import axios from "axios";
-import Qs from "qs";
+import BreadMenu from '../components/BreadMenu.vue';
+import axios from 'axios';
+import Qs from 'qs';
 export default {
   data() {
     return {
       maxId: 0,
       currentPpage: 1,
-      currentLanmu: "nobelong",
+      currentLanmu: 'nobelong',
       pageSize: 5,
       total: 100,
       article_list: [],
 
       // 新栏目名称
 
-      new_lanmu_name: "",
+      new_lanmu_name: '',
       // 栏目结构数据
       lanmu_tree: [],
       // 文章栏目分配
@@ -148,23 +148,23 @@ export default {
     },
     saveArticleToLanmu(article_id) {
       axios({
-        url: "http://139.224.209.63/api/add-article/",
-        method: "PUT",
+        url: 'http://127.0.0.1:8000/api/add-article/',
+        method: 'PUT',
         data: Qs.stringify({
           token: this.$store.getters.loginState,
           lanmu_id: this.choosed_lanmu_id,
           article_id: article_id,
         }),
       }).then((res) => {
-        if (res.data == "nologin") {
-          alert("尚未登录");
+        if (res.data == 'nologin') {
+          alert('尚未登录');
           return;
         }
-        if (res.data == "noperm") {
-          alert("权限不足");
+        if (res.data == 'noperm') {
+          alert('权限不足');
           return;
         }
-        if (res.data == "OK") {
+        if (res.data == 'OK') {
           this.getArticleList(1, this.choosed_lanmu_name);
           this.getLanmuTree();
         }
@@ -173,8 +173,8 @@ export default {
     // 获取栏目数据
     getLanmuTree() {
       axios({
-        url: "http://139.224.209.63/api/azrael-lanmu/",
-        method: "GET",
+        url: 'http://127.0.0.1:8000/api/azrael-lanmu/',
+        method: 'GET',
       }).then((res) => {
         this.lanmu_tree = res.data;
       });
@@ -182,22 +182,22 @@ export default {
     // 保存栏目结构
     saveLanmuTree() {
       axios({
-        url: "http://139.224.209.63/api/azrael-lanmu/",
-        method: "PUT",
+        url: 'http://127.0.0.1:8000/api/azrael-lanmu/',
+        method: 'PUT',
         data: Qs.stringify({
           token: this.$store.getters.loginState,
           lanmu_tree: JSON.stringify(this.lanmu_tree),
         }),
       }).then((res) => {
-        if (res.data == "nologin") {
-          alert("尚未登录");
+        if (res.data == 'nologin') {
+          alert('尚未登录');
           return;
         }
-        if (res.data == "noperm") {
-          alert("权限不足");
+        if (res.data == 'noperm') {
+          alert('权限不足');
           return;
         }
-        if (res.data == "OK") {
+        if (res.data == 'OK') {
         }
       });
     },
@@ -210,11 +210,11 @@ export default {
         children: [],
       };
       if (checkTree === false) {
-        this.new_lanmu_name = "";
+        this.new_lanmu_name = '';
         return;
       }
       this.lanmu_tree.push(new_lanmu);
-      this.new_lanmu_name = "";
+      this.new_lanmu_name = '';
     },
     loopCheckData(tree) {
       let checkTree = true;
@@ -224,7 +224,7 @@ export default {
           this.maxId = obj.id;
         }
         if (obj.label === this.new_lanmu_name) {
-          alert("栏目名重复");
+          alert('栏目名重复');
           checkTree = false;
           return checkTree;
         }
@@ -238,8 +238,8 @@ export default {
     },
     getArticleList(page, lanmu) {
       axios({
-        url: "http://139.224.209.63/api/atricle-list/",
-        method: "GET",
+        url: 'http://127.0.0.1:8000/api/article-list/',
+        method: 'GET',
         params: {
           page,
           pageSize: this.pageSize,
@@ -256,25 +256,25 @@ export default {
     },
     remove(node, data) {
       axios({
-        url: "http://139.224.209.63/api/azrael-lanmu/",
-        method: "DELETE",
+        url: 'http://127.0.0.1:8000/api/azrael-lanmu/',
+        method: 'DELETE',
         data: Qs.stringify({
           token: this.$store.getters.loginState,
           id: data.id,
         }),
         headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
+          'Content-Type': 'application/x-www-form-urlencoded',
         },
       }).then((res) => {
-        if (res.data == "nologin") {
-          alert("尚未登录");
+        if (res.data == 'nologin') {
+          alert('尚未登录');
           return;
         }
-        if (res.data == "noperm") {
-          alert("权限不足");
+        if (res.data == 'noperm') {
+          alert('权限不足');
           return;
         }
-        if (res.data == "OK") {
+        if (res.data == 'OK') {
           this.getLanmuTree();
         }
       });

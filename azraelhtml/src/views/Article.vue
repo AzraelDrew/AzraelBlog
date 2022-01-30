@@ -82,7 +82,7 @@
             :key="index"
             class="body dweb pinglun-item"
           >
-            {{ item.nickName }} 说：<br />
+            {{ item.nickName }}说:<br />
             {{ item.text }}
           </div>
         </div>
@@ -118,16 +118,16 @@
 </template>
 
 <script>
-import BreadMenu from "../components/BreadMenu.vue";
-import axios from "axios";
-import Qs from "qs";
+import BreadMenu from '../components/BreadMenu.vue';
+import axios from 'axios';
+import Qs from 'qs';
 export default {
   data() {
     return {
       article_id: this.$route.query.id,
       article_data: {},
       // 评论
-      new_pinglun: "",
+      new_pinglun: '',
       ping_lun_total: 100,
       ping_lun_pageSize: 5,
       pinglun_data: [],
@@ -153,18 +153,18 @@ export default {
     //点赞
     toLike() {
       axios({
-        url: "http://139.224.209.63/api/article-like/",
-        method: "post",
+        url: 'http://127.0.0.1:8000/api/article-like/',
+        method: 'post',
         data: Qs.stringify({
           token: this.$store.getters.loginState,
           article_id: this.article_id,
         }),
       }).then((res) => {
-        if (res.data == "nologin") {
-          alert("尚未登录");
+        if (res.data == 'nologin') {
+          alert('尚未登录');
           return;
         }
-        if (res.data == "ok") {
+        if (res.data == 'ok') {
           this.getUserArticleInfo();
         }
       });
@@ -172,18 +172,18 @@ export default {
     //收藏
     toFavor() {
       axios({
-        url: "http://139.224.209.63/api/article-favor/",
-        method: "post",
+        url: 'http://127.0.0.1:8000/api/article-favor/',
+        method: 'post',
         data: Qs.stringify({
           token: this.$store.getters.loginState,
           article_id: this.article_id,
         }),
       }).then((res) => {
-        if (res.data == "nologin") {
-          alert("尚未登录");
+        if (res.data == 'nologin') {
+          alert('尚未登录');
           return;
         }
-        if (res.data == "ok") {
+        if (res.data == 'ok') {
           this.getUserArticleInfo();
         }
       });
@@ -193,8 +193,8 @@ export default {
       let token = this.$store.getters.loginState;
       if (token) {
         axios({
-          url: "http://139.224.209.63/api/user-article-info/",
-          method: "POST",
+          url: 'http://127.0.0.1:8000/api/user-article-info/',
+          method: 'POST',
           data: Qs.stringify({
             token: token,
             article_id: this.article_id,
@@ -207,8 +207,8 @@ export default {
     // 获取所以评论
     getAllPinglun(page, pagesize) {
       axios({
-        url: "http://139.224.209.63/api/pinglun/",
-        method: "GET",
+        url: 'http://127.0.0.1:8000/api/pinglun/',
+        method: 'GET',
         params: {
           page,
           pagesize,
@@ -222,28 +222,28 @@ export default {
     // 发表评论
     saveNewPinglun() {
       if (this.new_pinglun.length == 0) {
-        alert("内容为空");
+        alert('内容为空');
         return;
       }
       axios({
-        url: "http://139.224.209.63/api/pinglun/",
-        method: "POST",
+        url: 'http://127.0.0.1:8000/api/pinglun/',
+        method: 'POST',
         data: Qs.stringify({
           token: this.$store.getters.loginState,
           article_id: this.article_id,
           text: this.new_pinglun,
         }),
       }).then((res) => {
-        if (res.data == "nologin") {
-          alert("尚未登录");
+        if (res.data == 'nologin') {
+          alert('尚未登录');
           return;
         }
-        if (res.data == "noperm") {
-          alert("权限不足");
+        if (res.data == 'noperm') {
+          alert('权限不足');
           return;
         }
         this.getAllPinglun(1, this.ping_lun_pageSize);
-        this.new_pinglun = "";
+        this.new_pinglun = '';
       });
     },
     // 评论翻页
@@ -253,15 +253,15 @@ export default {
     // 跳转文章
     toOtherPage(id) {
       if (id === 0) {
-        alert("没有了");
+        alert('没有了');
         return;
       }
-      this.$router.push({ path: "/article", query: { id: id } });
+      this.$router.push({ path: '/article', query: { id: id } });
     },
     getArticleData(id) {
       axios({
-        url: "http://139.224.209.63/api/atricle-data/",
-        method: "GET",
+        url: 'http://127.0.0.1:8000/api/article-data/',
+        method: 'GET',
         params: {
           article_id: id,
         },

@@ -1,6 +1,6 @@
 <template>
   <div id="refister-page">
-    <div class="dweb refisterbox">
+    <div class="dweb refisterbox" @keyup.enter="blogRegister">
       <div class="header">注册</div>
       <el-divider></el-divider>
       <div class="box">
@@ -37,9 +37,9 @@ export default {
   data() {
     return {
       fromData: {
-        username: "",
-        password: "",
-        password2: "",
+        username: '',
+        password: '',
+        password2: '',
       },
     };
   },
@@ -50,23 +50,23 @@ export default {
         this.fromData.password.length == 0 ||
         this.fromData.password2.length == 0
       ) {
-        alert("帐号或密码不能为空!");
+        alert('帐号或密码不能为空!');
         return;
       }
       if (this.fromData.password.length < 7) {
-        alert("密码不能低于8位");
+        alert('密码不能低于8位');
         return;
       }
       if (this.fromData.password !== this.fromData.password2) {
-        alert("两次密码不一致!");
+        alert('两次密码不一致!');
         return;
       }
 
-      this.$store.dispatch("blogRegister", this.fromData);
+      this.$store.dispatch('blogRegister', this.fromData);
     },
 
     toLogin() {
-      this.$router.push({ name: "Login" });
+      this.$router.push({ name: 'Login' });
     },
   },
 };
@@ -96,5 +96,5 @@ export default {
 }
 .el-input {
   width: 300px;
-}
-</style>e>
+}</style
+>e>

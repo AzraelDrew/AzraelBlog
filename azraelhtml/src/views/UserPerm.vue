@@ -121,80 +121,80 @@
 </template>
 
 <script>
-import axios from "axios";
-import Qs from "qs";
+import axios from 'axios';
+import Qs from 'qs';
 export default {
   data() {
     return {
       new_group: {
-        name: "",
-        ame: "",
+        name: '',
+        ame: '',
         checkList: [
           {
-            name: "文章管理",
-            content_type: "Blog_article",
+            name: '文章管理',
+            content_type: 'Blog_article',
             perm_methods: [
               {
-                name: "增",
-                codename: "add",
+                name: '增',
+                codename: 'add',
               },
               {
-                name: "删",
-                codename: "delete",
+                name: '删',
+                codename: 'delete',
               },
               {
-                name: "改",
-                codename: "change",
+                name: '改',
+                codename: 'change',
               },
               {
-                name: "查",
-                codename: "view",
+                name: '查',
+                codename: 'view',
               },
             ],
             checkList: [],
           },
           {
-            name: "用户管理",
-            content_type: "auth_user",
+            name: '用户管理',
+            content_type: 'auth_user',
             perm_methods: [
               {
-                name: "增",
-                codename: "add",
+                name: '增',
+                codename: 'add',
               },
               {
-                name: "删",
-                codename: "delete",
+                name: '删',
+                codename: 'delete',
               },
               {
-                name: "改",
-                codename: "change",
+                name: '改',
+                codename: 'change',
               },
               {
-                name: "查",
-                codename: "view",
+                name: '查',
+                codename: 'view',
               },
             ],
             checkList: [],
           },
           {
-            name: "栏目管理",
-            content_type: "Blog_lanmu",
+            name: '栏目管理',
+            content_type: 'Blog_lanmu',
             perm_methods: [
               {
-                name: "增",
-                codename: "add",
+                name: '增',
+                codename: 'add',
               },
               {
-                name: "删",
-                codename: "delete",
+                name: '删',
+                codename: 'delete',
               },
               {
-                name: "改",
-                codename: "change",
+                name: '改',
+                codename: 'change',
               },
               {
-                name: "查",
-                codename: "view",
+                name: '查',
+                codename: 'view',
               },
             ],
             checkList: [],
@@ -220,28 +220,28 @@ export default {
       let group = this.all_groups[this.choosed_group];
       let userlist = this.choosed_user;
       if (userlist.length == 0) {
-        alert("没有选择用户");
+        alert('没有选择用户');
         return;
       }
       axios({
-        url: "http://139.224.209.63/api/azrael-group/",
-        method: "POST",
+        url: 'http://127.0.0.1:8000/api/azrael-group/',
+        method: 'POST',
         data: Qs.stringify({
           token: this.$store.getters.loginState,
           group: group.name,
           userlist: JSON.stringify(userlist),
         }),
       }).then((res) => {
-        if (res.data == "nologin") {
-          alert("尚未登录");
+        if (res.data == 'nologin') {
+          alert('尚未登录');
           return;
         }
-        if (res.data == "noperm") {
-          alert("权限不足");
+        if (res.data == 'noperm') {
+          alert('权限不足');
           return;
         }
-        if (res.data == "OK") {
-          alert("用户权限分配成功");
+        if (res.data == 'OK') {
+          alert('用户权限分配成功');
           return;
         }
       });
@@ -253,8 +253,8 @@ export default {
     // 获取用户列表
     getUserList() {
       axios({
-        url: "http://139.224.209.63/api/azrael-userlist/",
-        method: "GET",
+        url: 'http://127.0.0.1:8000/api/azrael-userlist/',
+        method: 'GET',
       }).then((res) => {
         let userlist = res.data;
         userlist.forEach((user) => {
@@ -269,8 +269,8 @@ export default {
     // 获取所有用户组
     getAllUserGroup() {
       axios({
-        url: "http://139.224.209.63/api/azrael-group/",
-        method: "GET",
+        url: 'http://127.0.0.1:8000/api/azrael-group/',
+        method: 'GET',
       }).then((res) => {
         this.all_groups = res.data;
       });
@@ -278,25 +278,25 @@ export default {
     // 删除用户组
     deleteGroup(name) {
       axios({
-        url: "http://139.224.209.63/api/azrael-group/",
-        method: "DELETE",
+        url: 'http://127.0.0.1:8000/api/azrael-group/',
+        method: 'DELETE',
         headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
+          'Content-Type': 'application/x-www-form-urlencoded',
         },
         data: Qs.stringify({
           token: this.$store.getters.loginState,
           name: name,
         }),
       }).then((res) => {
-        if (res.data == "nologin") {
-          alert("尚未登录");
+        if (res.data == 'nologin') {
+          alert('尚未登录');
           return;
         }
-        if (res.data == "noperm") {
-          alert("权限不足");
+        if (res.data == 'noperm') {
+          alert('权限不足');
           return;
         }
-        if (res.data == "OK") {
+        if (res.data == 'OK') {
           this.getAllUserGroup();
         }
       });
@@ -304,7 +304,7 @@ export default {
     saveNewGroup() {
       //判断名称输入
       if (this.new_group.name.length == 0) {
-        alert("输入新用户名称");
+        alert('输入新用户名称');
         return;
       }
       //判断权限的选择
@@ -323,40 +323,40 @@ export default {
       if (checkType) {
         //执行提交
         let checkInfo = {
-          contentType: "auth_user",
-          permissions: ["add", "change", "delete", "view"],
+          contentType: 'auth_user',
+          permissions: ['add', 'change', 'delete', 'view'],
         };
-        this.$store.dispatch("checkUserPerm", checkInfo).then((res) => {
+        this.$store.dispatch('checkUserPerm', checkInfo).then((res) => {
           if (res) {
             axios({
-              url: "http://139.224.209.63/api/azrael-group/",
-              method: "PUT",
+              url: 'http://127.0.0.1:8000/api/azrael-group/',
+              method: 'PUT',
               data: Qs.stringify({
                 token: this.$store.getters.loginState,
                 new_group: this.new_group.name,
                 perm_list: JSON.stringify(perm_list),
               }),
             }).then((res) => {
-              if (res.data == "nologin") {
-                alert("尚未登录");
+              if (res.data == 'nologin') {
+                alert('尚未登录');
                 return;
               }
-              if (res.data == "noperm") {
-                alert("权限不足");
+              if (res.data == 'noperm') {
+                alert('权限不足');
                 return;
               }
-              if (res.data == "same name") {
-                alert("重复命名");
+              if (res.data == 'same name') {
+                alert('重复命名');
                 return;
               }
-              if (res.data == "OK") {
+              if (res.data == 'OK') {
                 this.getAllUserGroup();
               }
             });
           }
         });
       } else {
-        alert("新用户组 权限未选择");
+        alert('新用户组 权限未选择');
         return;
       }
     },
@@ -364,10 +364,10 @@ export default {
     chooseAllMethod(index) {
       if (this.new_group.checkList[index].checkList.length == 0) {
         this.new_group.checkList[index].checkList = [
-          "add",
-          "delete",
-          "change",
-          "view",
+          'add',
+          'delete',
+          'change',
+          'view',
         ];
       } else {
         this.new_group.checkList[index].checkList = [];
@@ -377,7 +377,7 @@ export default {
 };
 </script>
 
-<style scoped >
+<style scoped>
 #user .dweb {
   padding: 10px;
 }

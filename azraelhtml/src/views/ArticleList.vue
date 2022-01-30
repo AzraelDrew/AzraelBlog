@@ -31,7 +31,7 @@
                 <span>{{ item.title }}</span>
               </el-col>
               <el-col class="text-item" :xs="12" :lg="7">
-                <span>发布者：admin</span>
+                <span>发布者:admin</span>
               </el-col>
               <el-col class="text-item" :xs="12" :lg="7">
                 <el-button
@@ -68,14 +68,14 @@
 
 <script>
 // import store from "../store";
-import axios from "axios";
-import Qs from "qs";
+import axios from 'axios';
+import Qs from 'qs';
 export default {
-  props: ["screenWidth"],
+  props: ['screenWidth'],
   data() {
     return {
       currentPpage: 1,
-      currentLanmu: "all",
+      currentLanmu: 'all',
       pageSize: 5,
       total: 100,
       article_list: [],
@@ -87,13 +87,13 @@ export default {
   methods: {
     // 跳转内容页
     toArticle(id) {
-      this.$router.push({ path: "/article", query: { id: id } });
+      this.$router.push({ path: '/article', query: { id: id } });
     },
     // 获取文章列表
     getArticleList(page, lanmu) {
       axios({
-        url: "http://139.224.209.63/api/atricle-list/",
-        method: "GET",
+        url: 'http://127.0.0.1:8000/api/article-list/',
+        method: 'GET',
         params: {
           page,
           pageSize: this.pageSize,
@@ -110,31 +110,31 @@ export default {
     },
     // 删除文章
     deleteArticle(id) {
-      if (confirm("Are you sure you want to delete")) {
+      if (confirm('Are you sure you want to delete')) {
         let checkInfo = {
-          contentType: "Blog_article",
-          permissions: ["delete"],
+          contentType: 'Blog_article',
+          permissions: ['delete'],
         };
-        this.$store.dispatch("checkUserPerm", checkInfo).then((res) => {
+        this.$store.dispatch('checkUserPerm', checkInfo).then((res) => {
           // 当有权限是才会跳转到用户管理页面  否则不会跳转(看不见用户管理界面)
           if (res) {
             axios({
-              url: "http://139.224.209.63/api/delete-article/",
-              method: "DELETE",
+              url: 'http://127.0.0.1:8000/api/delete-article/',
+              method: 'DELETE',
               data: Qs.stringify({
                 id,
                 token: this.$store.getters.loginState,
               }),
               headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
+                'Content-Type': 'application/x-www-form-urlencoded',
               },
             }).then((res) => {
-              if (res.data === "nologin") {
-                alert("用户登录信息错误");
+              if (res.data === 'nologin') {
+                alert('用户登录信息错误');
                 return;
               }
-              if (res.data === "nopermission") {
-                alert("权限不足");
+              if (res.data === 'nopermission') {
+                alert('权限不足');
               }
               this.getArticleList(this.currentPpage, this.currentLanmu);
             });
@@ -159,4 +159,3 @@ export default {
   align-items: center;
 }
 </style>
-

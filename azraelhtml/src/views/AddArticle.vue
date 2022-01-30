@@ -1,5 +1,5 @@
 <template>
-  <div id="add-atricle">
+  <div id="add-article">
     <el-row :gutter="10">
       <el-col :xs="24" :lg="8">
         <div class="dweb">
@@ -54,20 +54,19 @@
   </div>
 </template>
 
-
 <script>
-import $ from "jquery";
-import axios from "axios";
-import Qs from "qs";
+import $ from 'jquery';
+import axios from 'axios';
+import Qs from 'qs';
 export default {
   data() {
     return {
       article_info: {
-        title: "",
-        describe: "",
-        contents: "",
+        title: '',
+        describe: '',
+        contents: '',
       },
-      cover_img: "",
+      cover_img: '',
       cover_list: [],
     };
   },
@@ -77,9 +76,9 @@ export default {
   methods: {
     summernote() {
       let self = this;
-      $("#summernote").summernote({
-        width: "100%",
-        lang: "zh-CN",
+      $('#summernote').summernote({
+        width: '100%',
+        lang: 'zh-CN',
         height: 500,
         callbacks: {
           // 输入时
@@ -93,9 +92,9 @@ export default {
             imgData.readAsDataURL(img);
             imgData.onload = () => {
               //插入图片
-              let imgnode = document.createElement("img");
+              let imgnode = document.createElement('img');
               imgnode.src = imgData.result;
-              $("#summernote").summernote("insertNode", imgnode);
+              $('#summernote').summernote('insertNode', imgnode);
 
               // 推入封面待选择
               self.cover_list.push(imgData.result);
@@ -104,9 +103,9 @@ export default {
 
           // 远程图片添加
           onImageLinkInsert(url) {
-            let imgnode = document.createElement("img");
+            let imgnode = document.createElement('img');
             imgnode.src = url;
-            $("#summernote").summernote("insertNode", imgnode);
+            $('#summernote').summernote('insertNode', imgnode);
             self.cover_list.push(url);
           },
           onMediaDelete(target) {
@@ -135,20 +134,21 @@ export default {
       };
       axios
         .post(
-          "http://139.224.209.63/api/add-article/",
+          'http://127.0.0.1:8000/api/add-article/',
           Qs.stringify(article_data)
         )
         //article_data作为第二个参数时是body请求
         .then((res) => {
-          if (res.data === "title") {
-            alert("文章标题不可为空");
+          console.log(res.data);
+          if (res.data === 'title') {
+            alert('文章标题不可为空');
             return;
           }
-          if (res.data === "nologin") {
-            alert("用户信息错误");
+          if (res.data === 'nologin') {
+            alert('用户信息错误');
             return;
           }
-          if (res.data === "OK") {
+          if (res.data === 'OK') {
             window.location.reload();
           }
         });

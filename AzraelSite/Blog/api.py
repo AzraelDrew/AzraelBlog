@@ -13,7 +13,7 @@ import datetime
 import base64
 import os
 import json
-hostUrl = 'http://139.224.209.63/'
+hostUrl = 'http://127.0.0.1:8000/'
 
 
 # 权限鉴定
@@ -138,7 +138,7 @@ def azrael_register(request):
 
 
 @api_view(['GET'])
-def atricle_data(request):
+def article_data(request):
     article_id = request.GET['article_id']
     article = Article.objects.get(id=article_id)
     article_data = {

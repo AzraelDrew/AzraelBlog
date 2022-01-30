@@ -5,11 +5,11 @@ urlpatterns = [
     # 添加文章
     path('add-article/', api.add_article),
     # 文章列表
-    path('atricle-list/', api.article_list),
+    path('article-list/', api.article_list),
     # 删除文章
     path('delete-article/', api.delete_article),
     # 文章数据
-    path('atricle-data/', api.atricle_data),
+    path('article-data/', api.article_data),
 
     # 用户管理
     # 登录

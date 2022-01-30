@@ -1,6 +1,6 @@
 <template>
   <div id="login-page">
-    <div class="dweb loginbox">
+    <div class="dweb loginbox" @keyup.enter="blogLogin()">
       <div class="header">用户登录</div>
       <el-divider></el-divider>
       <div class="box">
@@ -32,8 +32,8 @@ export default {
   data() {
     return {
       fromData: {
-        username: "",
-        password: "",
+        username: '',
+        password: '',
       },
     };
   },
@@ -43,14 +43,14 @@ export default {
         this.fromData.username.length == 0 ||
         this.fromData.password.length == 0
       ) {
-        alert("帐号或密码不能为空!");
+        alert('帐号或密码不能为空!');
         return;
       }
 
-      this.$store.dispatch("blogLogin", this.fromData);
+      this.$store.dispatch('blogLogin', this.fromData);
     },
     toRegister() {
-      this.$router.push({ name: "Register" });
+      this.$router.push({ name: 'Register' });
     },
   },
 };
