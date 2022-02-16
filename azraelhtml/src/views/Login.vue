@@ -32,6 +32,7 @@ export default {
   data() {
     return {
       fromData: {
+        // username: this.$store.state.currentname,
         username: '',
         password: '',
       },
@@ -48,6 +49,7 @@ export default {
       }
 
       this.$store.dispatch('blogLogin', this.fromData);
+      // this.$store.state.currentname == this.fromData.username;
     },
     toRegister() {
       this.$router.push({ name: 'Register' });

@@ -1,7 +1,13 @@
 <template>
   <div id="app">
     <!-- 顶部导航 -->
-    <div id="top-menu" class="dweb"></div>
+    <div id="top-menu" class="dweb">
+      <!-- <p
+        style="position:absolute;right:30px;height:50px;color:#FFFFFF;text-align:center"
+      >
+        {{ currentname }}
+      </p> -->
+    </div>
     <!-- 左侧边栏导航 -->
     <div id="left-menu" :class="'dweb ' + mobile_left">
       <i @click="showHideLeftMenu" id="left-btn" class="el-icon-menu"></i>
@@ -27,10 +33,6 @@
           <el-menu-item index="/user-permission">
             <i class="el-icon-user"></i>
             <span slot="title">用户管理</span>
-          </el-menu-item>
-          <el-menu-item index="3">
-            <i class="el-icon-money"></i>
-            <span slot="title">打赏记录</span>
           </el-menu-item>
           <el-menu-item index="/lanmu-admin">
             <i class="el-icon-s-operation"></i>
@@ -58,8 +60,9 @@ export default {
   data() {
     return {
       screenWidth: document.body.clientWidth,
-      mobile_left: "",
-      mobile_content: "",
+      mobile_left: '',
+      mobile_content: '',
+      currentname: this.$store.state.currentname,
     };
   },
   computed: {
@@ -72,12 +75,12 @@ export default {
     // 监听用户token
     authUserLogin(newVal) {
       if (newVal == null) {
-        this.$router.push({ name: "Login" });
+        this.$router.push({ name: 'Login' });
       }
     },
   },
   created() {
-    this.$store.dispatch("autoLogin");
+    this.$store.dispatch('autoLogin');
   },
   mounted() {
     this.changeDevice();
@@ -89,27 +92,27 @@ export default {
     },
     changeDevice() {
       if (this.screenWidth <= 500) {
-        this.mobile_left = "xs";
-        this.mobile_content = "xs";
+        this.mobile_left = 'xs';
+        this.mobile_content = 'xs';
       }
     },
     showHideLeftMenu() {
-      if (this.mobile_left === "") {
-        this.mobile_left = "xs";
+      if (this.mobile_left === '') {
+        this.mobile_left = 'xs';
       } else {
-        this.mobile_left = "";
+        this.mobile_left = '';
       }
       // 宽屏
       if (this.screenWidth > 500) {
-        if (this.mobile_content === "") {
-          this.mobile_content = "xs";
+        if (this.mobile_content === '') {
+          this.mobile_content = 'xs';
         } else {
-          this.mobile_content = "";
+          this.mobile_content = '';
         }
       }
     },
     blogLogOut() {
-      this.$store.dispatch("blogLogOut", this.$store.getters.loginState);
+      this.$store.dispatch('blogLogOut', this.$store.getters.loginState);
     },
   },
 };
