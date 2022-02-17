@@ -221,7 +221,6 @@ export default {
     },
     // 发表评论
     saveNewPinglun() {
-      console.log(this.new_pinglun);
       if (this.new_pinglun.length == '') {
         alert('内容为空');
         return;
