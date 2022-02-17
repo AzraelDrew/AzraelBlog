@@ -17,8 +17,6 @@ hostUrl = 'http://127.0.0.1:8000/'
 
 
 # 权限鉴定
-
-
 @api_view(['POST'])
 def azrael_checkperm(request):
     token = request.POST['token']
@@ -66,7 +64,7 @@ def azrael_login(request):
         return Response("none")
     userinfo_data = {
         'token': token.key,
-        'nickname': userinfo.nickName,
+        'nickname': str(user[0]),
         'headImg': userinfo.headImg,
     }
     return Response(userinfo_data)
@@ -114,6 +112,7 @@ def azrael_register(request):
     username = request.POST['username']
     password = request.POST['password']
     password2 = request.POST['password2']
+    print(username)
     # 注册逻辑
     user = User.objects.filter(username=username)
     if user:
@@ -128,7 +127,7 @@ def azrael_register(request):
     userinfo = UserInfo.objects.get(belong=new_user)
     userinfo_data = {
         'token': token.key,
-        'nickname': userinfo.nickName,
+        'nickname': str(username),
         'headImg': userinfo.headImg,
     }
     return Response(userinfo_data)

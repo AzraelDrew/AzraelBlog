@@ -7,7 +7,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    // currentname: 'admin',
+    currentname: '',
     userinfo: {},
   },
   getters: {
@@ -46,6 +46,9 @@ export default new Vuex.Store({
         commit('svaeUserInfo', res.data);
         // 缓存token到本地实现自动登录
         localStorage.setItem('token', res.data.token);
+        // 缓存username
+        localStorage.setItem('username', res.data.nickname);
+        this.state.currentname = res.data.nickname;
         router.push({ name: 'Home' });
       });
     },
@@ -63,13 +66,18 @@ export default new Vuex.Store({
         commit('svaeUserInfo', res.data);
         // 缓存token到本地实现自动登录
         localStorage.setItem('token', res.data.token);
+        // 缓存username
+        localStorage.setItem('username', res.data.nickname);
+        this.state.currentname = res.data.nickname;
         router.push({ name: 'Home' });
       });
+      window.location.href = window.location.href;
     },
 
     // 自动登录
     autoLogin({ commit }) {
       let token = localStorage.getItem('token');
+      this.state.currentname = localStorage.getItem('username');
       if (token) {
         axios({
           url: 'http://127.0.0.1:8000/api/auto-login/',
@@ -83,6 +91,8 @@ export default new Vuex.Store({
           commit('svaeUserInfo', res.data);
           // 缓存token到本地实现自动登录
           localStorage.setItem('token', res.data.token);
+          // 缓存username
+          localStorage.setItem('username', res.data.nickname);
           router.push({ name: 'Home' });
         });
       }
@@ -91,7 +101,7 @@ export default new Vuex.Store({
     blogLogOut({ commit }, token) {
       commit('clearUserInfo');
       localStorage.removeItem('token');
-      // router.push({ name: 'Login' });
+      localStorage.removeItem('username');
       axios({
         url: 'http://127.0.0.1:8000/api/azrael-logout/',
         method: 'POST',

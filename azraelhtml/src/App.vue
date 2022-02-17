@@ -2,11 +2,20 @@
   <div id="app">
     <!-- 顶部导航 -->
     <div id="top-menu" class="dweb">
-      <!-- <p
-        style="position:absolute;right:30px;height:50px;color:#FFFFFF;text-align:center"
-      >
-        {{ currentname }}
-      </p> -->
+      <div>
+        <p v-if="authUserLogin" class="user-name">
+          {{ this.$store.state.currentname }}
+          <el-button
+            @click="blogLogOut()"
+            v-if="authUserLogin"
+            type="info"
+            size="small"
+            round
+            style="margin-left:20px"
+            >Logout</el-button
+          >
+        </p>
+      </div>
     </div>
     <!-- 左侧边栏导航 -->
     <div id="left-menu" :class="'dweb ' + mobile_left">
@@ -62,7 +71,6 @@ export default {
       screenWidth: document.body.clientWidth,
       mobile_left: '',
       mobile_content: '',
-      currentname: this.$store.state.currentname,
     };
   },
   computed: {
