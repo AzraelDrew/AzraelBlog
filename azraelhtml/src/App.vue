@@ -7,6 +7,7 @@
           {{ this.$store.state.currentname }}
           <el-button
             @click="blogLogOut()"
+            v-show="this.show_login_btn"
             v-if="authUserLogin"
             type="info"
             size="small"
@@ -71,6 +72,7 @@ export default {
       screenWidth: document.body.clientWidth,
       mobile_left: '',
       mobile_content: '',
+      show_login_btn: false,
     };
   },
   computed: {
@@ -102,6 +104,7 @@ export default {
       if (this.screenWidth <= 500) {
         this.mobile_left = 'xs';
         this.mobile_content = 'xs';
+        this.show = false;
       }
     },
     showHideLeftMenu() {
@@ -117,6 +120,7 @@ export default {
         } else {
           this.mobile_content = '';
         }
+        this.show_login_btn = !this.show_login_btn;
       }
     },
     blogLogOut() {

@@ -76,6 +76,7 @@ def auto_login(request):
     token = request.POST['token']
     # user_token = Token.objects.get(key=token)
     user_token = Token.objects.filter(key=token)
+    # print()
     # print(user_token)
     # userinfo = UserInfo.objects.get(belong=user_token.user)
     # userinfo_data = {
@@ -89,7 +90,7 @@ def auto_login(request):
         userinfo = UserInfo.objects.get(belong=user_token[0].user)
         userinfo_data = {
             'token': token,
-            'nickname': userinfo.nickName,
+            'nickname': str(user_token[0].user),
             'headImg': userinfo.headImg,
         }
         return Response(userinfo_data)
@@ -112,7 +113,6 @@ def azrael_register(request):
     username = request.POST['username']
     password = request.POST['password']
     password2 = request.POST['password2']
-    print(username)
     # 注册逻辑
     user = User.objects.filter(username=username)
     if user:

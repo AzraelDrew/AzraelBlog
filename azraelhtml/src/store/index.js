@@ -46,8 +46,6 @@ export default new Vuex.Store({
         commit('svaeUserInfo', res.data);
         // 缓存token到本地实现自动登录
         localStorage.setItem('token', res.data.token);
-        // 缓存username
-        localStorage.setItem('username', res.data.nickname);
         this.state.currentname = res.data.nickname;
         router.push({ name: 'Home' });
       });
@@ -66,10 +64,9 @@ export default new Vuex.Store({
         commit('svaeUserInfo', res.data);
         // 缓存token到本地实现自动登录
         localStorage.setItem('token', res.data.token);
-        // 缓存username
-        localStorage.setItem('username', res.data.nickname);
         this.state.currentname = res.data.nickname;
         router.push({ name: 'Home' });
+        console.log(res.data);
       });
       window.location.href = window.location.href;
     },
@@ -91,8 +88,7 @@ export default new Vuex.Store({
           commit('svaeUserInfo', res.data);
           // 缓存token到本地实现自动登录
           localStorage.setItem('token', res.data.token);
-          // 缓存username
-          localStorage.setItem('username', res.data.nickname);
+          this.state.currentname = res.data.nickname;
           router.push({ name: 'Home' });
         });
       }
