@@ -4,7 +4,7 @@
     <div id="top-menu" class="dweb">
       <div>
         <p v-if="authUserLogin" class="user-name">
-          {{ this.$store.state.currentname }}
+          Welcome Back,{{ this.$store.state.currentname }}
           <el-button
             @click="blogLogOut()"
             v-show="this.show_login_btn"
