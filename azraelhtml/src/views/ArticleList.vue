@@ -31,7 +31,7 @@
                 <span>{{ item.title }}</span>
               </el-col>
               <el-col class="text-item" :xs="12" :lg="7">
-                <span>发布者:admin</span>
+                <span>发布者:{{ item.nickName }}</span>
               </el-col>
               <el-col class="text-item" :xs="12" :lg="7">
                 <el-button
