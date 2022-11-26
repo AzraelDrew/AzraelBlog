@@ -90,7 +90,7 @@
 
 <script>
 export default {
-  name: "Home",
+  name: 'Home',
   data() {
     return {};
   },
@@ -98,5 +98,4 @@ export default {
 };
 </script>
 
-<style lang='scss'>
-</style>
+<style lang="scss"></style>

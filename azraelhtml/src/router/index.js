@@ -68,7 +68,7 @@ const routes = [
           contentType: 'auth_user',
           permissions: ['add', 'change', 'delete', 'view'],
         };
-        store.dispatch('checkUserPerm', checkInfo).then(res => {
+        store.dispatch('checkUserPerm', checkInfo).then((res) => {
           // 当有权限是才会跳转到用户管理页面  否则不会跳转(看不见用户管理界面)
           if (res) {
             next();
@@ -91,7 +91,7 @@ const routes = [
           contentType: 'Blog_lanmu',
           permissions: ['add', 'change', 'delete', 'view'],
         };
-        store.dispatch('checkUserPerm', checkInfo).then(res => {
+        store.dispatch('checkUserPerm', checkInfo).then((res) => {
           // 当有权限是才会跳转到用户管理页面  否则不会跳转(看不见用户管理界面)
           if (res) {
             next();
@@ -114,7 +114,7 @@ const routes = [
           contentType: 'Blog_article',
           permissions: ['view'],
         };
-        store.dispatch('checkUserPerm', checkInfo).then(res => {
+        store.dispatch('checkUserPerm', checkInfo).then((res) => {
           // 当有权限是才会跳转到用户管理页面  否则不会跳转(看不见用户管理界面)
           if (res) {
             next();
@@ -129,7 +129,7 @@ const routes = [
 
 const routerPush = VueRouter.prototype.push;
 VueRouter.prototype.push = function push(location) {
-  return routerPush.call(this, location).catch(err => err);
+  return routerPush.call(this, location).catch((err) => err);
 };
 
 const router = new VueRouter({
