@@ -27,16 +27,53 @@ html {
   top: 0;
   z-index: 1001;
 }
-.user-name {
+.user_name {
   position: absolute;
   right: 35px;
-  height: 50px;
+  height: 60px;
   color: #5edbb5;
   font-size: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: all 2s ease;
 }
+
+#logout {
+  position: absolute;
+  right: -500px;
+  transition: all 5s ease;
+}
+#logout.xs {
+  position: absolute;
+  right: -100px;
+  transition: all 1.5s ease;
+}
+
+.left {
+  transition-timing-function: ease-in;
+  animation-name: left;
+  animation-duration: 1s;
+}
+.user_name.xs {
+  position: absolute;
+  right: 120px;
+  transition: all 2s ease;
+}
+@keyframes left {
+  0% {
+    transform: translateX(200px);
+  }
+}
+@keyframes right {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(200px);
+  }
+}
+
 /* 左侧边栏导航 */
 #left-menu {
   width: 200px;
@@ -73,6 +110,11 @@ html {
   clear: both;
 }
 
+#add_article {
+  position: absolute;
+  top: -50px;
+  right: 10px;
+}
 .article-content {
   color: #fff;
 }

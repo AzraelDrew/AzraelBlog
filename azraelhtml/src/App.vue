@@ -3,14 +3,15 @@
     <!-- 顶部导航 -->
     <div id="top-menu" class="dweb">
       <div>
-        <p v-if="authUserLogin" class="user-name">
-          Welcome Back,{{ this.$store.state.currentname }}
+        <p v-if="authUserLogin" :class="'user_name ' + left + mobile_left">
+          <span>Welcome Back {{ this.$store.state.currentname }}</span>
           <el-button
+            id="logout"
+            :class="mobile_left"
             @click="blogLogOut()"
-            v-show="this.show_login_btn"
             v-if="authUserLogin"
-            type="info"
-            size="small"
+            type="danger"
+            size="medium"
             round
             style="margin-left:20px"
             >Logout</el-button
@@ -20,7 +21,7 @@
     </div>
     <!-- 左侧边栏导航 -->
     <div id="left-menu" :class="'dweb ' + mobile_left">
-      <i @click="showHideLeftMenu" id="left-btn" class="el-icon-menu"></i>
+      <i @click="showHideLeftMenu" id="left-btn" :class="hideMenu"></i>
       <!-- 导航栏 -->
       <el-col :span="24" style="margin-top: 70px">
         <el-menu
@@ -59,7 +60,7 @@
     <div id="content" :class="mobile_content">
       <router-view :screenWidth="screenWidth"></router-view>
       <div id="footer" class="dweb">
-        <span>Copyright &2021 Azrael</span>
+        <span>Copyright &2022 Azrael</span>
       </div>
     </div>
   </div>
@@ -70,8 +71,10 @@ export default {
   data() {
     return {
       screenWidth: document.body.clientWidth,
+      hideMenu: 'el-icon-s-fold',
       mobile_left: '',
       mobile_content: '',
+      left: 'left',
       show_login_btn: false,
     };
   },
@@ -110,8 +113,16 @@ export default {
     showHideLeftMenu() {
       if (this.mobile_left === '') {
         this.mobile_left = 'xs';
+
+        this.left = '';
       } else {
         this.mobile_left = '';
+        this.left = '';
+      }
+      if (this.hideMenu === 'el-icon-s-fold') {
+        this.hideMenu = 'el-icon-s-unfold';
+      } else {
+        this.hideMenu = 'el-icon-s-fold';
       }
       // 宽屏
       if (this.screenWidth > 500) {

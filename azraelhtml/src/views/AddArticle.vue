@@ -21,7 +21,11 @@
           </el-form>
         </div>
       </el-col>
+
       <el-col :xs="24" :lg="16">
+        <!-- <el-button id="add_article" @click="submitArticle" type="success" round
+          >保存文章</el-button
+        > -->
         <div class="dweb">
           <div v-for="(img, i) in cover_list" :key="i">
             <el-image
@@ -32,6 +36,7 @@
               :fit="'cover'"
               @click="chooseCover(img)"
             ></el-image>
+
             <el-image
               v-else
               style="width: 150px; height: 150px; border-radius: 10px"
@@ -40,7 +45,11 @@
               @click="chooseCover(img)"
             ></el-image>
           </div>
-          <el-button @click="submitArticle" type="success" round
+          <el-button
+            id="add_article"
+            @click="submitArticle"
+            type="success"
+            round
             >保存文章</el-button
           >
         </div>
@@ -68,6 +77,8 @@ export default {
       },
       cover_img: '',
       cover_list: [],
+      screenHeight: document.body.clientHeight,
+      screenWidth: document.body.clientWidth,
     };
   },
   mounted() {
@@ -79,7 +90,10 @@ export default {
       $('#summernote').summernote({
         width: '100%',
         lang: 'zh-CN',
-        height: 500,
+        height:
+          this.screenHeight > this.screenWidth
+            ? this.screenWidth / 2.5
+            : this.screenHeight / 3.5,
         callbacks: {
           // 输入时
           onChange(contents) {
