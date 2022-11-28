@@ -3,7 +3,6 @@ import Vuex from 'vuex';
 import axios from 'axios';
 import Qs from 'qs';
 import router from '../router';
-import { Message } from 'element-ui';
 import { Notification } from 'element-ui';
 
 Vue.use(Vuex);
@@ -35,7 +34,7 @@ export default new Vuex.Store({
     // 第一个参数为调用mutations中的方法的函数  第二个参数为 Vue component中的数据
     blogLogin({ commit }, fromData) {
       axios({
-        url: 'http://127.0.0.1:8000/api/azrael-login/',
+        url: 'http://43.138.126.114:8000/api/azrael-login/',
         method: 'POST',
         data: Qs.stringify(fromData),
       }).then((res) => {
@@ -71,7 +70,7 @@ export default new Vuex.Store({
     // 注册
     blogRegister({ commit }, fromData) {
       axios({
-        url: 'http://127.0.0.1:8000/api/azrael-register/',
+        url: 'http://43.138.126.114:8000/api/azrael-register/',
         method: 'POST',
         data: Qs.stringify(fromData),
       }).then((res) => {
@@ -100,7 +99,7 @@ export default new Vuex.Store({
       this.state.currentname = localStorage.getItem('username');
       if (token) {
         axios({
-          url: 'http://127.0.0.1:8000/api/auto-login/',
+          url: 'http://43.138.126.114:8000/api/auto-login/',
           method: 'POST',
           data: Qs.stringify({ token }),
         }).then((res) => {
@@ -122,7 +121,7 @@ export default new Vuex.Store({
       localStorage.removeItem('token');
       localStorage.removeItem('username');
       axios({
-        url: 'http://127.0.0.1:8000/api/azrael-logout/',
+        url: 'http://43.138.126.114:8000/api/azrael-logout/',
         method: 'POST',
         data: Qs.stringify({ token }),
       }).then((res) => {});
@@ -139,7 +138,7 @@ export default new Vuex.Store({
       // 鉴权结果   必须等axios请求完成返回结果后才执行后面的代码
       let perm_data;
       await axios({
-        url: 'http://127.0.0.1:8000/api/azrael-checkperm/',
+        url: 'http://43.138.126.114:8000/api/azrael-checkperm/',
         method: 'POST',
         data: Qs.stringify({
           token,

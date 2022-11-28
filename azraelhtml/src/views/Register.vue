@@ -52,7 +52,7 @@ export default {
       ) {
         this.$notify({
           title: '警告',
-          notify: '帐号或密码不能为空',
+          message: '帐号或密码不能为空',
           type: 'warning',
         });
         return;
@@ -63,7 +63,7 @@ export default {
       ) {
         this.$notify({
           title: '警告',
-          notify: '密码不能低于8位',
+          message: '密码不能低于8位',
           type: 'warning',
         });
         return;
@@ -71,7 +71,7 @@ export default {
       if (this.fromData.password !== this.fromData.password2) {
         this.$notify({
           title: '警告',
-          notify: '两次密码不一致',
+          message: '两次密码不一致',
           type: 'warning',
         });
         return;
