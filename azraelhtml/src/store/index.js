@@ -3,11 +3,15 @@ import Vuex from 'vuex';
 import axios from 'axios';
 import Qs from 'qs';
 import router from '../router';
+import { Message } from 'element-ui';
+import { Notification } from 'element-ui';
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
     currentname: '',
+    loginmessage: '',
     userinfo: {},
   },
   getters: {
@@ -36,13 +40,27 @@ export default new Vuex.Store({
         data: Qs.stringify(fromData),
       }).then((res) => {
         if (res.data === 'none') {
-          alert('用户名不存在!');
+          Notification({
+            title: '错误',
+            message: '用户不存在！',
+            type: 'error',
+          });
           return;
         }
         if (res.data === 'pwderr') {
-          alert('密码错误');
+          Notification({
+            title: '错误',
+            message: '密码错误！',
+            type: 'error',
+          });
           return;
         }
+        Notification({
+          title: '成功',
+          message: '登陆成功',
+          type: 'success',
+        });
+
         commit('svaeUserInfo', res.data);
         // 缓存token到本地实现自动登录
         localStorage.setItem('token', res.data.token);
@@ -58,7 +76,12 @@ export default new Vuex.Store({
         data: Qs.stringify(fromData),
       }).then((res) => {
         if (res.data === 'repeat') {
-          alert('用户名已存在!');
+          Notification({
+            title: '警告',
+            message: '用户已注册！',
+            type: 'warning',
+          });
+
           return;
         }
         commit('svaeUserInfo', res.data);

@@ -14,7 +14,7 @@
             </el-form-item>
           </div>
           <el-form-item class="btn">
-            <el-button @click="blogLogin()" type="success" round
+            <el-button @click="blogLogin()" :plain="true" type="success" round
               >登录</el-button
             >
             <el-button @click="toRegister()" type="warning" round
@@ -43,7 +43,13 @@ export default {
         this.fromData.username.length == 0 ||
         this.fromData.password.length == 0
       ) {
-        alert('帐号或密码不能为空!');
+        this.$notify({
+          title: '警告',
+          message: '帐号或密码不能为空!',
+          type: 'warning',
+          showClose: true,
+          center: true,
+        });
         return;
       }
 

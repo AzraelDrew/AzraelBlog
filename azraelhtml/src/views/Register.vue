@@ -50,15 +50,30 @@ export default {
         this.fromData.password.length == 0 ||
         this.fromData.password2.length == 0
       ) {
-        alert('帐号或密码不能为空!');
+        this.$notify({
+          title: '警告',
+          notify: '帐号或密码不能为空',
+          type: 'warning',
+        });
         return;
       }
-      if (this.fromData.password.length < 7) {
-        alert('密码不能低于8位');
+      if (
+        this.fromData.password.length < 7 ||
+        this.fromData.password2.length < 7
+      ) {
+        this.$notify({
+          title: '警告',
+          notify: '密码不能低于8位',
+          type: 'warning',
+        });
         return;
       }
       if (this.fromData.password !== this.fromData.password2) {
-        alert('两次密码不一致!');
+        this.$notify({
+          title: '警告',
+          notify: '两次密码不一致',
+          type: 'warning',
+        });
         return;
       }
 

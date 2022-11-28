@@ -67,6 +67,7 @@ def azrael_login(request):
         'nickname': str(user[0]),
         'headImg': userinfo.headImg,
     }
+    print(userinfo_data)
     return Response(userinfo_data)
 
 
