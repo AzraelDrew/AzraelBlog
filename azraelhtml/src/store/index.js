@@ -12,6 +12,7 @@ export default new Vuex.Store({
     currentname: '',
     loginmessage: '',
     userinfo: {},
+    baseurl: 'http://43.138.126.114:8000/',
   },
   getters: {
     // 查询登录状态
@@ -34,7 +35,7 @@ export default new Vuex.Store({
     // 第一个参数为调用mutations中的方法的函数  第二个参数为 Vue component中的数据
     blogLogin({ commit }, fromData) {
       axios({
-        url: 'http://127.0.0.1:8000/api/azrael-login/',
+        url: this.state.baseurl + 'api/azrael-login/',
         method: 'POST',
         data: Qs.stringify(fromData),
       }).then((res) => {
@@ -54,11 +55,11 @@ export default new Vuex.Store({
           });
           return;
         }
-        Notification({
-          title: '成功',
-          message: '登陆成功',
-          type: 'success',
-        });
+        // Notification({
+        //   title: '成功',
+        //   message: '登陆成功',
+        //   type: 'success',
+        // });
 
         commit('svaeUserInfo', res.data);
         // 缓存token到本地实现自动登录
@@ -70,7 +71,7 @@ export default new Vuex.Store({
     // 注册
     blogRegister({ commit }, fromData) {
       axios({
-        url: 'http://127.0.0.1:8000/api/azrael-register/',
+        url: this.state.baseurl + 'api/azrael-register/',
         method: 'POST',
         data: Qs.stringify(fromData),
       }).then((res) => {
@@ -99,7 +100,7 @@ export default new Vuex.Store({
       this.state.currentname = localStorage.getItem('username');
       if (token) {
         axios({
-          url: 'http://127.0.0.1:8000/api/auto-login/',
+          url: this.state.baseurl + 'api/auto-login/',
           method: 'POST',
           data: Qs.stringify({ token }),
         }).then((res) => {
@@ -121,7 +122,7 @@ export default new Vuex.Store({
       localStorage.removeItem('token');
       localStorage.removeItem('username');
       axios({
-        url: 'http://127.0.0.1:8000/api/azrael-logout/',
+        url: this.state.baseurl + 'api/azrael-logout/',
         method: 'POST',
         data: Qs.stringify({ token }),
       }).then((res) => {});
@@ -138,7 +139,7 @@ export default new Vuex.Store({
       // 鉴权结果   必须等axios请求完成返回结果后才执行后面的代码
       let perm_data;
       await axios({
-        url: 'http://127.0.0.1:8000/api/azrael-checkperm/',
+        url: this.state.baseurl + 'api/azrael-checkperm/',
         method: 'POST',
         data: Qs.stringify({
           token,

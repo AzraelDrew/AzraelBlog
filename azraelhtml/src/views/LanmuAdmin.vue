@@ -148,7 +148,7 @@ export default {
     },
     saveArticleToLanmu(article_id) {
       axios({
-        url: 'http://127.0.0.1:8000/api/add-article/',
+        url: this.$store.state.baseurl + 'api/add-article/',
         method: 'PUT',
         data: Qs.stringify({
           token: this.$store.getters.loginState,
@@ -173,7 +173,7 @@ export default {
     // 获取栏目数据
     getLanmuTree() {
       axios({
-        url: 'http://127.0.0.1:8000/api/azrael-lanmu/',
+        url: this.$store.state.baseurl + 'api/azrael-lanmu/',
         method: 'GET',
       }).then((res) => {
         this.lanmu_tree = res.data;
@@ -182,7 +182,7 @@ export default {
     // 保存栏目结构
     saveLanmuTree() {
       axios({
-        url: 'http://127.0.0.1:8000/api/azrael-lanmu/',
+        url: this.$store.state.baseurl + 'api/azrael-lanmu/',
         method: 'PUT',
         data: Qs.stringify({
           token: this.$store.getters.loginState,
@@ -238,7 +238,7 @@ export default {
     },
     getArticleList(page, lanmu) {
       axios({
-        url: 'http://127.0.0.1:8000/api/article-list/',
+        url: this.$store.state.baseurl + 'api/article-list/',
         method: 'GET',
         params: {
           page,
@@ -256,7 +256,7 @@ export default {
     },
     remove(node, data) {
       axios({
-        url: 'http://127.0.0.1:8000/api/azrael-lanmu/',
+        url: this.$store.state.baseurl + 'api/azrael-lanmu/',
         method: 'DELETE',
         data: Qs.stringify({
           token: this.$store.getters.loginState,

@@ -224,7 +224,7 @@ export default {
         return;
       }
       axios({
-        url: 'http://43.138.126.114:8000/api/azrael-group/',
+        url: this.$store.state.baseurl + 'api/azrael-group/',
         method: 'POST',
         data: Qs.stringify({
           token: this.$store.getters.loginState,
@@ -253,7 +253,7 @@ export default {
     // 获取用户列表
     getUserList() {
       axios({
-        url: 'http://43.138.126.114:8000/api/azrael-userlist/',
+        url: this.$store.state.baseurl + 'api/azrael-userlist/',
         method: 'GET',
       }).then((res) => {
         let userlist = res.data;
@@ -269,7 +269,7 @@ export default {
     // 获取所有用户组
     getAllUserGroup() {
       axios({
-        url: 'http://43.138.126.114:8000/api/azrael-group/',
+        url: this.$store.state.baseurl + 'api/azrael-group/',
         method: 'GET',
       }).then((res) => {
         this.all_groups = res.data;
@@ -278,7 +278,7 @@ export default {
     // 删除用户组
     deleteGroup(name) {
       axios({
-        url: 'http://43.138.126.114:8000/api/azrael-group/',
+        url: this.$store.state.baseurl + 'api/azrael-group/',
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
@@ -329,7 +329,7 @@ export default {
         this.$store.dispatch('checkUserPerm', checkInfo).then((res) => {
           if (res) {
             axios({
-              url: 'http://43.138.126.114:8000/api/azrael-group/',
+              url: this.$store.state.baseurl + 'api/azrael-group/',
               method: 'PUT',
               data: Qs.stringify({
                 token: this.$store.getters.loginState,

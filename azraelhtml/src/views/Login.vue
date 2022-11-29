@@ -1,11 +1,11 @@
 <template>
-  <div id="login-page">
+  <div id="login-page" class="flex">
     <div class="dweb loginbox" @keyup.enter="blogLogin()">
       <div class="header">用户登录</div>
       <el-divider></el-divider>
-      <div class="box">
+      <div class="box flex">
         <el-form :label-position="'left'" label-width="60px" :model="fromData">
-          <div class="input_box">
+          <div class="input_box ">
             <el-form-item label="用户名">
               <el-input v-model="fromData.username"></el-input>
             </el-form-item>
@@ -13,7 +13,7 @@
               <el-input v-model="fromData.password" type="password"></el-input>
             </el-form-item>
           </div>
-          <el-form-item class="btn">
+          <el-form-item class="btn flex">
             <el-button @click="blogLogin()" :plain="true" type="success" round
               >登录</el-button
             >
@@ -64,27 +64,39 @@ export default {
 
 <style scoped>
 #login-page {
-  height: 85vh;
+  height: 83vh;
+}
+.flex {
   display: flex;
   justify-content: center;
+  align-content: center;
+  justify-items: center;
   align-items: center;
+}
+.grid {
+  display: grid;
+  grid-template-rows: 50% 50%;
+  grid-template-columns: 50% 50%;
 }
 .loginbox {
   padding: 20px;
-  height: 60vh;
-  width: 60vw;
+  height: 70vh;
+  width: 65vw;
 }
-.box {
+/* .box {
   padding-top: 10vh;
 }
 .input_box {
   padding-left: 18vw;
 }
+*/
 .btn {
-  padding-left: 21vw;
-  padding-top: 10vh;
+  position: relative;
+  left: -1.8vw;
 }
 .el-input {
-  width: 300px;
+  width: 40vw;
+  padding: 0;
+  margin: 0;
 }
 </style>

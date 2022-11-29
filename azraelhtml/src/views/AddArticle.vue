@@ -148,7 +148,7 @@ export default {
       };
       axios
         .post(
-          'http://127.0.0.1:8000/api/add-article/',
+          this.$store.state.baseurl + 'api/add-article/',
           Qs.stringify(article_data)
         )
         //article_data作为第二个参数时是body请求

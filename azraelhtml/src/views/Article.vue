@@ -153,7 +153,7 @@ export default {
     //点赞
     toLike() {
       axios({
-        url: 'http://127.0.0.1:8000/api/article-like/',
+        url: this.$store.state.baseurl + 'api/article-like/',
         method: 'post',
         data: Qs.stringify({
           token: this.$store.getters.loginState,
@@ -172,7 +172,7 @@ export default {
     //收藏
     toFavor() {
       axios({
-        url: 'http://127.0.0.1:8000/api/article-favor/',
+        url: this.$store.state.baseurl + 'api/article-favor/',
         method: 'post',
         data: Qs.stringify({
           token: this.$store.getters.loginState,
@@ -193,7 +193,7 @@ export default {
       let token = this.$store.getters.loginState;
       if (token) {
         axios({
-          url: 'http://127.0.0.1:8000/api/user-article-info/',
+          url: this.$store.state.baseurl + 'api/user-article-info/',
           method: 'POST',
           data: Qs.stringify({
             token: token,
@@ -207,7 +207,7 @@ export default {
     // 获取所以评论
     getAllPinglun(page, pagesize) {
       axios({
-        url: 'http://127.0.0.1:8000/api/pinglun/',
+        url: this.$store.state.baseurl + 'api/pinglun/',
         method: 'GET',
         params: {
           page,
@@ -226,7 +226,7 @@ export default {
         return;
       }
       axios({
-        url: 'http://127.0.0.1:8000/api/pinglun/',
+        url: this.$store.state.baseurl + 'api/pinglun/',
         method: 'POST',
         data: Qs.stringify({
           token: this.$store.getters.loginState,
@@ -260,7 +260,7 @@ export default {
     },
     getArticleData(id) {
       axios({
-        url: 'http://127.0.0.1:8000/api/article-data/',
+        url: this.$store.state.baseurl + 'api/article-data/',
         method: 'GET',
         params: {
           article_id: id,
