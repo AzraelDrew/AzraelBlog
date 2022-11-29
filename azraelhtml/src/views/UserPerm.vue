@@ -7,10 +7,10 @@
       </el-breadcrumb>
     </div>
     <div class="body">
-      <div class="dweb">
+      <!-- <div class="dweb">
         <h5>新建用户组</h5>
-        <!-- <el-divider></el-divider> -->
-      </div>
+        <el-divider></el-divider>
+      </div> -->
       <el-row :gutter="10">
         <el-col :xs="24" :lg="12">
           <div class="new-group dweb">
@@ -30,7 +30,7 @@
           </div>
         </el-col>
         <el-col :xs="24" :lg="12">
-          <div class="perm-list dweb">
+          <div class="perm_list dweb ">
             <el-row>
               <el-col
                 v-for="(item, index) in new_group.checkList"
@@ -41,12 +41,12 @@
                   @click="chooseAllMethod(index)"
                   type="primary"
                   plain
-                  style="float: left; margin-right: 100px"
+                  style="float: left; margin-right: 40px;margin-top: 10px;margin-left: 90px;"
                   >{{ item.name }}</el-button
                 >
                 <el-checkbox-group
                   v-model="item.checkList"
-                  style="float: left; margin-top: 10px"
+                  style="float: left; margin-top: 20px;"
                 >
                   <el-checkbox
                     v-for="method in item.perm_methods"
@@ -66,7 +66,7 @@
       <h5>所有用户组</h5>
       <!-- <el-divider></el-divider> -->
     </div>
-    <div class="body dweb">
+    <div class="body dweb flex">
       <el-row>
         <el-col
           :xs="12"
@@ -408,7 +408,10 @@ export default {
   justify-content: center;
   align-items: center;
 }
-.perm-list.dweb {
+.perm_list {
   height: 200px;
+  display: flex;
+  justify-content: center;
+  align-content: center;
 }
 </style>

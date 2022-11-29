@@ -42,12 +42,12 @@ html {
 #logout {
   position: absolute;
   right: -500px;
-  transition: all 5s ease;
+  transition: all 2s ease-out;
 }
 #logout.xs {
   position: absolute;
   right: -100px;
-  transition: all 1.5s ease;
+  transition: all 0.8s ease;
 }
 
 .left {

@@ -33,7 +33,12 @@
             <el-button @click="saveLanmuTree()" type="success" size="mini"
               >保存结构</el-button
             >
-            <el-button type="primary" size="mini">全部文章</el-button>
+            <el-button
+              @click="getArticleList(1, 'nobelong')"
+              type="primary"
+              size="mini"
+              >全部文章</el-button
+            >
           </div>
         </el-col>
         <el-col :span="18">
@@ -41,7 +46,7 @@
             <h5>文章列表</h5>
           </div>
           <!-- 文章列表 -->
-          <div class="dweb" style="margin-top: 10px; min-height: 780px">
+          <div class="dweb" style="margin-top: 10px; min-height: 45vh">
             <el-row>
               <el-col :span="24" v-for="item in article_list" :key="item.id">
                 <div class="card dweb">
