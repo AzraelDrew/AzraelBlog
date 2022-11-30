@@ -161,7 +161,14 @@ export default {
         }),
       }).then((res) => {
         if (res.data == 'nologin') {
-          alert('尚未登录');
+          this.$notify({
+            title: '警告',
+            message: '尚未登录!',
+            type: 'warning',
+            showClose: true,
+            center: true,
+          });
+          // alert('尚未登录');
           return;
         }
         if (res.data == 'ok') {
@@ -180,7 +187,14 @@ export default {
         }),
       }).then((res) => {
         if (res.data == 'nologin') {
-          alert('尚未登录');
+          this.$notify({
+            title: '警告',
+            message: '尚未登录!',
+            type: 'warning',
+            showClose: true,
+            center: true,
+          });
+          // alert('尚未登录');
           return;
         }
         if (res.data == 'ok') {
@@ -222,7 +236,14 @@ export default {
     // 发表评论
     saveNewPinglun() {
       if (this.new_pinglun.length == '') {
-        alert('内容为空');
+        this.$notify({
+          title: '警告',
+          message: '内容为空!',
+          type: 'warning',
+          showClose: true,
+          center: true,
+        });
+        // alert('内容为空');
         return;
       }
       axios({
@@ -235,11 +256,25 @@ export default {
         }),
       }).then((res) => {
         if (res.data == 'nologin') {
-          alert('尚未登录');
+          this.$notify({
+            title: '警告',
+            message: '尚未登录!',
+            type: 'warning',
+            showClose: true,
+            center: true,
+          });
+          // alert('尚未登录');
           return;
         }
         if (res.data == 'noperm') {
-          alert('权限不足');
+          this.$notify({
+            title: '警告',
+            message: '权限不足!',
+            type: 'warning',
+            showClose: true,
+            center: true,
+          });
+          // alert('权限不足');
           return;
         }
         this.getAllPinglun(1, this.ping_lun_pageSize);
@@ -253,7 +288,14 @@ export default {
     // 跳转文章
     toOtherPage(id) {
       if (id === 0) {
-        alert('没有了');
+        this.$notify({
+          title: '警告',
+          message: '没有了!',
+          type: 'warning',
+          showClose: true,
+          center: true,
+        });
+        // alert('没有了');
         return;
       }
       this.$router.push({ path: '/article', query: { id: id } });

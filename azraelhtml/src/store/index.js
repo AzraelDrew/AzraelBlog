@@ -105,7 +105,12 @@ export default new Vuex.Store({
           data: Qs.stringify({ token }),
         }).then((res) => {
           if (res.data === 'TokenTimeOut') {
-            alert('用户信息过期,请重新登录');
+            Notification({
+              title: '错误',
+              message: '用户信息过期,请重新登录',
+              type: 'error',
+            });
+            // alert('用户信息过期,请重新登录');
             return;
           }
           commit('svaeUserInfo', res.data);
@@ -149,12 +154,22 @@ export default new Vuex.Store({
       }).then((res) => {
         if (res.data === 'nologin') {
           perm_data = false;
-          alert('用户信息错误');
+          Notification({
+            title: '错误',
+            message: '用户信息错误',
+            type: 'error',
+          });
+          // alert('用户信息错误');
           return;
         }
         if (res.data === 'nopermission') {
           perm_data = false;
-          alert('用户权限不足，请联系管理员');
+          Notification({
+            title: '错误',
+            message: '用户权限不足，请联系管理员',
+            type: 'error',
+          });
+          // alert('用户权限不足，请联系管理员');
           return;
         }
         if (res.data === 'OK') {

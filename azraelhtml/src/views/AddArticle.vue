@@ -155,11 +155,25 @@ export default {
         .then((res) => {
           console.log(res.data);
           if (res.data === 'title') {
-            alert('文章标题不可为空');
+            this.$notify({
+              title: '警告',
+              message: '文章标题不可为空!',
+              type: 'warning',
+              showClose: true,
+              center: true,
+            });
+            // alert('文章标题不可为空');
             return;
           }
           if (res.data === 'nologin') {
-            alert('用户信息错误');
+            this.$notify({
+              title: '警告',
+              message: '用户信息错误!',
+              type: 'warning',
+              showClose: true,
+              center: true,
+            });
+            // alert('用户信息错误');
             return;
           }
           if (res.data === 'OK') {

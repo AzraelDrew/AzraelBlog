@@ -220,7 +220,14 @@ export default {
       let group = this.all_groups[this.choosed_group];
       let userlist = this.choosed_user;
       if (userlist.length == 0) {
-        alert('没有选择用户');
+        this.$notify({
+          title: '警告',
+          message: '没有选择用户!',
+          type: 'warning',
+          showClose: true,
+          center: true,
+        });
+        // alert('没有选择用户');
         return;
       }
       axios({
@@ -233,14 +240,35 @@ export default {
         }),
       }).then((res) => {
         if (res.data == 'nologin') {
-          alert('尚未登录');
+          this.$notify({
+            title: '警告',
+            message: '尚未登录!',
+            type: 'warning',
+            showClose: true,
+            center: true,
+          });
+          // alert('尚未登录');
           return;
         }
         if (res.data == 'noperm') {
-          alert('权限不足');
+          this.$notify({
+            title: '警告',
+            message: '权限不足!',
+            type: 'warning',
+            showClose: true,
+            center: true,
+          });
+          // alert('权限不足');
           return;
         }
         if (res.data == 'OK') {
+          this.$notify({
+            title: '警告',
+            // message: '用户权限分配成功!',
+            type: 'warning',
+            showClose: true,
+            center: true,
+          });
           alert('用户权限分配成功');
           return;
         }
@@ -289,11 +317,25 @@ export default {
         }),
       }).then((res) => {
         if (res.data == 'nologin') {
-          alert('尚未登录');
+          this.$notify({
+            title: '警告',
+            message: '尚未登录!',
+            type: 'warning',
+            showClose: true,
+            center: true,
+          });
+          // alert('尚未登录');
           return;
         }
         if (res.data == 'noperm') {
-          alert('权限不足');
+          this.$notify({
+            title: '警告',
+            message: '权限不足!',
+            type: 'warning',
+            showClose: true,
+            center: true,
+          });
+          // alert('权限不足');
           return;
         }
         if (res.data == 'OK') {
@@ -304,7 +346,14 @@ export default {
     saveNewGroup() {
       //判断名称输入
       if (this.new_group.name.length == 0) {
-        alert('输入新用户名称');
+        this.$notify({
+          title: '警告',
+          message: '输入新用户名称!',
+          type: 'warning',
+          showClose: true,
+          center: true,
+        });
+        // alert('输入新用户名称');
         return;
       }
       //判断权限的选择
@@ -338,15 +387,36 @@ export default {
               }),
             }).then((res) => {
               if (res.data == 'nologin') {
-                alert('尚未登录');
+                this.$notify({
+                  title: '警告',
+                  message: '尚未登录!',
+                  type: 'warning',
+                  showClose: true,
+                  center: true,
+                });
+                // alert('尚未登录');
                 return;
               }
               if (res.data == 'noperm') {
-                alert('权限不足');
+                this.$notify({
+                  title: '警告',
+                  message: '权限不足!',
+                  type: 'warning',
+                  showClose: true,
+                  center: true,
+                });
+                // alert('权限不足');
                 return;
               }
               if (res.data == 'same name') {
-                alert('重复命名');
+                this.$notify({
+                  title: '警告',
+                  message: '重复命名!',
+                  type: 'warning',
+                  showClose: true,
+                  center: true,
+                });
+                // alert('重复命名');
                 return;
               }
               if (res.data == 'OK') {
@@ -356,7 +426,14 @@ export default {
           }
         });
       } else {
-        alert('新用户组 权限未选择');
+        this.$notify({
+          title: '警告',
+          message: '新用户组 权限未选择!',
+          type: 'warning',
+          showClose: true,
+          center: true,
+        });
+        // alert('新用户组 权限未选择');
         return;
       }
     },

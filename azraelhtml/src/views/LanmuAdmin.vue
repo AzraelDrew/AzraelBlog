@@ -34,10 +34,16 @@
               >保存结构</el-button
             >
             <el-button
-              @click="getArticleList(1, 'nobelong')"
+              @click="getArticleList(1, 'all')"
               type="primary"
               size="mini"
               >全部文章</el-button
+            >
+            <el-button
+              @click="getArticleList(1, 'alnobelongl')"
+              type="primary"
+              size="mini"
+              >未知栏目</el-button
             >
           </div>
         </el-col>
@@ -162,11 +168,25 @@ export default {
         }),
       }).then((res) => {
         if (res.data == 'nologin') {
-          alert('尚未登录');
+          this.$notify({
+            title: '警告',
+            message: '尚未登录!',
+            type: 'warning',
+            showClose: true,
+            center: true,
+          });
+          // alert('尚未登录');
           return;
         }
         if (res.data == 'noperm') {
-          alert('权限不足');
+          this.$notify({
+            title: '警告',
+            message: '权限不足!',
+            type: 'warning',
+            showClose: true,
+            center: true,
+          });
+          // alert('权限不足');
           return;
         }
         if (res.data == 'OK') {
@@ -195,11 +215,25 @@ export default {
         }),
       }).then((res) => {
         if (res.data == 'nologin') {
-          alert('尚未登录');
+          this.$notify({
+            title: '警告',
+            message: '尚未登录!',
+            type: 'warning',
+            showClose: true,
+            center: true,
+          });
+          // alert('尚未登录');
           return;
         }
         if (res.data == 'noperm') {
-          alert('权限不足');
+          this.$notify({
+            title: '警告',
+            message: '权限不足!',
+            type: 'warning',
+            showClose: true,
+            center: true,
+          });
+          // alert('权限不足');
           return;
         }
         if (res.data == 'OK') {
@@ -229,7 +263,14 @@ export default {
           this.maxId = obj.id;
         }
         if (obj.label === this.new_lanmu_name) {
-          alert('栏目名重复');
+          this.$notify({
+            title: '警告',
+            message: '栏目名重复!',
+            type: 'warning',
+            showClose: true,
+            center: true,
+          });
+          // alert('栏目名重复');
           checkTree = false;
           return checkTree;
         }
@@ -272,11 +313,25 @@ export default {
         },
       }).then((res) => {
         if (res.data == 'nologin') {
-          alert('尚未登录');
+          this.$notify({
+            title: '警告',
+            message: '尚未登录!',
+            type: 'warning',
+            showClose: true,
+            center: true,
+          });
+          // alert('尚未登录');
           return;
         }
         if (res.data == 'noperm') {
-          alert('权限不足');
+          this.$notify({
+            title: '警告',
+            message: '权限不足!',
+            type: 'warning',
+            showClose: true,
+            center: true,
+          });
+          // alert('权限不足');
           return;
         }
         if (res.data == 'OK') {

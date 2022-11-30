@@ -130,11 +130,25 @@ export default {
               },
             }).then((res) => {
               if (res.data === 'nologin') {
-                alert('用户登录信息错误');
+                this.$notify({
+                  title: '警告',
+                  message: '用户登录信息错误!',
+                  type: 'warning',
+                  showClose: true,
+                  center: true,
+                });
+                // alert('用户登录信息错误');
                 return;
               }
               if (res.data === 'nopermission') {
-                alert('权限不足');
+                this.$notify({
+                  title: '警告',
+                  message: '权限不足!',
+                  type: 'warning',
+                  showClose: true,
+                  center: true,
+                });
+                // alert('权限不足');
               }
               this.getArticleList(this.currentPpage, this.currentLanmu);
             });
