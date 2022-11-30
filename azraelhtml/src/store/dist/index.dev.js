@@ -50,7 +50,8 @@ var _default = new _vuex["default"].Store({
     blogLogin: function blogLogin(_ref, fromData) {
       var _this = this;
 
-      var commit = _ref.commit;
+      var dispatch = _ref.dispatch,
+          commit = _ref.commit;
       (0, _axios["default"])({
         url: this.state.baseurl + 'api/azrael-login/',
         method: 'POST',
@@ -72,12 +73,7 @@ var _default = new _vuex["default"].Store({
             type: 'error'
           });
           return;
-        } // Notification({
-        //   title: '成功',
-        //   message: '登陆成功',
-        //   type: 'success',
-        // });
-
+        }
 
         commit('svaeUserInfo', res.data); // 缓存token到本地实现自动登录
 

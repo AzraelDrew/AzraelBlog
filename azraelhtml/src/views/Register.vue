@@ -1,9 +1,9 @@
 <template>
-  <div id="refister-page">
+  <div id="refister-page" class="flex">
     <div class="dweb refisterbox" @keyup.enter="blogRegister">
       <div class="header">注册</div>
       <el-divider></el-divider>
-      <div class="box">
+      <div class="box flex">
         <el-form :label-position="'left'" label-width="60px" :model="fromData">
           <div class="input_box">
             <el-form-item label="用户名">
@@ -16,7 +16,7 @@
               <el-input v-model="fromData.password2" type="password"></el-input>
             </el-form-item>
           </div>
-          <el-form-item class="btn">
+          <el-form-item class="btn flex">
             <el-button @click="blogRegister" type="success" round
               >注册</el-button
             >
@@ -44,36 +44,36 @@ export default {
     };
   },
   methods: {
+    //提示框
+    messageNotify(title, message, type) {
+      this.$notify({
+        title: title,
+        message: message,
+        type: type,
+        showClose: true,
+        center: true,
+      });
+    },
     blogRegister() {
       if (
         this.fromData.username.length == 0 ||
         this.fromData.password.length == 0 ||
         this.fromData.password2.length == 0
       ) {
-        this.$notify({
-          title: '警告',
-          message: '帐号或密码不能为空',
-          type: 'warning',
-        });
+        this.messageNotify('警告', '帐号或密码不能为空!', 'warning');
+
         return;
       }
       if (
         this.fromData.password.length < 7 ||
         this.fromData.password2.length < 7
       ) {
-        this.$notify({
-          title: '警告',
-          message: '密码不能低于8位',
-          type: 'warning',
-        });
+        this.messageNotify('警告', '密码不能低于8位!', 'warning');
+
         return;
       }
       if (this.fromData.password !== this.fromData.password2) {
-        this.$notify({
-          title: '警告',
-          message: '两次密码不一致',
-          type: 'warning',
-        });
+        this.messageNotify('警告', '两次密码不一致!', 'warning');
         return;
       }
 
@@ -90,26 +90,26 @@ export default {
 <style scoped>
 #refister-page {
   height: 85vh;
+}
+.flex {
   display: flex;
   justify-content: center;
+  align-content: center;
+  justify-items: center;
   align-items: center;
 }
 .refisterbox {
   padding: 20px;
-  height: 60vh;
-  width: 60vw;
-}
-.box {
-  padding-top: 10vh;
-}
-.input_box {
-  padding-left: 18vw;
+  height: 70vh;
+  width: 65vw;
 }
 .btn {
-  padding-left: 20vw;
-  padding-top: 3vh;
+  position: relative;
+  left: -1.8vw;
 }
 .el-input {
-  width: 300px;
-}</style
->e>
+  width: 40vw;
+  padding: 0;
+  margin: 0;
+}
+</style>

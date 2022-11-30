@@ -1,87 +1,19 @@
 <template>
   <div class="hsome">
-    <el-row :gutter="20">
+    <el-row :gutter="20" v-for="item in number" :key="item">
       <el-col :xs="24" :lg="8">
         <div class="grid-content bg-purple">
-          <div class="dweb" style="height: 250px"></div>
+          <div class="dweb" style="height: 200px"></div>
         </div>
       </el-col>
       <el-col :xs="24" :lg="8">
         <div class="grid-content bg-purple">
-          <div class="dweb" style="height: 250px"></div>
+          <div class="dweb" style="height: 200px"></div>
         </div>
       </el-col>
       <el-col :xs="24" :lg="8">
         <div class="grid-content bg-purple">
-          <div class="dweb" style="height: 250px"></div>
-        </div>
-      </el-col>
-    </el-row>
-    <el-row :gutter="20">
-      <el-col :xs="24" :lg="8">
-        <div class="grid-content bg-purple">
-          <div class="dweb" style="height: 250px"></div>
-        </div>
-      </el-col>
-      <el-col :xs="24" :lg="8">
-        <div class="grid-content bg-purple">
-          <div class="dweb" style="height: 250px"></div>
-        </div>
-      </el-col>
-      <el-col :xs="24" :lg="8">
-        <div class="grid-content bg-purple">
-          <div class="dweb" style="height: 250px"></div>
-        </div>
-      </el-col>
-    </el-row>
-    <el-row :gutter="20">
-      <el-col :xs="24" :lg="8">
-        <div class="grid-content bg-purple">
-          <div class="dweb" style="height: 250px"></div>
-        </div>
-      </el-col>
-      <el-col :xs="24" :lg="8">
-        <div class="grid-content bg-purple">
-          <div class="dweb" style="height: 250px"></div>
-        </div>
-      </el-col>
-      <el-col :xs="24" :lg="8">
-        <div class="grid-content bg-purple">
-          <div class="dweb" style="height: 250px"></div>
-        </div>
-      </el-col>
-    </el-row>
-    <el-row :gutter="20">
-      <el-col :xs="24" :lg="8">
-        <div class="grid-content bg-purple">
-          <div class="dweb" style="height: 250px"></div>
-        </div>
-      </el-col>
-      <el-col :xs="24" :lg="8">
-        <div class="grid-content bg-purple">
-          <div class="dweb" style="height: 250px"></div>
-        </div>
-      </el-col>
-      <el-col :xs="24" :lg="8">
-        <div class="grid-content bg-purple">
-          <div class="dweb" style="height: 250px"></div>
-        </div>
-      </el-col>
-    </el-row>
-    <el-row :gutter="20">
-      <el-col :xs="24" :lg="8">
-        <div class="grid-content bg-purple">
-          <div class="dweb" style="height: 250px"></div>
-        </div>
-      </el-col>
-      <el-col :xs="24" :lg="8">
-        <div class="grid-content bg-purple">
-          <div class="dweb" style="height: 250px"></div>
-        </div>
-      </el-col>
-      <el-col :xs="24" :lg="8">
-        <div class="grid-content bg-purple">
-          <div class="dweb" style="height: 250px"></div>
+          <div class="dweb" style="height: 200px"></div>
         </div>
       </el-col>
     </el-row>
@@ -92,9 +24,38 @@
 export default {
   name: 'Home',
   data() {
-    return {};
+    return {
+      number: 3,
+      screenWidth: document.body.clientWidth,
+    };
   },
-  components: {},
+  watch: {
+    screenWidth() {
+      console.log(this.screenWidth);
+      if (this.screenWidth <= 1200) {
+        this.number = 1;
+      } else {
+        this.number = 3;
+      }
+    },
+  },
+  mounted() {
+    this.change_el_col();
+    const that = this;
+    window.onresize = () => {
+      return (() => {
+        that.screenWidth = document.body.clientWidth;
+      })();
+    };
+  },
+  methods: {
+    change_el_col() {
+      console.log(this.screenWidth);
+      if (this.screenWidth <= 1200) {
+        this.number = 1;
+      }
+    },
+  },
 };
 </script>
 

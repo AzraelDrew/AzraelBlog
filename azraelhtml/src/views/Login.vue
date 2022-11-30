@@ -34,6 +34,7 @@ export default {
       fromData: {
         username: '',
         password: '',
+        fullscreenLoading: false,
       },
     };
   },
@@ -57,6 +58,10 @@ export default {
     },
     toRegister() {
       this.$router.push({ name: 'Register' });
+      this.fullscreenLoading = true;
+      setTimeout(() => {
+        this.fullscreenLoading = false;
+      }, 500);
     },
   },
 };
@@ -73,23 +78,11 @@ export default {
   justify-items: center;
   align-items: center;
 }
-.grid {
-  display: grid;
-  grid-template-rows: 50% 50%;
-  grid-template-columns: 50% 50%;
-}
 .loginbox {
   padding: 20px;
   height: 70vh;
   width: 65vw;
 }
-/* .box {
-  padding-top: 10vh;
-}
-.input_box {
-  padding-left: 18vw;
-}
-*/
 .btn {
   position: relative;
   left: -1.8vw;

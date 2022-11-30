@@ -215,19 +215,22 @@ export default {
     this.getUserList();
   },
   methods: {
+    //提示框
+    messageNotify(title, message, type) {
+      this.$notify({
+        title: title,
+        message: message,
+        type: type,
+        showClose: true,
+        center: true,
+      });
+    },
     // 保存用户分配 用户组
     setUserToGroup() {
       let group = this.all_groups[this.choosed_group];
       let userlist = this.choosed_user;
       if (userlist.length == 0) {
-        this.$notify({
-          title: '警告',
-          message: '没有选择用户!',
-          type: 'warning',
-          showClose: true,
-          center: true,
-        });
-        // alert('没有选择用户');
+        this.messageNotify('警告', '没有选择用户!', 'warning');
         return;
       }
       axios({
@@ -240,36 +243,15 @@ export default {
         }),
       }).then((res) => {
         if (res.data == 'nologin') {
-          this.$notify({
-            title: '警告',
-            message: '尚未登录!',
-            type: 'warning',
-            showClose: true,
-            center: true,
-          });
-          // alert('尚未登录');
+          this.messageNotify('警告', '尚未登录!', 'warning');
           return;
         }
         if (res.data == 'noperm') {
-          this.$notify({
-            title: '警告',
-            message: '权限不足!',
-            type: 'warning',
-            showClose: true,
-            center: true,
-          });
-          // alert('权限不足');
+          this.messageNotify('警告', '权限不足!', 'warning');
           return;
         }
         if (res.data == 'OK') {
-          this.$notify({
-            title: '警告',
-            // message: '用户权限分配成功!',
-            type: 'warning',
-            showClose: true,
-            center: true,
-          });
-          alert('用户权限分配成功');
+          this.messageNotify('成功', '用户权限分配成功!', 'success');
           return;
         }
       });
@@ -317,25 +299,12 @@ export default {
         }),
       }).then((res) => {
         if (res.data == 'nologin') {
-          this.$notify({
-            title: '警告',
-            message: '尚未登录!',
-            type: 'warning',
-            showClose: true,
-            center: true,
-          });
-          // alert('尚未登录');
+          this.messageNotify('警告', '尚未登录!', 'warning');
           return;
         }
         if (res.data == 'noperm') {
-          this.$notify({
-            title: '警告',
-            message: '权限不足!',
-            type: 'warning',
-            showClose: true,
-            center: true,
-          });
-          // alert('权限不足');
+          this.messageNotify('警告', '权限不足!', 'warning');
+
           return;
         }
         if (res.data == 'OK') {
@@ -346,14 +315,7 @@ export default {
     saveNewGroup() {
       //判断名称输入
       if (this.new_group.name.length == 0) {
-        this.$notify({
-          title: '警告',
-          message: '输入新用户名称!',
-          type: 'warning',
-          showClose: true,
-          center: true,
-        });
-        // alert('输入新用户名称');
+        this.messageNotify('警告', '输入新用户名称!', 'warning');
         return;
       }
       //判断权限的选择
@@ -387,36 +349,15 @@ export default {
               }),
             }).then((res) => {
               if (res.data == 'nologin') {
-                this.$notify({
-                  title: '警告',
-                  message: '尚未登录!',
-                  type: 'warning',
-                  showClose: true,
-                  center: true,
-                });
-                // alert('尚未登录');
+                this.messageNotify('警告', '尚未登录!', 'warning');
                 return;
               }
               if (res.data == 'noperm') {
-                this.$notify({
-                  title: '警告',
-                  message: '权限不足!',
-                  type: 'warning',
-                  showClose: true,
-                  center: true,
-                });
-                // alert('权限不足');
+                this.messageNotify('警告', '权限不足!', 'warning');
                 return;
               }
               if (res.data == 'same name') {
-                this.$notify({
-                  title: '警告',
-                  message: '重复命名!',
-                  type: 'warning',
-                  showClose: true,
-                  center: true,
-                });
-                // alert('重复命名');
+                this.messageNotify('警告', '重复命名!', 'warning');
                 return;
               }
               if (res.data == 'OK') {
@@ -426,14 +367,7 @@ export default {
           }
         });
       } else {
-        this.$notify({
-          title: '警告',
-          message: '新用户组 权限未选择!',
-          type: 'warning',
-          showClose: true,
-          center: true,
-        });
-        // alert('新用户组 权限未选择');
+        this.messageNotify('警告', '新用户组 权限未选择!!', 'warning');
         return;
       }
     },

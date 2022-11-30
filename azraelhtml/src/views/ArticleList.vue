@@ -85,6 +85,16 @@ export default {
     this.getArticleList(this.currentPpage, this.currentLanmu);
   },
   methods: {
+    //提示框
+    messageNotify(title, message, type) {
+      this.$notify({
+        title: title,
+        message: message,
+        type: type,
+        showClose: true,
+        center: true,
+      });
+    },
     // 跳转内容页
     toArticle(id) {
       this.$router.push({ path: '/article', query: { id: id } });
@@ -130,25 +140,11 @@ export default {
               },
             }).then((res) => {
               if (res.data === 'nologin') {
-                this.$notify({
-                  title: '警告',
-                  message: '用户登录信息错误!',
-                  type: 'warning',
-                  showClose: true,
-                  center: true,
-                });
-                // alert('用户登录信息错误');
+                this.messageNotify('警告', '用户登录信息错误!', 'error');
                 return;
               }
               if (res.data === 'nopermission') {
-                this.$notify({
-                  title: '警告',
-                  message: '权限不足!',
-                  type: 'warning',
-                  showClose: true,
-                  center: true,
-                });
-                // alert('权限不足');
+                this.messageNotify('警告', '权限不足!', 'warning');
               }
               this.getArticleList(this.currentPpage, this.currentLanmu);
             });

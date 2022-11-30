@@ -23,6 +23,7 @@
               draggable
               :render-content="renderContent"
               @node-click="choosed_lanmu_articleList"
+              style="border-radius: 5px"
             >
             </el-tree>
           </div>
@@ -40,7 +41,7 @@
               >全部文章</el-button
             >
             <el-button
-              @click="getArticleList(1, 'alnobelongl')"
+              @click="getArticleList(1, 'nobelong')"
               type="primary"
               size="mini"
               >未知栏目</el-button
@@ -54,6 +55,14 @@
           <!-- 文章列表 -->
           <div class="dweb" style="margin-top: 10px; min-height: 45vh">
             <el-row>
+              <el-col :span="24">
+                <div class="card dweb">
+                  <span style="color:white"
+                    >栏目名称：{{ this.currentLanmu }}</span
+                  >
+                  <!-- {{ this.currentLanmu }} -->
+                </div></el-col
+              >
               <el-col :span="24" v-for="item in article_list" :key="item.id">
                 <div class="card dweb">
                   <el-row>
@@ -68,7 +77,7 @@
                       <span>{{ item.title }}</span>
                     </el-col>
                     <el-col class="text-item" :xs="12" :lg="7">
-                      <span>发布者:admin</span>
+                      <span>发布者:{{ item.nickName }}</span>
                     </el-col>
                     <el-col class="text-item" :xs="12" :lg="7">
                       <el-popover placement="right" width="200" trigger="click">
@@ -147,6 +156,16 @@ export default {
     this.getLanmuTree();
   },
   methods: {
+    //提示框
+    messageNotify(title, message, type) {
+      this.$notify({
+        title: title,
+        message: message,
+        type: type,
+        showClose: true,
+        center: true,
+      });
+    },
     // 选择栏目查看文章
     choosed_lanmu_articleList(node) {
       let lanmu_name = node.label;
@@ -168,25 +187,11 @@ export default {
         }),
       }).then((res) => {
         if (res.data == 'nologin') {
-          this.$notify({
-            title: '警告',
-            message: '尚未登录!',
-            type: 'warning',
-            showClose: true,
-            center: true,
-          });
-          // alert('尚未登录');
+          this.messageNotify('警告', '尚未登录!', 'warning');
           return;
         }
         if (res.data == 'noperm') {
-          this.$notify({
-            title: '警告',
-            message: '权限不足!',
-            type: 'warning',
-            showClose: true,
-            center: true,
-          });
-          // alert('权限不足');
+          this.messageNotify('警告', '权限不足!', 'warning');
           return;
         }
         if (res.data == 'OK') {
@@ -215,25 +220,11 @@ export default {
         }),
       }).then((res) => {
         if (res.data == 'nologin') {
-          this.$notify({
-            title: '警告',
-            message: '尚未登录!',
-            type: 'warning',
-            showClose: true,
-            center: true,
-          });
-          // alert('尚未登录');
+          this.messageNotify('警告', '尚未登录!', 'warning');
           return;
         }
         if (res.data == 'noperm') {
-          this.$notify({
-            title: '警告',
-            message: '权限不足!',
-            type: 'warning',
-            showClose: true,
-            center: true,
-          });
-          // alert('权限不足');
+          this.messageNotify('警告', '权限不足!', 'warning');
           return;
         }
         if (res.data == 'OK') {
@@ -263,14 +254,7 @@ export default {
           this.maxId = obj.id;
         }
         if (obj.label === this.new_lanmu_name) {
-          this.$notify({
-            title: '警告',
-            message: '栏目名重复!',
-            type: 'warning',
-            showClose: true,
-            center: true,
-          });
-          // alert('栏目名重复');
+          this.messageNotify('警告', '栏目名重复!', 'warning');
           checkTree = false;
           return checkTree;
         }
@@ -283,6 +267,7 @@ export default {
       return checkTree;
     },
     getArticleList(page, lanmu) {
+      // this.currentLanmu = 'all';
       axios({
         url: this.$store.state.baseurl + 'api/article-list/',
         method: 'GET',
@@ -295,6 +280,13 @@ export default {
         this.article_list = res.data.data;
         this.total = res.data.total;
       });
+      this.currentLanmu = lanmu;
+      if (lanmu == 'all') {
+        this.currentLanmu = '所有文章';
+      }
+      if (lanmu == 'nobelong') {
+        this.currentLanmu = '未知栏目';
+      }
     },
     currentChange(val) {
       this.currentPpage = val;
@@ -313,25 +305,11 @@ export default {
         },
       }).then((res) => {
         if (res.data == 'nologin') {
-          this.$notify({
-            title: '警告',
-            message: '尚未登录!',
-            type: 'warning',
-            showClose: true,
-            center: true,
-          });
-          // alert('尚未登录');
+          this.messageNotify('警告', '尚未登录!', 'warning');
           return;
         }
         if (res.data == 'noperm') {
-          this.$notify({
-            title: '警告',
-            message: '权限不足!',
-            type: 'warning',
-            showClose: true,
-            center: true,
-          });
-          // alert('权限不足');
+          this.messageNotify('警告', '权限不足!', 'warning');
           return;
         }
         if (res.data == 'OK') {

@@ -33,7 +33,7 @@ export default new Vuex.Store({
   actions: {
     // 登录
     // 第一个参数为调用mutations中的方法的函数  第二个参数为 Vue component中的数据
-    blogLogin({ commit }, fromData) {
+    blogLogin({ dispatch, commit }, fromData) {
       axios({
         url: this.state.baseurl + 'api/azrael-login/',
         method: 'POST',
@@ -55,11 +55,6 @@ export default new Vuex.Store({
           });
           return;
         }
-        // Notification({
-        //   title: '成功',
-        //   message: '登陆成功',
-        //   type: 'success',
-        // });
 
         commit('svaeUserInfo', res.data);
         // 缓存token到本地实现自动登录

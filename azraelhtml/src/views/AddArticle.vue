@@ -85,6 +85,16 @@ export default {
     this.summernote();
   },
   methods: {
+    //提示框
+    messageNotify(title, message, type) {
+      this.$notify({
+        title: title,
+        message: message,
+        type: type,
+        showClose: true,
+        center: true,
+      });
+    },
     summernote() {
       let self = this;
       $('#summernote').summernote({
@@ -154,26 +164,12 @@ export default {
         //article_data作为第二个参数时是body请求
         .then((res) => {
           console.log(res.data);
-          if (res.data === 'title') {
-            this.$notify({
-              title: '警告',
-              message: '文章标题不可为空!',
-              type: 'warning',
-              showClose: true,
-              center: true,
-            });
-            // alert('文章标题不可为空');
+          if (res.data === 'notitle') {
+            this.messageNotify('警告', '文章标题不可为空!', 'warning');
             return;
           }
           if (res.data === 'nologin') {
-            this.$notify({
-              title: '警告',
-              message: '用户信息错误!',
-              type: 'warning',
-              showClose: true,
-              center: true,
-            });
-            // alert('用户信息错误');
+            this.messageNotify('警告', '用户信息错误!', 'warning');
             return;
           }
           if (res.data === 'OK') {

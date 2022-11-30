@@ -149,6 +149,16 @@ export default {
     this.getUserArticleInfo();
   },
   methods: {
+    //提示框
+    messageNotify(title, message, type) {
+      this.$notify({
+        title: title,
+        message: message,
+        type: type,
+        showClose: true,
+        center: true,
+      });
+    },
     // 打赏
     //点赞
     toLike() {
@@ -161,14 +171,7 @@ export default {
         }),
       }).then((res) => {
         if (res.data == 'nologin') {
-          this.$notify({
-            title: '警告',
-            message: '尚未登录!',
-            type: 'warning',
-            showClose: true,
-            center: true,
-          });
-          // alert('尚未登录');
+          this.messageNotify('警告', '尚未登录!', 'warning');
           return;
         }
         if (res.data == 'ok') {
@@ -187,14 +190,7 @@ export default {
         }),
       }).then((res) => {
         if (res.data == 'nologin') {
-          this.$notify({
-            title: '警告',
-            message: '尚未登录!',
-            type: 'warning',
-            showClose: true,
-            center: true,
-          });
-          // alert('尚未登录');
+          this.messageNotify('警告', '尚未登录!', 'warning');
           return;
         }
         if (res.data == 'ok') {
@@ -236,14 +232,7 @@ export default {
     // 发表评论
     saveNewPinglun() {
       if (this.new_pinglun.length == '') {
-        this.$notify({
-          title: '警告',
-          message: '内容为空!',
-          type: 'warning',
-          showClose: true,
-          center: true,
-        });
-        // alert('内容为空');
+        this.messageNotify('警告', '评论内容为空!', 'warning');
         return;
       }
       axios({
@@ -256,25 +245,11 @@ export default {
         }),
       }).then((res) => {
         if (res.data == 'nologin') {
-          this.$notify({
-            title: '警告',
-            message: '尚未登录!',
-            type: 'warning',
-            showClose: true,
-            center: true,
-          });
-          // alert('尚未登录');
+          this.messageNotify('警告', '尚未登录!', 'warning');
           return;
         }
         if (res.data == 'noperm') {
-          this.$notify({
-            title: '警告',
-            message: '权限不足!',
-            type: 'warning',
-            showClose: true,
-            center: true,
-          });
-          // alert('权限不足');
+          this.messageNotify('警告', '权限不足!', 'warning');
           return;
         }
         this.getAllPinglun(1, this.ping_lun_pageSize);
@@ -288,14 +263,7 @@ export default {
     // 跳转文章
     toOtherPage(id) {
       if (id === 0) {
-        this.$notify({
-          title: '警告',
-          message: '没有了!',
-          type: 'warning',
-          showClose: true,
-          center: true,
-        });
-        // alert('没有了');
+        this.messageNotify('警告', '没有了!', 'warning');
         return;
       }
       this.$router.push({ path: '/article', query: { id: id } });
