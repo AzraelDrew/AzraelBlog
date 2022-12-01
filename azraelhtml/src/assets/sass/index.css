@@ -1,3 +1,4 @@
+@charset "UTF-8";
 body,
 html {
   margin: 0;
@@ -7,12 +8,13 @@ html {
   /* 图片跟随滚动 */
   /* background-attachment:fixed; */
 }
+
+/* common */
 .dweb {
   background: #00000060;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
   border-radius: 0.25rem;
 }
-
 .dweb .header {
   font-size: 18px;
   color: #5edbb5;
@@ -28,17 +30,27 @@ html {
   font-weight: 500;
   color: #fff;
 }
+
 /* 顶部导航 */
 #top-menu {
   position: fixed;
   top: 0;
+  bottom: auto;
+  left: auto;
+  right: auto;
   width: 100vw;
   height: 60px;
   z-index: 1001;
 }
+
+/* 右上角欢迎词 */
 .user_name {
   position: absolute;
+  top: auto;
+  bottom: auto;
+  left: auto;
   right: 35px;
+  width: auto;
   height: 60px;
   color: #5edbb5;
   font-size: 20px;
@@ -47,22 +59,34 @@ html {
   align-items: center;
   transition: all 2s ease;
 }
-.user_name.xs {
+.user_name .xs {
   position: absolute;
+  top: auto;
+  bottom: auto;
+  left: auto;
   right: 120px;
   transition: all 2s ease;
 }
+
+/* 右上角退出按钮 */
 #logout {
   position: absolute;
+  top: auto;
+  bottom: auto;
+  left: auto;
   right: -500px;
   transition: all 2s ease-out;
 }
-#logout.xs {
+#logout .xs {
   position: absolute;
+  top: auto;
+  bottom: auto;
+  left: auto;
   right: -100px;
   transition: all 0.8s ease;
 }
 
+/* 左移动画 */
 .left {
   transition-timing-function: ease-in;
   animation-name: left;
@@ -82,27 +106,30 @@ html {
     transform: translateX(200px);
   }
 }
-
 /* 左侧边栏导航 */
 #left-menu {
   width: 200px;
   height: 100vh;
+  transition: all 0.3s ease;
   position: fixed;
   z-index: 1001;
-  transition: all 0.3s ease;
 }
-#left-menu.xs {
-  margin-left: -200px;
+#left-menu .xs {
   transition: all 0.3s ease;
+  margin-left: -200px;
 }
 #left-menu #left-btn {
-  color: #009186;
-  font-size: 40px;
   position: absolute;
+  top: auto;
+  bottom: auto;
   left: 210px;
+  right: auto;
+  width: auto;
   height: 60px;
   display: flex;
   align-items: center;
+  color: #5edbb5;
+  font-size: 40px;
 }
 
 .clear {
@@ -112,26 +139,33 @@ html {
 #add_article {
   position: absolute;
   top: -50px;
+  bottom: auto;
+  left: auto;
   right: 10px;
 }
+
 .article-content {
   color: #fff;
 }
 .article-content img {
-  margin-right: 10px;
   width: 40%;
+  height: auto;
+  margin-right: 10px;
 }
-/* 页面内容 */
 
+/* 页面内容 */
 #content {
   position: relative;
   top: 60px;
+  bottom: auto;
+  left: auto;
+  right: auto;
+  transition: all 0.3s ease;
+  padding: 10px 0;
   margin-left: 220px;
   margin-right: 20px;
-  padding: 10px 0;
-  transition: all 0.3s ease;
 }
-#content.xs {
+#content .xs {
   transition: all 0.3s ease;
   margin-left: 20px;
 }
@@ -146,46 +180,58 @@ html {
   padding: 10px 0;
 }
 
-/* element ui */
 .el-submenu__title:hover {
   background-color: #00000060 !important;
 }
+
 .el-menu-item:hover {
   background-color: #00000060 !important;
 }
+
 .el-menu {
   border-right: none;
 }
 .el-menu i {
   color: #a2f3ea;
 }
+
 .el-form-item__label {
   color: #5edbb5 !important;
 }
+
 .el-input input {
   background-color: #00000060;
-  color: #ffffff;
+  color: #fff;
   border: none;
 }
+
 .el-textarea textarea {
   background-color: #00000060;
-  color: #ffffff;
+  color: #fff;
   border: none;
 }
 
 .el-breadcrumb__inner.is-link {
   color: #fff;
 }
+
 .el-breadcrumb__inner {
   color: #fff;
 }
+
 .el-breadcrumb__item:last-child .el-breadcrumb__inner {
   color: #5edbb5;
   cursor: pointer;
 }
+
 .el-breadcrumb__item:last-child .el-breadcrumb__inner:hover {
   color: #ffcd77;
   cursor: pointer;
+}
+
+.el-pagination.is-background button {
+  background-color: #00000060 !important;
+  color: #fff !important;
 }
 .el-pagination.is-background .el-pager li:not(.disabled).active {
   color: #fff;
@@ -194,10 +240,6 @@ html {
 .el-pagination.is-background .el-pager li {
   background: #00000060;
   color: #fff;
-}
-.el-pagination.is-background button {
-  background-color: #00000060 !important;
-  color: #fff !important;
 }
 
 .el-transfer-panel {
@@ -210,19 +252,24 @@ html {
 .el-transfer-panel .el-transfer-panel__header .el-checkbox .el-checkbox__label {
   color: #fff;
 }
+
 .el-checkbox.el-transfer-panel__item {
   color: #fff;
 }
+
 .el-tree {
   background-color: #00000060;
   color: #fff;
 }
+
 .el-tree-node__content:hover {
   background-color: #80cdcb;
 }
+
 .el-tree-node:focus > .el-tree-node__content {
   background-color: #80cdcb;
 }
+
 .el-popover {
   background-color: #00000060;
   border: none;
@@ -236,9 +283,11 @@ html {
 .note-btn {
   color: #80cdcb;
 }
+
 .note-btn:hover {
   color: #ffcd77;
 }
+
 .dropdown-menu {
   background-color: #00000060;
   color: #80cdcb;
@@ -246,10 +295,12 @@ html {
 .dropdown-menu a {
   color: #80cdcb;
 }
+
 .popover {
   background-color: #69626260;
   border-radius: 10px;
 }
+
 .note-editable {
   background-color: #00000030;
   color: #fff;
