@@ -50,8 +50,7 @@ var _default = new _vuex["default"].Store({
     blogLogin: function blogLogin(_ref, fromData) {
       var _this = this;
 
-      var dispatch = _ref.dispatch,
-          commit = _ref.commit;
+      var commit = _ref.commit;
       (0, _axios["default"])({
         url: this.state.baseurl + 'api/azrael-login/',
         method: 'POST',

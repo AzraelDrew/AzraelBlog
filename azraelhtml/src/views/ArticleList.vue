@@ -106,6 +106,7 @@ export default {
         method: 'GET',
         params: {
           page,
+          currentname: this.$store.state.currentname,
           pageSize: this.pageSize,
           lanmu: lanmu,
         },

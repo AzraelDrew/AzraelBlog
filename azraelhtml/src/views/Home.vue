@@ -25,7 +25,7 @@ export default {
   name: 'Home',
   data() {
     return {
-      number: 3,
+      number: 4,
       screenWidth: document.body.clientWidth,
     };
   },

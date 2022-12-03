@@ -77,7 +77,7 @@ html {
   font-size: 20px;
   @include flex_center(true, false, flase, true);
   @include over_animation(all, 2s, ease);
-  .xs {
+  &.xs {
     @include position(absolute, auto, auto, auto, 120px);
     @include over_animation(all, 2s, ease);
   }
@@ -117,7 +117,7 @@ html {
   @include over_animation(all, 0.3s, ease);
   position: fixed;
   z-index: 1001;
-  .xs {
+  &.xs {
     @include over_animation(all, 0.3s, ease);
     margin-left: -200px;
   }

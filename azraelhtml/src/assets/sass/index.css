@@ -3,7 +3,7 @@ body,
 html {
   margin: 0;
   padding: 0;
-  background: url('../img/3.png') no-repeat fixed;
+  background: url("../img/3.png") no-repeat fixed;
   background-size: 100% 100%;
   /* 图片跟随滚动 */
   /* background-attachment:fixed; */
@@ -59,7 +59,7 @@ html {
   align-items: center;
   transition: all 2s ease;
 }
-.user_name .xs {
+.user_name.xs {
   position: absolute;
   top: auto;
   bottom: auto;
@@ -114,7 +114,7 @@ html {
   position: fixed;
   z-index: 1001;
 }
-#left-menu .xs {
+#left-menu.xs {
   transition: all 0.3s ease;
   margin-left: -200px;
 }

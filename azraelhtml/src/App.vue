@@ -21,7 +21,12 @@
     </div>
     <!-- 左侧边栏导航 -->
     <div id="left-menu" :class="'dweb ' + mobile_left">
-      <i @click="showHideLeftMenu" id="left-btn" :class="hideMenu"></i>
+      <i
+        v-if="authUserLogin"
+        @click="showHideLeftMenu"
+        id="left-btn"
+        :class="hideMenu"
+      ></i>
       <!-- 导航栏 -->
       <el-col :span="24" style="margin-top: 70px">
         <el-menu
@@ -49,6 +54,14 @@
             <i class="el-icon-s-operation"></i>
             <span slot="title">栏目管理</span>
           </el-menu-item>
+          <!-- <el-menu-item v-if="left_user" index="/user-permission">
+            <i class="el-icon-user"></i>
+            <span slot="title">用户管理</span>
+          </el-menu-item>
+          <el-menu-item v-if="left_lanmu" index="/lanmu-admin">
+            <i class="el-icon-s-operation"></i>
+            <span slot="title">栏目管理</span>
+          </el-menu-item> -->
           <el-menu-item @click="blogLogOut()" v-if="authUserLogin">
             <i class="el-icon-back"></i>
             <span slot="title">退出登录</span>
@@ -76,6 +89,8 @@ export default {
       mobile_content: '',
       left: 'left',
       show_login_btn: false,
+      // left_user: false,
+      // left_lanmu: false,
     };
   },
   computed: {
@@ -90,6 +105,29 @@ export default {
       if (newVal == null) {
         this.$router.push({ name: 'Login' });
       }
+      if (this.$store.getters.loginState) {
+        this.mobile_left = '';
+        this.mobile_content = '';
+      }
+
+      // let checkInfo_user = {
+      //   contentType: 'auth_user',
+      //   permissions: ['add', 'change', 'delete', 'view'],
+      // };
+      // this.$store.dispatch('checkUserPerm', checkInfo_user).then((res) => {
+      //   if (res) {
+      //     this.left_user = true;
+      //   }
+      // });
+      // let checkInfo_article = {
+      //   contentType: 'Blog_article',
+      //   permissions: ['add', 'change', 'delete', 'view'],
+      // };
+      // this.$store.dispatch('checkUserPerm', checkInfo_article).then((res) => {
+      //   if (res) {
+      //     this.left_lanmu = true;
+      //   }
+      // });
     },
   },
   created() {
@@ -97,6 +135,10 @@ export default {
   },
   mounted() {
     this.changeDevice();
+    if (!this.$store.getters.loginState) {
+      this.mobile_left = 'xs';
+      this.mobile_content = 'xs';
+    }
   },
 
   methods: {
@@ -136,6 +178,8 @@ export default {
     },
     blogLogOut() {
       this.$store.dispatch('blogLogOut', this.$store.getters.loginState);
+      this.mobile_content = 'xs';
+      this.mobile_left = 'xs';
     },
   },
 };

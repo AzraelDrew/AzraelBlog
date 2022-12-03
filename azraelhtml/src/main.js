@@ -12,7 +12,7 @@ import 'popper.js';
 import 'summernote';
 import 'summernote/lang/summernote-zh-CN.js';
 import 'summernote/dist/summernote.css';
-import './assets/sass/index.css';
+import './assets/css/index.css';
 import './assets/iconfont/iconfont.css';
 
 Vue.config.productionTip = false;

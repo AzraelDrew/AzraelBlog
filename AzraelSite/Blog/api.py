@@ -51,6 +51,7 @@ def azrael_login(request):
     password = request.POST['password']
     # 登录逻辑
     user = User.objects.filter(username=username)
+    print("----------------",user[0].id)
     if user:
         checkPwd = check_password(password, user[0].password)
         if checkPwd:
@@ -243,11 +244,19 @@ def add_article(request):
 
 @api_view(['GET'])
 def article_list(request):
+
+    # 获取当前用户的文章
+    currentname = request.GET["currentname"]
+    print(currentname,'---------------------123')
+    user = User.objects.filter(username=currentname)
+    print(user[0].id,'11111111111111111')
+    at = Article.objects.filter(belong=user[0].id)
+    print(at,'456')
     page = request.GET['page']
     pageSize = request.GET['pageSize']
     lanmu = request.GET['lanmu']
     if lanmu == "all":
-        articles = Article.objects.all()
+        articles = Article.objects.filter(belong=user[0].id)
     elif lanmu == "nobelong":
         articles = Article.objects.filter(belong_lanmu=None)
     else:
@@ -260,7 +269,26 @@ def article_list(request):
         articles = paginator.page(1)
     except EmptyPage:
         articles = paginator.page(paginator.num_pages)
-    print(articles)
+    print(articles,'www')
+
+
+
+    #获取所有用户的文章 
+    # if lanmu == "all":
+    #     articles = Article.objects.all()
+    # elif lanmu == "nobelong":
+    #     articles = Article.objects.filter(belong_lanmu=None)
+    # else:
+    #     articles = Article.objects.filter(belong_lanmu__name=lanmu)
+    # total = len(articles)
+    # paginator = Paginator(articles, pageSize)
+    # try:
+    #     articles = paginator.page(page)
+    # except PageNotAnInteger:
+    #     articles = paginator.page(1)
+    # except EmptyPage:
+    #     articles = paginator.page(paginator.num_pages)
+    # print(articles,'www')
     articles_data = []
     for a in articles:
         a_item = {

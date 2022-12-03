@@ -33,7 +33,7 @@ export default new Vuex.Store({
   actions: {
     // 登录
     // 第一个参数为调用mutations中的方法的函数  第二个参数为 Vue component中的数据
-    blogLogin({ dispatch, commit }, fromData) {
+    blogLogin({ commit }, fromData) {
       axios({
         url: this.state.baseurl + 'api/azrael-login/',
         method: 'POST',
