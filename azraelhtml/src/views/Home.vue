@@ -50,7 +50,7 @@ export default {
   },
   methods: {
     change_el_col() {
-      console.log(this.screenWidth);
+      // console.log(this.screenWidth);
       if (this.screenWidth <= 1200) {
         this.number = 1;
       }

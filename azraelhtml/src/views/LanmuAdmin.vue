@@ -207,7 +207,7 @@ export default {
         method: 'GET',
       }).then((res) => {
         this.lanmu_tree = res.data;
-        console.log(res.data);
+        // console.log(res.data);
       });
     },
     // 保存栏目结构
