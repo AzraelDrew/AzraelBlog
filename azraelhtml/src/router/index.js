@@ -56,6 +56,19 @@ const routes = [
       }
     },
   },
+  {
+    path: '/all-article-list',
+    name: 'All-Atricle-List',
+    component: () => import('../views/AllArticle'),
+    beforeEnter(to, from, next) {
+      if (store.state.userinfo.token) {
+        next();
+      } else {
+        next('/login');
+      }
+    },
+  },
+
   // 用户管理
   {
     path: '/user-permission',

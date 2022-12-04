@@ -44,6 +44,7 @@
             <el-menu-item-group>
               <el-menu-item index="/add-article">发布文章</el-menu-item>
               <el-menu-item index="/article-list">文章列表</el-menu-item>
+              <el-menu-item index="/all-article-list">所有文章</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
           <el-menu-item index="/user-permission">

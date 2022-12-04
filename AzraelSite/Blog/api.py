@@ -247,30 +247,51 @@ def article_list(request):
     # 获取当前用户的文章
     currentname = request.GET["currentname"]
     print(currentname,'---------------------123')
-    user = User.objects.filter(username=currentname)
-    print(user[0].id,'11111111111111111')
-    at = Article.objects.filter(belong=user[0].id)
-    print(at,'456')
-    page = request.GET['page']
-    pageSize = request.GET['pageSize']
-    lanmu = request.GET['lanmu']
-    if lanmu == "all":
-        articles = Article.objects.filter(belong=user[0].id)
-    elif lanmu == "nobelong":
-        articles = Article.objects.filter(belong_lanmu=None)
+    if currentname!='all_user':
+        user = User.objects.filter(username=currentname)
+        # print(user[0].id,'11111111111111111')
+        # at = Article.objects.filter(belong=user[0].id)
+        # print(at,'456')
+        page = request.GET['page']
+        pageSize = request.GET['pageSize']
+        lanmu = request.GET['lanmu']
+        if lanmu == "all":
+            articles = Article.objects.filter(belong=user[0].id)
+        elif lanmu == "nobelong":
+            articles = Article.objects.filter(belong_lanmu=None)
+        else:
+            articles = Article.objects.filter(belong_lanmu__name=lanmu)
+
+        total = len(articles)
+        paginator = Paginator(articles, pageSize)
+        try:
+            articles = paginator.page(page)
+        except PageNotAnInteger:
+            articles = paginator.page(1)
+        except EmptyPage:
+            articles = paginator.page(paginator.num_pages)
+        print(articles,'www')
+
     else:
-        articles = Article.objects.filter(belong_lanmu__name=lanmu)
+        page = request.GET['page']
+        pageSize = request.GET['pageSize']
+        lanmu = request.GET['lanmu']
+        if lanmu == "all":
+            articles = Article.objects.all()
+        elif lanmu == "nobelong":
+            articles = Article.objects.filter(belong_lanmu=None)
+        else:
+            articles = Article.objects.filter(belong_lanmu__name=lanmu)
 
-    total = len(articles)
-    paginator = Paginator(articles, pageSize)
-    try:
-        articles = paginator.page(page)
-    except PageNotAnInteger:
-        articles = paginator.page(1)
-    except EmptyPage:
-        articles = paginator.page(paginator.num_pages)
-    print(articles,'www')
-
+        total = len(articles)
+        paginator = Paginator(articles, pageSize)
+        try:
+            articles = paginator.page(page)
+        except PageNotAnInteger:
+            articles = paginator.page(1)
+        except EmptyPage:
+            articles = paginator.page(paginator.num_pages)
+        print(articles,'www')
 
 
     #获取所有用户的文章 
