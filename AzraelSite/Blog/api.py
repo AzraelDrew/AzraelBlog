@@ -261,6 +261,7 @@ def article_list(request):
         articles = Article.objects.filter(belong_lanmu=None)
     else:
         articles = Article.objects.filter(belong_lanmu__name=lanmu)
+
     total = len(articles)
     paginator = Paginator(articles, pageSize)
     try:
