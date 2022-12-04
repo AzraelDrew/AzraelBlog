@@ -51,7 +51,6 @@ def azrael_login(request):
     password = request.POST['password']
     # 登录逻辑
     user = User.objects.filter(username=username)
-    print("----------------",user[0].id)
     if user:
         checkPwd = check_password(password, user[0].password)
         if checkPwd:
