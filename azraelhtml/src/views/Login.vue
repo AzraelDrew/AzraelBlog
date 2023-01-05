@@ -34,7 +34,7 @@ export default {
       fromData: {
         username: '',
         password: '',
-        fullscreenLoading: false,
+        // fullscreenLoading: false,
       },
     };
   },
@@ -58,10 +58,10 @@ export default {
     },
     toRegister() {
       this.$router.push({ name: 'Register' });
-      this.fullscreenLoading = true;
-      setTimeout(() => {
-        this.fullscreenLoading = false;
-      }, 500);
+      // this.fullscreenLoading = true;
+      // setTimeout(() => {
+      //   this.fullscreenLoading = false;
+      // }, 500);
     },
   },
 };

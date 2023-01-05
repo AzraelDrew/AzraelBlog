@@ -1,10 +1,7 @@
 <template>
   <div id="article">
     <!-- 导航 -->
-    <BreadMenu
-      :page_name="article_data.title"
-      :lanmu="article_data.lanmu"
-    ></BreadMenu>
+    <BreadMenu :page_name="article_data.title" :lanmu="article_data.lanmu"></BreadMenu>
     <!-- 文章内容 -->
     <el-row :gutter="10">
       <el-col :xs="24" :lg="16">
@@ -19,7 +16,8 @@
           </div>
         </div>
         <div class="body dweb">
-          <div class="article-content" v-html="article_data.content"></div>
+          <!-- <div class="article-content" v-html="article_data.content"></div> -->
+          <v-md-preview :text="article_data.content"></v-md-preview>
         </div>
         <div class="clear"></div>
         <div class="body dweb">
@@ -29,10 +27,7 @@
             type="info"
             >上一页</el-button
           >
-          <el-button
-            v-else
-            @click="toOtherPage(article_data.pre_id)"
-            type="success"
+          <el-button v-else @click="toOtherPage(article_data.pre_id)" type="success"
             >上一页</el-button
           >
           <el-button
@@ -41,10 +36,7 @@
             type="info"
             >下一页</el-button
           >
-          <el-button
-            v-else
-            @click="toOtherPage(article_data.next_id)"
-            type="success"
+          <el-button v-else @click="toOtherPage(article_data.next_id)" type="success"
             >下一页</el-button
           >
         </div>
@@ -77,11 +69,7 @@
           </el-row>
         </div>
         <div class="body dweb">
-          <div
-            v-for="(item, index) in pinglun_data"
-            :key="index"
-            class="body dweb pinglun-item"
-          >
+          <div v-for="(item, index) in pinglun_data" :key="index" class="body dweb pinglun-item">
             {{ item.nickName }}说:<br />
             {{ item.text }}
           </div>
@@ -99,7 +87,7 @@
           >
           </el-pagination>
         </div>
-        <div class="body dweb">
+        <div class="body dweb" @keyup.ctrl.enter="saveNewPinglun()">
           <el-input
             type="textarea"
             :rows="2"
@@ -108,9 +96,7 @@
             :maxlength="120"
           >
           </el-input>
-          <el-button @click="saveNewPinglun()" type="success"
-            >发表评论</el-button
-          >
+          <el-button @click="saveNewPinglun()" type="success">发表评论</el-button>
         </div>
       </el-col>
     </el-row>
@@ -121,6 +107,8 @@
 import BreadMenu from '../components/BreadMenu.vue';
 import axios from 'axios';
 import Qs from 'qs';
+// import key from 'keymaster';
+
 export default {
   data() {
     return {

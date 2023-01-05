@@ -3,20 +3,12 @@
     <el-row :gutter="10">
       <el-col :xs="24" :lg="8">
         <div class="dweb">
-          <el-form
-            :label-position="'left'"
-            label-width="80px"
-            :model="article_info"
-          >
+          <el-form :label-position="'left'" label-width="80px" :model="article_info">
             <el-form-item label="文章标题">
               <el-input v-model="article_info.title"></el-input>
             </el-form-item>
             <el-form-item label="描述">
-              <el-input
-                type="textarea"
-                :rows="4"
-                v-model="article_info.describe"
-              ></el-input>
+              <el-input type="textarea" :rows="4" v-model="article_info.describe"></el-input>
             </el-form-item>
           </el-form>
         </div>
@@ -45,19 +37,21 @@
               @click="chooseCover(img)"
             ></el-image>
           </div>
-          <el-button
-            id="add_article"
-            @click="submitArticle"
-            type="success"
-            round
+          <el-button id="add_article" @click="submitArticle" type="success" round
             >保存文章</el-button
           >
         </div>
       </el-col>
       <el-col :xs="24" :lg="24">
-        <div class="dweb" id="summernote_area">
+        <!-- <div class="dweb" id="summernote_area">
           <div id="summernote"></div>
-        </div>
+        </div> -->
+        <v-md-editor
+          v-model="article_info.contents"
+          height="40vh"
+          :disabled-menus="[]"
+          @upload-image="handleUploadImage"
+        ></v-md-editor>
       </el-col>
     </el-row>
   </div>
@@ -67,13 +61,37 @@
 import $ from 'jquery';
 import axios from 'axios';
 import Qs from 'qs';
+const text = `::: tip
+  你可以点击 toolbar 中的 tip 来快速插入
+:::
+
+::: warning
+  这是一段警告
+:::
+
+::: danger
+  这是一个危险警告
+:::
+
+::: details
+  这是一个详情块，在 IE / Edge 中不生效
+:::
+
+::: tip 自定义标题
+  你也可以自定义块中的标题
+:::
+
+::: danger STOP
+  危险区域，禁止通行
+:::
+`;
 export default {
   data() {
     return {
       article_info: {
         title: '',
         describe: '',
-        contents: '',
+        contents: text,
       },
       cover_img: '',
       cover_list: [],
@@ -95,15 +113,45 @@ export default {
         center: true,
       });
     },
+    handleUploadImage(event, insertImage, files) {
+      let self = this;
+
+      // 拿到 files 之后上传到文件服务器，然后向编辑框中插入对应的内容
+      console.log(files[0]);
+      // console.log(event);
+      console.log(insertImage);
+      let img = files[0];
+      let imgData = new FileReader();
+      imgData.readAsDataURL(img);
+      console.log(imgData);
+      imgData.onload = () => {
+        //插入图片
+        let imgnode = document.createElement('img');
+        imgnode.src = imgData.result;
+        // $('#summernote').summernote('insertNode', imgnode);
+        // 推入封面待选择
+        self.cover_list.push(imgData.result);
+        let src = {
+          imgnode: imgnode.src,
+        };
+        axios.post(this.$store.state.baseurl + 'api/save-img/', Qs.stringify(src)).then((res) => {
+          console.log(res.data);
+          insertImage({
+            url: res.data.url,
+            desc: '在这里插入图片描述',
+            // width: 'auto',
+            // height: 'auto',
+          });
+        });
+      };
+    },
     summernote() {
       let self = this;
       $('#summernote').summernote({
         width: '100%',
         lang: 'zh-CN',
         height:
-          this.screenHeight > this.screenWidth
-            ? this.screenWidth / 2.5
-            : this.screenHeight / 3.5,
+          this.screenHeight > this.screenWidth ? this.screenWidth / 2.5 : this.screenHeight / 3.5,
         callbacks: {
           // 输入时
           onChange(contents) {
@@ -157,10 +205,7 @@ export default {
         token: this.$store.getters.loginState,
       };
       axios
-        .post(
-          this.$store.state.baseurl + 'api/add-article/',
-          Qs.stringify(article_data)
-        )
+        .post(this.$store.state.baseurl + 'api/add-article/', Qs.stringify(article_data))
         //article_data作为第二个参数时是body请求
         .then((res) => {
           console.log(res.data);

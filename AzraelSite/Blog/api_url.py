@@ -4,6 +4,8 @@ from Blog import api
 urlpatterns = [
     # 添加文章
     path('add-article/', api.add_article),
+    # 保存图片
+    path('save-img/', api.save_img),
     # 文章列表
     path('article-list/', api.article_list),
     # 删除文章

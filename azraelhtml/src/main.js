@@ -15,9 +15,35 @@ import 'summernote/dist/summernote.css';
 import './assets/css/index.css';
 import './assets/iconfont/iconfont.css';
 
-Vue.config.productionTip = false;
+import VMdEditor from '@kangc/v-md-editor';
+import VueMarkdownEditor from '@kangc/v-md-editor';
+import '@kangc/v-md-editor/lib/style/base-editor.css';
+import vuepressTheme from '@kangc/v-md-editor/lib/theme/vuepress.js';
+import '@kangc/v-md-editor/lib/theme/style/vuepress.css';
 
+import VMdPreview from '@kangc/v-md-editor/lib/preview';
+import '@kangc/v-md-editor/lib/style/preview.css';
+
+import createLineNumbertPlugin from '@kangc/v-md-editor/lib/plugins/line-number/index';
+
+import Prism from 'prismjs';
+
+VMdEditor.use(vuepressTheme, {
+  Prism,
+});
+Vue.use(VMdEditor);
+
+VMdPreview.use(vuepressTheme, {
+  Prism,
+});
+Vue.use(VMdPreview);
+
+VueMarkdownEditor.use(createLineNumbertPlugin());
+Vue.use(VueMarkdownEditor);
+
+Vue.config.productionTip = false;
 Vue.use(ElementUI);
+
 new Vue({
   router,
   store,

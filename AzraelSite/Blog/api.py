@@ -49,6 +49,7 @@ def azrael_checkperm(request):
 def azrael_login(request):
     username = request.POST['username']
     password = request.POST['password']
+    # print("--------------",request.POST.get("fullscreenLoading"))
     # 登录逻辑
     user = User.objects.filter(username=username)
     if user:
@@ -237,6 +238,29 @@ def add_article(request):
     new_article.belong = user_token[0].user
     new_article.save()
     return Response("OK")
+
+    
+@api_view(['POST', 'PUT'])
+def save_img(request):
+
+    src = request.POST.get("imgnode")
+    # print(src)
+    image_data = base64.b64decode(src.split(',')[1])
+    # print(image_data)
+    image_name = datetime.datetime.now().strftime('%Y%m%d%H%M%S')+"."+src.split(',')[0].split('/')[1].split(';')[0]
+    # print(image_name)
+    image_url = os.path.join('upload', image_name).replace('\\', '/')
+    # print(image_url)
+    with open(image_url, 'wb') as f:
+        f.write(image_data)
+    new_src = hostUrl+image_url
+    # print(new_src)
+
+    image_url = {
+        'url':new_src
+    }
+    # content = content.replace(src, new_src)
+    return Response(image_url)
 
 # 文章列表
 

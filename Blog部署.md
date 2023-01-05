@@ -1,12 +1,12 @@
 > 第一步
 
-#  获取服务器的root权限不然会导致部署不成功
+# 获取服务器的 root 权限不然会导致部署不成功
 
-# 获取服务器的root权限不然会导致部署不成功
+# 获取服务器的 root 权限不然会导致部署不成功
 
-# 获取服务器的root权限不然会导致部署不成功 
+# 获取服务器的 root 权限不然会导致部署不成功
 
-- 获取root方式
+- 获取 root 方式
 
 ```shell
 sudo passwd root
@@ -18,13 +18,13 @@ sudo vim /etc/ssh/sshd_config
 sudo reboot
 ```
 
-- 安装Nginx、python3等环境
+- 安装 Nginx、python3 等环境
 
 ```shell
-apt install python3 libpython3.8-dev python3-venv nginx 
+apt install python3 libpython3.8-dev python3-venv nginx
 ```
 
-- 创建python虚拟环境
+- 创建 python 虚拟环境
 
 ```shell
 virtualenv /var/www/vnev    #venv虚拟环境名称
@@ -36,7 +36,7 @@ virtualenv /var/www/vnev    #venv虚拟环境名称
 source /var/www/venv/bin/activate
 ```
 
-- 安装Django等依赖库
+- 安装 Django 等依赖库
 
 ```shell
 pip3 install django djangorestframework django-cors-headers uwsgi Pillow requests beautifulsoup4
@@ -51,11 +51,11 @@ python3  setup.py install
 
 > 第二步
 
-- 配置uwsgi和nginx分别配置  blog.ini和nginx.conf
+- 配置 uwsgi 和 nginx 分别配置 blog.ini 和 nginx.conf
 
 ```shell
 #使用如下命令启动Django服务
-uwsgi -d --ini  blog.ini     #-d表示再后台运行  
+uwsgi -d --ini  blog.ini     #-d表示再后台运行
 pkill -f uwsgi -9            #杀掉uwsgi进程
 ```
 
@@ -65,7 +65,7 @@ blog.ini
 [uwsgi]
 chdir   =/var/www/venv/AzraelSite
 module  =AzraelSite.wsgi
-home    =/var/www/venv/  
+home    =/var/www/venv/
 master  =true
 processes = 4
 socket  =127.0.0.1:9090
@@ -109,7 +109,7 @@ http {
 				}
 
 				location / {
-							uwsgi_pass   127.0.0.1:9090;                   
+							uwsgi_pass   127.0.0.1:9090;
 							include      /etc/nginx/uwsgi_params;          #此文件必须上传
 				}
 
@@ -198,25 +198,23 @@ server{
 #}
 ```
 
-- 在AzraelSite  setting.py中添加
+- 在 AzraelSite setting.py 中添加
 
-  ```python
+```python
   STATIC_ROOT='/var/www/venv/AzraelSite/Blog/static'
-  ```
+```
 
-  ```shell
+```shell
   mkdir /var/www/venv/AzraelSite/Blog/static /var/www/venv/AzraelSite/upload
-  
-  python3 manage.py makemigrations
-  
-  python3 manage.py migrate
-  
-  python3 manage.py createsuperuser
-  
-  python3 manage.py collectstatic
-  ```
 
-  
+  python3 manage.py makemigrations
+
+  python3 manage.py migrate
+
+  python3 manage.py createsuperuser
+
+  python3 manage.py collectstatic
+```
 
 ```shell
 #使用以下命令控制nginx
@@ -226,5 +224,12 @@ nginx -t                #检查ngin.conf配置文件是否配置正确
 
 > 第三步
 
-- 将前端项目中的文件以及Blog下的api.py中的127.0.0.1替换为相应的IP地址
+- 将前端项目中的文件以及 Blog 下的 api.py 中的 127.0.0.1 替换为相应的 IP 地址
 - 将前端项目打包放在 /var/www/
+
+```JavaScript
+function(let a ,let b){
+  console.log(a+b)
+}
+```
+
