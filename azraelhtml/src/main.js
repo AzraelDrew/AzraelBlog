@@ -15,6 +15,7 @@ import 'summernote/dist/summernote.css';
 import './assets/css/index.css';
 import './assets/iconfont/iconfont.css';
 
+// markdown编辑器
 import VMdEditor from '@kangc/v-md-editor';
 import VueMarkdownEditor from '@kangc/v-md-editor';
 import '@kangc/v-md-editor/lib/style/base-editor.css';
@@ -31,13 +32,16 @@ import Prism from 'prismjs';
 VMdEditor.use(vuepressTheme, {
   Prism,
 });
+// 编辑组件
 Vue.use(VMdEditor);
 
+// 渲染组件
 VMdPreview.use(vuepressTheme, {
   Prism,
 });
 Vue.use(VMdPreview);
 
+// 代码快显示行号
 VueMarkdownEditor.use(createLineNumbertPlugin());
 Vue.use(VueMarkdownEditor);
 

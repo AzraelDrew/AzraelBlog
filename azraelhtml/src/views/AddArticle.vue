@@ -46,6 +46,7 @@
         <!-- <div class="dweb" id="summernote_area">
           <div id="summernote"></div>
         </div> -->
+        <!-- markdown编辑器 -->
         <v-md-editor
           v-model="article_info.contents"
           height="40vh"
@@ -91,7 +92,7 @@ export default {
       article_info: {
         title: '',
         describe: '',
-        contents: text,
+        contents: text, //编辑区内容
       },
       cover_img: '',
       cover_list: [],
@@ -113,13 +114,11 @@ export default {
         center: true,
       });
     },
+
+    //markdown本地上传
     handleUploadImage(event, insertImage, files) {
       let self = this;
-
       // 拿到 files 之后上传到文件服务器，然后向编辑框中插入对应的内容
-      console.log(files[0]);
-      // console.log(event);
-      console.log(insertImage);
       let img = files[0];
       let imgData = new FileReader();
       imgData.readAsDataURL(img);
@@ -128,19 +127,17 @@ export default {
         //插入图片
         let imgnode = document.createElement('img');
         imgnode.src = imgData.result;
-        // $('#summernote').summernote('insertNode', imgnode);
         // 推入封面待选择
         self.cover_list.push(imgData.result);
         let src = {
           imgnode: imgnode.src,
         };
+        // 讲图片存储在后端并返回对应都url
         axios.post(this.$store.state.baseurl + 'api/save-img/', Qs.stringify(src)).then((res) => {
           console.log(res.data);
           insertImage({
             url: res.data.url,
             desc: '在这里插入图片描述',
-            // width: 'auto',
-            // height: 'auto',
           });
         });
       };

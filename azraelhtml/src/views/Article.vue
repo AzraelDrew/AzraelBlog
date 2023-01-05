@@ -17,6 +17,7 @@
         </div>
         <div class="body dweb">
           <!-- <div class="article-content" v-html="article_data.content"></div> -->
+          <!-- markdown渲染 -->
           <v-md-preview :text="article_data.content"></v-md-preview>
         </div>
         <div class="clear"></div>
