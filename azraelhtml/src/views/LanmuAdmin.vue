@@ -9,10 +9,7 @@
             <h5>栏目树形图</h5>
           </div>
           <div class="tree body dweb" style="display: flex">
-            <el-input
-              v-model="new_lanmu_name"
-              placeholder="请输入新栏目名称"
-            ></el-input>
+            <el-input v-model="new_lanmu_name" placeholder="请输入新栏目名称"></el-input>
             <el-button @click="pushLanmuList()" type="success">保存</el-button>
           </div>
           <div class="tree body dweb">
@@ -28,22 +25,12 @@
             </el-tree>
           </div>
           <div class="save-tree tree body dweb" style="float: left">
-            <el-button @click="getLanmuTree()" type="warning" size="mini"
-              >恢复结构</el-button
-            >
-            <el-button @click="saveLanmuTree()" type="success" size="mini"
-              >保存结构</el-button
-            >
-            <el-button
-              @click="getArticleList(1, 'all')"
-              type="primary"
-              size="mini"
+            <el-button @click="saveLanmuTree()" type="success" size="mini">保存结构</el-button>
+            <el-button @click="getLanmuTree()" type="warning" size="mini">恢复结构</el-button>
+            <el-button @click="getArticleList(1, 'all')" type="primary" size="mini"
               >全部文章</el-button
             >
-            <el-button
-              @click="getArticleList(1, 'nobelong')"
-              type="primary"
-              size="mini"
+            <el-button @click="getArticleList(1, 'nobelong')" type="primary" size="mini"
               >未知栏目</el-button
             >
           </div>
@@ -57,9 +44,7 @@
             <el-row>
               <el-col :span="24">
                 <div class="card dweb">
-                  <span style="color:white"
-                    >栏目名称：{{ this.currentLanmu }}</span
-                  >
+                  <span style="color:white">栏目名称：{{ this.currentLanmu }}</span>
                   <!-- {{ this.currentLanmu }} -->
                 </div></el-col
               >
@@ -67,11 +52,7 @@
                 <div class="card dweb">
                   <el-row>
                     <el-col :xs="24" :lg="6">
-                      <el-image
-                        style="height: 80px"
-                        :src="item.cover"
-                        :fit="'cover'"
-                      ></el-image>
+                      <el-image style="height: 80px" :src="item.cover" :fit="'cover'"></el-image>
                     </el-col>
                     <el-col class="text-item" :xs="24" :lg="4">
                       <span>{{ item.title }}</span>
@@ -94,10 +75,7 @@
                           circle
                           slot="reference"
                         ></el-button>
-                        <el-button
-                          size="mini"
-                          type="warning"
-                          @click="saveArticleToLanmu(item.id)"
+                        <el-button size="mini" type="warning" @click="saveArticleToLanmu(item.id)"
                           >确定</el-button
                         >
                       </el-popover>

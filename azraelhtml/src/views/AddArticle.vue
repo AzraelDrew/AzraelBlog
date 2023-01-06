@@ -49,9 +49,12 @@
         <!-- markdown编辑器 -->
         <v-md-editor
           v-model="article_info.contents"
-          height="40vh"
+          left-toolbar="undo redo clear | h bold italic strikethrough quote | ul ol table hr | link image code | tip | save"
+          height="55vh"
           :disabled-menus="[]"
           @upload-image="handleUploadImage"
+          :autofocus="true"
+          :tab-size="2"
         ></v-md-editor>
       </el-col>
     </el-row>
@@ -223,7 +226,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 /* 使用scoped只会作用于当前组件 */
 .dweb {
   min-height: 200px;
@@ -231,25 +234,30 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-.dweb .el-image:hover {
-  border: 3px solid #ffcd77;
-}
-.dweb .el-image.cover {
-  border: 3px solid #ffcd77;
+  .el-button {
+    position: fixed;
+    right: 20px;
+    margin-top: 260px;
+    z-index: 1001;
+  }
+  .el-image.cover {
+    border: 3px solid #ffcd77;
+  }
+  .el-image:hover {
+    border: 3px solid #ffcd77;
+  }
 }
 #summernote_area {
   padding: 0;
 }
 .el-form-item {
-  /* padding-top: 20px; */
   margin-top: 20px;
 }
-.dweb .el-button {
-  position: fixed;
-  right: 20px;
-  /* top: 180px;*/
-  margin-top: 260px;
-  z-index: 1001;
+
+.v-md-editor__preview-wrapper blockquote {
+  border-left: 0.25em solid #42b98310 !important;
+  p {
+    color: #55efc490 !important;
+  }
 }
 </style>

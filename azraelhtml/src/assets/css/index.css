@@ -2,7 +2,7 @@ body,
 html {
   margin: 0;
   padding: 0;
-  background: url('../img/3.png') no-repeat fixed;
+  background: url('../img/8.jpeg') no-repeat fixed;
   background-size: 100% 100%;
   /* 图片跟随滚动 */
   /* background-attachment:fixed; */
@@ -253,4 +253,50 @@ html {
 .note-editable {
   background-color: #00000030;
   color: #fff;
+}
+.github-markdown-body {
+  background-color: #00000000 !important;
+}
+.github-markdown-body h1,
+.github-markdown-body h2 {
+  border-bottom: 1px solid #42b98360 !important;
+}
+/* .github-markdown-body h3 {
+  color: #bee1c9 !important;
+} */
+.github-markdown-body h6 {
+  color: #212529 !important;
+}
+/* .github-markdown-body div {
+  background-color: #dfe6e950 !important;
+  border-radius: 5px;
+} */
+.v-md-pre-wrapper {
+  background-color: #dfe6e960 !important;
+  border-radius: 5px;
+}
+.github-markdown-body blockquote {
+  border-left: 0.25em solid #42b983 !important;
+}
+.github-markdown-body blockquote p {
+  color: #55efc490 !important;
+}
+.v-md-editor__preview-wrapper blockquote {
+  border-left: 0.25em solid #48d5ad !important;
+}
+.v-md-editor__preview-wrapper blockquote p {
+  color: #48d5ad !important;
+}
+.v-md-editor__right-area {
+  background-color: none !important;
+}
+.v-md-editor__main {
+  background-color: none !important;
+}
+
+.v-md-editor__right-area {
+  border: none;
+}
+.v-md-editor--editable .v-md-editor__editor-wrapper {
+  border-right: none;
 }

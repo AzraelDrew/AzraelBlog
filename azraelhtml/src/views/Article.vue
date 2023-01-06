@@ -18,7 +18,7 @@
         <div class="body dweb">
           <!-- <div class="article-content" v-html="article_data.content"></div> -->
           <!-- markdown渲染 -->
-          <v-md-preview :text="article_data.content"></v-md-preview>
+          <v-md-preview :text="article_data.content" @image-click="click_image()"></v-md-preview>
         </div>
         <div class="clear"></div>
         <div class="body dweb">
@@ -148,6 +148,10 @@ export default {
         center: true,
       });
     },
+
+    click_image(images, currentIndex) {
+      console.log(images, currentIndex);
+    },
     // 打赏
     //点赞
     toLike() {
@@ -272,31 +276,30 @@ export default {
 };
 </script>
 
-<style scoped>
-.body.dweb {
-  padding: 10px;
-  /* color: #fff; */
-}
-
-.body.dweb .describe {
-  text-align: center;
-  color: #fff;
-  font-size: 12px;
-  background: none;
-}
+<style scoped lang="scss">
 #article .dweb {
   margin-bottom: 10px;
 }
-#article .dweb:last-child {
-  margin-bottom: 0;
+.body.dweb {
+  padding: 10px;
+  /* color: #fff; */
+  .describe {
+    text-align: center;
+    color: #fff;
+    font-size: 12px;
+    background: none;
+  }
+  &:last-child {
+    margin-bottom: 0;
+  }
 }
 .like-btn {
   text-align: center;
   color: #009186;
-}
-.like-btn i {
-  font-size: 30px;
-  cursor: pointer;
+  i {
+    font-size: 30px;
+    cursor: pointer;
+  }
 }
 .pinglun-item {
   color: #fff;

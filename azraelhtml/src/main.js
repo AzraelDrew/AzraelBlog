@@ -22,27 +22,38 @@ import '@kangc/v-md-editor/lib/style/base-editor.css';
 import vuepressTheme from '@kangc/v-md-editor/lib/theme/vuepress.js';
 import '@kangc/v-md-editor/lib/theme/style/vuepress.css';
 
+import githubTheme from '@kangc/v-md-editor/lib/theme/github.js';
+import '@kangc/v-md-editor/lib/theme/style/github.css';
+
 import VMdPreview from '@kangc/v-md-editor/lib/preview';
 import '@kangc/v-md-editor/lib/style/preview.css';
 
 import createLineNumbertPlugin from '@kangc/v-md-editor/lib/plugins/line-number/index';
 
-import Prism from 'prismjs';
+import hljs from 'highlight.js';
 
-VMdEditor.use(vuepressTheme, {
-  Prism,
-});
-// 编辑组件
-Vue.use(VMdEditor);
+// VMdEditor.use(createLineNumbertPlugin());
+// VMdEditor.use(githubTheme, {
+//   Hljs: hljs,
+//   Prism,
+// });
+// // 编辑组件
+// Vue.use(VMdEditor);
 
 // 渲染组件
-VMdPreview.use(vuepressTheme, {
-  Prism,
+VMdPreview.use(githubTheme, {
+  Hljs: hljs,
 });
 Vue.use(VMdPreview);
 
 // 代码快显示行号
-VueMarkdownEditor.use(createLineNumbertPlugin());
+VueMarkdownEditor.use(githubTheme, {
+  Hljs: hljs,
+  extend(md) {
+    // md为 markdown-it 实例，可以在此处进行修改配置,并使用 plugin 进行语法扩展
+    // md.set(option).use(plugin);
+  },
+});
 Vue.use(VueMarkdownEditor);
 
 Vue.config.productionTip = false;

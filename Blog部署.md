@@ -91,39 +91,39 @@ include /etc/nginx/modules-enabled/*.conf;
 events {
 	worker_connections 768;
 	# multi_accept on;
-}
+				}
 http {
-
+					client_max_body_size 128m;
   server {
 				listen          8000;              #端口号  记得再服务防火墙中把端口打开
 				server_name     43.138.126.114;    #ip或域名
 				charset         utf-8;
 
 				location /static {
-							alias   /var/www/venv/AzraelSite/Blog/static;   #Django样式及一些静态文件
+							    alias   /var/www/venv/AzraelSite/Blog/static;   #Django样式及一些静态文件
 
-				}
+													}
 				location /upload {
-				      alias   /var/www/venv/AzraelSite/upload;       #用于存储图片的文件夹
+				          alias   /var/www/venv/AzraelSite/upload;       #用于存储图片的文件夹
 
-				}
+													}
 
 				location / {
-							uwsgi_pass   127.0.0.1:9090;
-							include      /etc/nginx/uwsgi_params;          #此文件必须上传
-				}
+							    uwsgi_pass   127.0.0.1:9090;
+							    include      /etc/nginx/uwsgi_params;          #此文件必须上传
+										}
 
-}
-server{
-                                listen          80;
-                                server_name     43.138.126.114;
-                                charset         utf-8;
+				 }
+	server {
+        listen          80;
+        server_name     43.138.126.114;
+        charset         utf-8;
 
 
-                                location / {
-                                        root    /var/www/dist;    #前端代码路径
-                                        index   index.html ;
-                                }
+        location / {
+                  root    /var/www/dist;    #前端代码路径
+                  index   index.html ;
+         						}
 }
 ##
         # Basic Settings
