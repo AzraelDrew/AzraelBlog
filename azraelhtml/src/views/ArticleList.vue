@@ -9,7 +9,7 @@
     </div>
     <!-- 文章列表 -->
     <div class="dweb" style="margin-top: 10px">
-      <el-row>
+      <el-row v-loading="loading" element-loading-text="拼命加载中">
         <el-col :span="24" v-for="item in article_list" :key="item.id">
           <div class="card dweb">
             <el-row>
@@ -20,12 +20,7 @@
                   :src="item.cover"
                   :fit="'cover'"
                 ></el-image>
-                <el-image
-                  v-else
-                  style="width: 100%"
-                  :src="item.cover"
-                  :fit="'cover'"
-                ></el-image>
+                <el-image v-else style="width: 100%" :src="item.cover" :fit="'cover'"></el-image>
               </el-col>
               <el-col class="text-item" :xs="24" :lg="4">
                 <span>{{ item.title }}</span>
@@ -74,6 +69,7 @@ export default {
   props: ['screenWidth'],
   data() {
     return {
+      loading: true,
       currentPpage: 1,
       currentLanmu: 'all',
       pageSize: 5,
@@ -101,6 +97,7 @@ export default {
     },
     // 获取文章列表
     getArticleList(page, lanmu) {
+      this.loading = true;
       axios({
         url: this.$store.state.baseurl + 'api/article-list/',
         method: 'GET',
@@ -113,11 +110,14 @@ export default {
       }).then((res) => {
         this.article_list = res.data.data;
         this.total = res.data.total;
+        this.loading = false;
+        return;
       });
     },
     currentChange(val) {
       this.currentPpage = val;
       this.getArticleList(val, this.currentLanmu);
+      return;
     },
     // 删除文章
     deleteArticle(id) {

@@ -32,8 +32,21 @@ const routes = [
   // 添加文章
   {
     path: '/add-article',
-    name: 'AddAtricle',
-    component: () => import('../views/AddArticle'),
+    name: 'AddArticleText',
+    component: () => import('../views/AddArticleText'),
+    beforeEnter(to, from, next) {
+      // 判断用户是否登录
+      if (store.state.userinfo.token) {
+        next();
+      } else {
+        next('/login');
+      }
+    },
+  },
+  {
+    path: '/md/add-article',
+    name: 'AddAtricleMarkdown',
+    component: () => import('../views/AddArticleMarkdown'),
     beforeEnter(to, from, next) {
       // 判断用户是否登录
       if (store.state.userinfo.token) {

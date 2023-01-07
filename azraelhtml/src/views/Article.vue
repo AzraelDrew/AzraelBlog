@@ -46,6 +46,9 @@
         <div class="body dweb">
           <el-image :src="article_data.cover" :fit="'cover'"></el-image>
         </div>
+        <div class="body dweb">
+          <el-calendar v-model="value"> </el-calendar>
+        </div>
         <!-- 点赞收藏打赏 -->
         <div class="body dweb like-btn">
           <el-row>
@@ -113,6 +116,7 @@ import Qs from 'qs';
 export default {
   data() {
     return {
+      value: new Date(),
       article_id: this.$route.query.id,
       article_data: {},
       // 评论

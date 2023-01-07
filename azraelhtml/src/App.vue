@@ -21,12 +21,7 @@
     </div>
     <!-- 左侧边栏导航 -->
     <div id="left-menu" :class="'dweb ' + mobile_left">
-      <i
-        v-if="authUserLogin"
-        @click="showHideLeftMenu"
-        id="left-btn"
-        :class="hideMenu"
-      ></i>
+      <i v-if="authUserLogin" @click="showHideLeftMenu" id="left-btn" :class="hideMenu"></i>
       <!-- 导航栏 -->
       <el-col :span="24" style="margin-top: 70px">
         <el-menu
@@ -35,6 +30,7 @@
           text-color="#fff"
           active-text-color="#FFCD77"
           @select="choosMenu"
+          :default-active="activeIndex"
         >
           <el-submenu index="1">
             <template slot="title">
@@ -81,9 +77,16 @@
 </template>
 
 <script>
+import { Loading } from 'element-ui';
+import EventBus from './EventBus.js';
+let loadingInstance = Loading.service({ fullscreen: true, text: '拼命加载中.......' });
+setTimeout(() => {
+  loadingInstance.close();
+}, 2000);
 export default {
   data() {
     return {
+      activeIndex: '1',
       screenWidth: document.body.clientWidth,
       hideMenu: 'el-icon-s-fold',
       mobile_left: '',
@@ -133,6 +136,9 @@ export default {
   },
   created() {
     this.$store.dispatch('autoLogin');
+    EventBus.$on('gotolanmu', (url) => {
+      this.activeIndex = url;
+    });
   },
   mounted() {
     this.changeDevice();

@@ -2,7 +2,8 @@ body,
 html {
   margin: 0;
   padding: 0;
-  background: url('../img/8.jpeg') no-repeat fixed;
+  background: url('../img/1.png') no-repeat fixed;
+  /* background: linear-gradient(25deg, #4d81d4, #5295d2, #53a8cf, #51bccc) no-repeat fixed; */
   background-size: 100% 100%;
   /* 图片跟随滚动 */
   /* background-attachment:fixed; */
@@ -113,6 +114,11 @@ html {
   position: absolute;
   top: -50px;
   right: 10px;
+}
+#edit_switch {
+  position: absolute;
+  top: -50px;
+  right: 120px;
 }
 .article-content {
   color: #fff;
@@ -254,6 +260,7 @@ html {
   background-color: #00000030;
   color: #fff;
 }
+
 .github-markdown-body {
   background-color: #00000000 !important;
 }
@@ -261,16 +268,15 @@ html {
 .github-markdown-body h2 {
   border-bottom: 1px solid #42b98360 !important;
 }
-/* .github-markdown-body h3 {
-  color: #bee1c9 !important;
-} */
+.v-md-editor-preview h1,
+.v-md-editor-preview h2 {
+  border-bottom: 1px solid #b2bec3 !important;
+}
+
 .github-markdown-body h6 {
   color: #212529 !important;
 }
-/* .github-markdown-body div {
-  background-color: #dfe6e950 !important;
-  border-radius: 5px;
-} */
+
 .v-md-pre-wrapper {
   background-color: #dfe6e960 !important;
   border-radius: 5px;

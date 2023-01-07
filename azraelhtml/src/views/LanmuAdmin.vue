@@ -41,11 +41,10 @@
           </div>
           <!-- 文章列表 -->
           <div class="dweb" style="margin-top: 10px; min-height: 45vh">
-            <el-row>
+            <el-row v-loading="loading" element-loading-text="拼命加载中">
               <el-col :span="24">
                 <div class="card dweb">
-                  <span style="color:white">栏目名称：{{ this.currentLanmu }}</span>
-                  <!-- {{ this.currentLanmu }} -->
+                  <span style="color:white">栏目名称：{{ this.currentLanmu | lanmuset }}</span>
                 </div></el-col
               >
               <el-col :span="24" v-for="item in article_list" :key="item.id">
@@ -109,6 +108,7 @@ import Qs from 'qs';
 export default {
   data() {
     return {
+      loading: true,
       maxId: 0,
       currentPpage: 1,
       currentLanmu: 'nobelong',
@@ -128,6 +128,13 @@ export default {
   },
   components: {
     BreadMenu,
+  },
+  filters: {
+    lanmuset: function(lanmu) {
+      lanmu == 'all' ? (lanmu = '所有文章') : lanmu;
+      lanmu == 'nobelong' ? (lanmu = '未知栏目') : lanmu;
+      return lanmu;
+    },
   },
   mounted() {
     this.getArticleList(this.currentPpage, this.currentLanmu);
@@ -173,6 +180,7 @@ export default {
           return;
         }
         if (res.data == 'OK') {
+          this.messageNotify('成功', '保存成功', 'success');
           this.getArticleList(1, this.choosed_lanmu_name);
           this.getLanmuTree();
         }
@@ -207,6 +215,8 @@ export default {
           return;
         }
         if (res.data == 'OK') {
+          this.messageNotify('成功', '保存成功', 'success');
+          return;
         }
       });
     },
@@ -218,12 +228,16 @@ export default {
         label: this.new_lanmu_name,
         children: [],
       };
-      if (checkTree === false) {
+      if (this.new_lanmu_name == '') {
+        this.messageNotify('警告', '栏目名称不能为空', 'warning');
+      } else {
+        if (checkTree === false) {
+          this.new_lanmu_name = '';
+          return;
+        }
+        this.lanmu_tree.push(new_lanmu);
         this.new_lanmu_name = '';
-        return;
       }
-      this.lanmu_tree.push(new_lanmu);
-      this.new_lanmu_name = '';
     },
     loopCheckData(tree) {
       let checkTree = true;
@@ -246,7 +260,7 @@ export default {
       return checkTree;
     },
     getArticleList(page, lanmu) {
-      // this.currentLanmu = 'all';
+      this.loading = true;
       axios({
         url: this.$store.state.baseurl + 'api/article-list/',
         method: 'GET',
@@ -259,14 +273,11 @@ export default {
       }).then((res) => {
         this.article_list = res.data.data;
         this.total = res.data.total;
+        this.loading = false;
+        return;
       });
       this.currentLanmu = lanmu;
-      if (lanmu == 'all') {
-        this.currentLanmu = '所有文章';
-      }
-      if (lanmu == 'nobelong') {
-        this.currentLanmu = '未知栏目';
-      }
+      return;
     },
     currentChange(val) {
       this.currentPpage = val;
@@ -294,6 +305,8 @@ export default {
         }
         if (res.data == 'OK') {
           this.getLanmuTree();
+          this.messageNotify('成功', '删除成功', 'success');
+          return;
         }
       });
     },
