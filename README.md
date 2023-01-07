@@ -62,3 +62,24 @@ python3 manage.py migrate --database mysql
 #重建管理员
 python3 manage.py createsuperuser
 ```
+
+> Django 后台样式丢失
+
+```python
+#  setting.py
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+```
+
+```conf
+#nginx.conf
+location /static {
+        alias   /var/www/venv/AzraelSite/static;   #Django样式及一些静态文件
+
+                }
+```
+
+```shell
+# 执行此命令
+python manage.py collectstatic
+```

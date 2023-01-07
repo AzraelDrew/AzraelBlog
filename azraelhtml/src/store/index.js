@@ -12,7 +12,7 @@ export default new Vuex.Store({
     currentname: '',
     loginmessage: '',
     userinfo: {},
-    baseurl: 'http://127.0.0.1:8000/',
+    baseurl: 'http://43.138.126.114:8000/',
   },
   getters: {
     // 查询登录状态

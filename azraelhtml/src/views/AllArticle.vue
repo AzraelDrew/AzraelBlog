@@ -47,7 +47,7 @@
         </el-col>
       </el-row>
     </div>
-    <div class="dweb" style="margin-top: 10px">
+    <div v-show="!loading" class="dweb" style="margin-top: 10px">
       <!-- 分页器 -->
       <el-pagination
         background

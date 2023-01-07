@@ -42,7 +42,7 @@
           <!-- 文章列表 -->
           <div class="dweb" style="margin-top: 10px; min-height: 45vh">
             <el-row v-loading="loading" element-loading-text="拼命加载中">
-              <el-col :span="24">
+              <el-col v-show="!loading" :span="24">
                 <div class="card dweb">
                   <span style="color:white">栏目名称：{{ this.currentLanmu | lanmuset }}</span>
                 </div></el-col

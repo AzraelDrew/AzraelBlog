@@ -100,7 +100,7 @@ http {
 				charset         utf-8;
 
 				location /static {
-							    alias   /var/www/venv/AzraelSite/Blog/static;   #Django样式及一些静态文件
+							    alias   /var/www/venv/AzraelSite/static;   #Django样式及一些静态文件
 
 													}
 				location /upload {
@@ -226,10 +226,3 @@ nginx -t                #检查ngin.conf配置文件是否配置正确
 
 - 将前端项目中的文件以及 Blog 下的 api.py 中的 127.0.0.1 替换为相应的 IP 地址
 - 将前端项目打包放在 /var/www/
-
-```JavaScript
-function(let a ,let b){
-  console.log(a+b)
-}
-```
-

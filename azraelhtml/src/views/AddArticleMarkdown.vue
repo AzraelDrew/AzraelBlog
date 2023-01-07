@@ -106,19 +106,20 @@ export default {
       let img = files[0];
       let imgData = new FileReader();
       imgData.readAsDataURL(img);
-      console.log(imgData);
       imgData.onload = () => {
         //插入图片
         let imgnode = document.createElement('img');
         imgnode.src = imgData.result;
         // 推入封面待选择
-        self.cover_list.push(imgData.result);
+        // self.cover_list.push(imgData.result);
         let src = {
           imgnode: imgnode.src,
         };
+        console.log(imgData.result);
         // 讲图片存储在后端并返回对应都url
         axios.post(this.$store.state.baseurl + 'api/save-img/', Qs.stringify(src)).then((res) => {
           console.log(res.data);
+          self.cover_list.push(res.data.url);
           insertImage({
             url: res.data.url,
             desc: '在这里插入图片描述',
