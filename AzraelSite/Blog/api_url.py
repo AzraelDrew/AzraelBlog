@@ -37,4 +37,7 @@ urlpatterns = [
     path('user-article-info/', api.user_article_info),
     path('article-like/', api.articleLike),
     path('article-favor/', api.articleFavor),
+
+    # 用户信息
+    path('user-info/', api.user_info),
 ]

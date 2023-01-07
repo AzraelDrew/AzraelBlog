@@ -151,6 +151,19 @@ const routes = [
       }
     },
   },
+  {
+    path: '/user-info',
+    name: 'UserInfo',
+    component: () => import('../views/UserInfo'),
+    beforeEnter(to, from, next) {
+      // 判断用户是否登录
+      if (store.state.userinfo.token) {
+        next();
+      } else {
+        next('/login');
+      }
+    },
+  },
 ];
 
 const routerPush = VueRouter.prototype.push;

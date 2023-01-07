@@ -16,6 +16,22 @@ import json
 hostUrl = 'http://127.0.0.1:8000/'
 
 
+@api_view(["GET"])
+def user_info(request):
+    data=UserInfo.objects.all().first()
+    # for item in data
+        # UserInfo.objects.filter(belong = item.belong).update(headImg = "http://127.0.0.1:8000/upload/20230107183824.png")        
+        # print('1',ite?m.headImg)
+
+        # print('2',item.nickName)
+        # print('3',item.belong)
+    user_info = User.objects.all().first()
+    user_info_data={
+        "name":user_info.username,
+        "belong":"Azrael",
+         "headimg":data.headImg
+    }
+    return Response(user_info_data)
 # 权限鉴定
 @api_view(['POST'])
 def azrael_checkperm(request):

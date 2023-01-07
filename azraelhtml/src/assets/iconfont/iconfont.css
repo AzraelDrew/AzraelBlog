@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 1920059 */
-  src: url('iconfont.woff2?t=1633272061854') format('woff2'),
-       url('iconfont.woff?t=1633272061854') format('woff'),
-       url('iconfont.ttf?t=1633272061854') format('truetype');
+  src: url('iconfont.woff2?t=1673119998731') format('woff2'),
+       url('iconfont.woff?t=1673119998731') format('woff'),
+       url('iconfont.ttf?t=1673119998731') format('truetype');
 }
 
 .iconfont {
@@ -13,12 +13,8 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icondianzan:before {
-  content: "\e600";
-}
-
-.icondashang:before {
-  content: "\e672";
+.iconGitHub:before {
+  content: "\ea0a";
 }
 
 .icondianzan1:before {
@@ -27,157 +23,5 @@
 
 .iconshoucang:before {
   content: "\e8c6";
-}
-
-.icondashang1:before {
-  content: "\e6c7";
-}
-
-.iconstar6:before {
-  content: "\e6d7";
-}
-
-.iconstar:before {
-  content: "\e686";
-}
-
-.iconstar1:before {
-  content: "\e650";
-}
-
-.iconstar2:before {
-  content: "\e68a";
-}
-
-.iconstar3:before {
-  content: "\e673";
-}
-
-.iconstarofdavid:before {
-  content: "\e674";
-}
-
-.iconstar4:before {
-  content: "\ebc2";
-}
-
-.iconStarAdd-1:before {
-  content: "\e6da";
-}
-
-.iconstar5:before {
-  content: "\e629";
-}
-
-.iconCMD:before {
-  content: "\e60d";
-}
-
-.iconCMD-copy:before {
-  content: "\ec70";
-}
-
-.iconterminal:before {
-  content: "\ec24";
-}
-
-.iconterminal-copy:before {
-  content: "\ec6f";
-}
-
-.iconmysql-copy:before {
-  content: "\ec6e";
-}
-
-.iconmysql:before {
-  content: "\e667";
-}
-
-.iconmysql1:before {
-  content: "\ec6d";
-}
-
-.iconadd1:before {
-  content: "\e664";
-}
-
-.iconcode:before {
-  content: "\e6f2";
-}
-
-.iconNotvisible:before {
-  content: "\e6fe";
-}
-
-.iconplay:before {
-  content: "\e701";
-}
-
-.iconrising:before {
-  content: "\e703";
-}
-
-.iconfavorites-fill:before {
-  content: "\e721";
-}
-
-.iconintegral-fill:before {
-  content: "\e726";
-}
-
-.iconadd:before {
-  content: "\e742";
-}
-
-.iconarrow-right:before {
-  content: "\e743";
-}
-
-.iconarrow-lift:before {
-  content: "\e744";
-}
-
-.iconarrow-up:before {
-  content: "\e745";
-}
-
-.iconashbin:before {
-  content: "\e746";
-}
-
-.iconbrowse:before {
-  content: "\e747";
-}
-
-.iconCurrencyConverter:before {
-  content: "\e74b";
-}
-
-.icondouble-arro-right:before {
-  content: "\e74c";
-}
-
-.iconelectronics:before {
-  content: "\e74e";
-}
-
-.iconlink:before {
-  content: "\e756";
-}
-
-.iconseleted:before {
-  content: "\e763";
-}
-
-.iconupload:before {
-  content: "\e76b";
-}
-
-.icongood-fill:before {
-  content: "\e780";
-}
-
-.iconarrow-right-copy:before {
-  content: "\ec71";
 }
 

@@ -1,5 +1,7 @@
 <template>
   <div id="app">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_1261797_48wm20jf8z.css" />
+
     <!-- 顶部导航 -->
     <div id="top-menu" class="dweb">
       <div>
@@ -51,14 +53,10 @@
             <i class="el-icon-s-operation"></i>
             <span slot="title">栏目管理</span>
           </el-menu-item>
-          <!-- <el-menu-item v-if="left_user" index="/user-permission">
+          <el-menu-item index="/user-info">
             <i class="el-icon-user"></i>
-            <span slot="title">用户管理</span>
+            <span slot="title">用户信息</span>
           </el-menu-item>
-          <el-menu-item v-if="left_lanmu" index="/lanmu-admin">
-            <i class="el-icon-s-operation"></i>
-            <span slot="title">栏目管理</span>
-          </el-menu-item> -->
           <el-menu-item @click="blogLogOut()" v-if="authUserLogin">
             <i class="el-icon-back"></i>
             <span slot="title">退出登录</span>
@@ -70,7 +68,10 @@
     <div id="content" :class="mobile_content">
       <router-view :screenWidth="screenWidth"></router-view>
       <div id="footer" class="dweb">
-        <span>Copyright &2022 Azrael</span>
+        <span>Azrael For Graduation Project </span
+        ><span @click="open_github"
+          ><i style="font-size:20px" class="iconfont iconGitHub"></i
+        ></span>
       </div>
     </div>
   </div>
@@ -187,6 +188,9 @@ export default {
       this.$store.dispatch('blogLogOut', this.$store.getters.loginState);
       this.mobile_content = 'xs';
       this.mobile_left = 'xs';
+    },
+    open_github() {
+      window.open('https://github.com/AzraelDrew/AzraelBlog');
     },
   },
 };

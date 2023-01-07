@@ -28,8 +28,6 @@ import '@kangc/v-md-editor/lib/theme/style/github.css';
 import VMdPreview from '@kangc/v-md-editor/lib/preview';
 import '@kangc/v-md-editor/lib/style/preview.css';
 
-import createLineNumbertPlugin from '@kangc/v-md-editor/lib/plugins/line-number/index';
-
 import hljs from 'highlight.js';
 
 // VMdEditor.use(createLineNumbertPlugin());
