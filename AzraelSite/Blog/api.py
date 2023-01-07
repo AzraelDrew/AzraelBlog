@@ -162,7 +162,9 @@ def article_data(request):
     if article.belong_lanmu:
         article_data["lanmu"] = article.belong_lanmu.name
         return Response(article_data)
-
+    else:
+        article_data["lanmu"] = 'nobelong'
+        return Response(article_data)
 # 发布文章
 
 
@@ -270,7 +272,6 @@ def article_list(request):
 
     # 获取当前用户的文章
     currentname = request.GET["currentname"]
-    print(currentname,'---------------------123')
     if currentname!='all_user':
         user = User.objects.filter(username=currentname)
         # print(user[0].id,'11111111111111111')
