@@ -157,7 +157,7 @@ export default {
           if (res.data === 'OK') {
             this.messageNotify('成功', '发布成功', 'success');
             router.push({ name: 'LanmuAdmin' });
-            this.$emit();
+            EventBus.$emit('gotolanmu', '/lanmu-admin');
             return;
           }
         });

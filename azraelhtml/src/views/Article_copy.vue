@@ -4,23 +4,52 @@
     <BreadMenu :page_name="article_data.title" :lanmu="article_data.lanmu"></BreadMenu>
     <!-- 文章内容 -->
     <el-row :gutter="10">
-      <el-col :xs="24" :lg="24">
+      <el-col :xs="24" :lg="16">
         <div class="body dweb">
           <div class="header">
             {{ article_data.title }}
           </div>
         </div>
-        <div class="body dweb flex">
+        <div class="body dweb">
           <div class="describe">
             {{ article_data.describe }}
           </div>
         </div>
         <div class="body dweb">
-          <el-image :src="article_data.cover" :fit="'fill'" :lazy="true"></el-image>
-        </div>
-        <div class="body dweb">
+          <!-- <div class="article-content" v-html="article_data.content"></div> -->
+          <!-- markdown渲染 -->
           <v-md-preview :text="article_data.content" @image-click="click_image()"></v-md-preview>
         </div>
+        <div class="clear"></div>
+        <div class="body dweb">
+          <el-button
+            v-if="article_data.pre_id == 0"
+            @click="toOtherPage(article_data.pre_id)"
+            type="info"
+            >上一页</el-button
+          >
+          <el-button v-else @click="toOtherPage(article_data.pre_id)" type="success"
+            >上一页</el-button
+          >
+          <el-button
+            v-if="article_data.next_id == 0"
+            @click="toOtherPage(article_data.next_id)"
+            type="info"
+            >下一页</el-button
+          >
+          <el-button v-else @click="toOtherPage(article_data.next_id)" type="success"
+            >下一页</el-button
+          >
+        </div>
+      </el-col>
+      <el-col :xs="24" :lg="8">
+        <div class="body dweb">
+          <el-image :src="article_data.cover" :fit="'cover'"></el-image>
+        </div>
+        <div class="body dweb">
+          <el-calendar v-model="value"> </el-calendar>
+        </div>
+        <!-- 点赞收藏打赏 -->
         <div class="body dweb like-btn">
           <el-row>
             <el-col :span="12">
@@ -42,27 +71,6 @@
               <i v-else @click="toFavor()" class="iconfont iconshoucang"></i>
             </el-col>
           </el-row>
-        </div>
-        <div class="clear"></div>
-        <div class="body dweb flex_bt">
-          <el-button
-            v-if="article_data.pre_id == 0"
-            @click="toOtherPage(article_data.pre_id)"
-            type="info"
-            >上一篇</el-button
-          >
-          <el-button v-else @click="toOtherPage(article_data.pre_id)" type="success"
-            >上一篇</el-button
-          >
-          <el-button
-            v-if="article_data.next_id == 0"
-            @click="toOtherPage(article_data.next_id)"
-            type="info"
-            >下一篇</el-button
-          >
-          <el-button v-else @click="toOtherPage(article_data.next_id)" type="success"
-            >下一篇</el-button
-          >
         </div>
         <div v-if="show_ping_lun" class="body dweb">
           <div v-for="(item, index) in pinglun_data" :key="index" class="body dweb pinglun-item">
@@ -216,6 +224,7 @@ export default {
           article_id: this.article_id,
         },
       }).then((res) => {
+        console.log('asdfasd', res.data);
         if (res.data.total) {
           this.show_ping_lun = true;
         }
@@ -283,22 +292,17 @@ export default {
   display: flex;
   justify-content: center;
 }
-.flex_bt {
-  display: flex;
-  justify-content: space-between;
-}
 #article .dweb {
   margin-bottom: 10px;
 }
 .body.dweb {
   padding: 10px;
+  /* color: #fff; */
   .describe {
     text-align: center;
     color: #fff;
-    font-size: 16px;
+    font-size: 12px;
     background: none;
-    width: 30vw;
-    line-height: 30px;
   }
   &:last-child {
     margin-bottom: 0;

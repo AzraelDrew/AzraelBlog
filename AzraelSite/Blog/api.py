@@ -14,17 +14,12 @@ import base64
 import os
 import json
 hostUrl = 'http://127.0.0.1:8000/'
+# hostUrl = 'http://42.138.126.114:8000/'
 
 
 @api_view(["GET"])
 def user_info(request):
     data=UserInfo.objects.all().first()
-    # for item in data
-        # UserInfo.objects.filter(belong = item.belong).update(headImg = "http://127.0.0.1:8000/upload/20230107183824.png")        
-        # print('1',ite?m.headImg)
-
-        # print('2',item.nickName)
-        # print('3',item.belong)
     user_info = User.objects.all().first()
     user_info_data={
         "name":user_info.username,
@@ -38,9 +33,6 @@ def azrael_checkperm(request):
     token = request.POST['token']
     content_type = request.POST['contentType']
     permissions = json.loads(request.POST['permissions'])
-    # print(token)
-    # print(content_type)
-    # print(permissions[0])
     user_token = Token.objects.filter(key=token)
     if user_token:
         user = user_token[0].user
@@ -48,9 +40,7 @@ def azrael_checkperm(request):
             app_str = content_type.split('_')[0]
             model_str = content_type.split("_")[1]
             perm_str = app_str + '.'+p+"_"+model_str
-            print(perm_str)
             check = user.has_perm(perm_str)
-            print(check)
             if check == False:
                 return Response("nopermission")
     else:
@@ -65,7 +55,6 @@ def azrael_checkperm(request):
 def azrael_login(request):
     username = request.POST['username']
     password = request.POST['password']
-    # print("--------------",request.POST.get("fullscreenLoading"))
     # 登录逻辑
     user = User.objects.filter(username=username)
     if user:
@@ -84,7 +73,6 @@ def azrael_login(request):
         'nickname': str(user[0]),
         'headImg': userinfo.headImg,
     }
-    print(userinfo_data)
     return Response(userinfo_data)
 
 
@@ -92,18 +80,7 @@ def azrael_login(request):
 @api_view(['POST'])
 def auto_login(request):
     token = request.POST['token']
-    # user_token = Token.objects.get(key=token)
     user_token = Token.objects.filter(key=token)
-    # print()
-    # print(user_token)
-    # userinfo = UserInfo.objects.get(belong=user_token.user)
-    # userinfo_data = {
-    #     'token': token,
-    #     'nickname': userinfo.nickName,
-    #     'headImg': userinfo.headImg,
-    # }
-    # return Response(userinfo_data)
-
     if user_token:
         userinfo = UserInfo.objects.get(belong=user_token[0].user)
         userinfo_data = {
@@ -257,27 +234,21 @@ def add_article(request):
     new_article.save()
     return Response("OK")
 
-    
+# markdown上传本地图片 
 @api_view(['POST', 'PUT'])
 def save_img(request):
 
     src = request.POST.get("imgnode")
-    # print(src)
     image_data = base64.b64decode(src.split(',')[1])
-    # print(image_data)
     image_name = datetime.datetime.now().strftime('%Y%m%d%H%M%S')+"."+src.split(',')[0].split('/')[1].split(';')[0]
-    # print(image_name)
     image_url = os.path.join('upload', image_name).replace('\\', '/')
-    # print(image_url)
     with open(image_url, 'wb') as f:
         f.write(image_data)
     new_src = hostUrl+image_url
-    # print(new_src)
 
     image_url = {
         'url':new_src
     }
-    # content = content.replace(src, new_src)
     return Response(image_url)
 
 # 文章列表
@@ -290,9 +261,6 @@ def article_list(request):
     currentname = request.GET["currentname"]
     if currentname!='all_user':
         user = User.objects.filter(username=currentname)
-        # print(user[0].id,'11111111111111111')
-        # at = Article.objects.filter(belong=user[0].id)
-        # print(at,'456')
         page = request.GET['page']
         pageSize = request.GET['pageSize']
         lanmu = request.GET['lanmu']
@@ -311,7 +279,6 @@ def article_list(request):
             articles = paginator.page(1)
         except EmptyPage:
             articles = paginator.page(paginator.num_pages)
-        print(articles,'www')
 
     else:
         page = request.GET['page']
@@ -332,25 +299,6 @@ def article_list(request):
             articles = paginator.page(1)
         except EmptyPage:
             articles = paginator.page(paginator.num_pages)
-        print(articles,'www')
-
-
-    #获取所有用户的文章 
-    # if lanmu == "all":
-    #     articles = Article.objects.all()
-    # elif lanmu == "nobelong":
-    #     articles = Article.objects.filter(belong_lanmu=None)
-    # else:
-    #     articles = Article.objects.filter(belong_lanmu__name=lanmu)
-    # total = len(articles)
-    # paginator = Paginator(articles, pageSize)
-    # try:
-    #     articles = paginator.page(page)
-    # except PageNotAnInteger:
-    #     articles = paginator.page(1)
-    # except EmptyPage:
-    #     articles = paginator.page(paginator.num_pages)
-    # print(articles,'www')
     articles_data = []
     for a in articles:
         a_item = {
@@ -375,15 +323,12 @@ def article_list(request):
 @api_view(['DELETE'])
 def delete_article(request):
     article_id = request.POST['id']
-    # print(article_id)
     token = request.POST['token']
     user_token = Token.objects.filter(key=token)
     if len(user_token) == 0:
         return Response("nologin")
     user = user_token[0].user
     user_perm = user.has_perm("Blog.delete_article")
-    print("文章删除权限")
-    print(user_perm)
     if user_perm == False:
         return Response("nopermission")
     article = Article.objects.get(id=article_id)
@@ -404,7 +349,6 @@ def azrael_group(request):
             'auth.view_user'
         ]
         checkUser = userLoginAndPerm(token, permList)
-        print(checkUser)
         if checkUser != 'perm_pass':
             return Response(checkUser)
 
@@ -413,7 +357,6 @@ def azrael_group(request):
         group = Group.objects.get(name=group_name)
         for username in userlist_name:
             user = User.objects.get(username=username)
-            # user.groups.add(group)
             group.user_set.add(user)  # 和上一行代码效果相同   是多对多的关系
         return Response("OK")
 
@@ -427,7 +370,6 @@ def azrael_group(request):
             'auth.view_user'
         ]
         checkUser = userLoginAndPerm(token, permList)
-        print(checkUser)
         if checkUser != 'perm_pass':
             return Response(checkUser)
 
@@ -453,7 +395,6 @@ def azrael_group(request):
             'auth.view_user'
         ]
         checkUser = userLoginAndPerm(token, permList)
-        print(checkUser)
         if checkUser != 'perm_pass':
             return Response(checkUser)
 
@@ -471,7 +412,6 @@ def azrael_group(request):
             contentType = ContentType.objects.get(
                 app_label=app_str, model=model_str)
             for method in perm['perm_methods']:
-                print(method)
                 codename = method + '_' + model_str
                 permission = Permission.objects.get(
                     content_type=contentType, codename=codename)
@@ -526,7 +466,6 @@ def azrael_lanmu(request):
             'Blog.delete_lanmu',
         ]
         checkUser = userLoginAndPerm(token, permList)
-        print(checkUser)
         if checkUser != 'perm_pass':
             return Response(checkUser)
 
@@ -545,13 +484,11 @@ def azrael_lanmu(request):
             'Blog.view_lanmu'
         ]
         checkUser = userLoginAndPerm(token, permList)
-        print(checkUser)
         if checkUser != 'perm_pass':
             return Response(checkUser)
 
         lanmu_tree = json.loads(request.POST['lanmu_tree'])
 
-        print(lanmu_tree)
         loopSaveLanmu(lanmu_tree, None)
         return Response('OK')
 
@@ -568,8 +505,6 @@ def loopGetLanmu(lanmu_list):
             "article_num": len(lanmu.article_lanmu.all())
         }
         children = lanmu.lanmu_children.all()
-        print(lanmu)
-        print(children)
         if children:
             children_data = loopGetLanmu(children)
             for c in children_data:
@@ -620,7 +555,7 @@ def pinglun(request):
         page = request.GET['page']
         article = Article.objects.get(id=article_id)
 
-        pingluns = Pinglun.objects.filter(belong=article)[::-1]
+        pingluns = Pinglun.objects.filter(belong=article)
 
         total = len(pingluns)
         paginator = Paginator(pingluns, pagesize)
@@ -646,7 +581,6 @@ def pinglun(request):
             'Blog.view_article'
         ]
         checkUser = userLoginAndPerm(token, permList)
-        print(checkUser)
         if checkUser != 'perm_pass':
             return Response(checkUser)
         article_id = request.POST['article_id']
@@ -690,7 +624,6 @@ def user_article_info(request):
 
 @api_view(['POST'])
 def articleLike(request):
-    print('点赞')
     token = request.POST['token']
 
     user_token = Token.objects.filter(key=token)
@@ -713,7 +646,6 @@ def articleLike(request):
 
 @api_view(['POST'])
 def articleFavor(request):
-    print('收藏')
     token = request.POST['token']
 
     user_token = Token.objects.filter(key=token)

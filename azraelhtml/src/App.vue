@@ -1,7 +1,5 @@
 <template>
-  <div id="app">
-    <link rel="stylesheet" href="//at.alicdn.com/t/font_1261797_48wm20jf8z.css" />
-
+  <div id="app" v-show="loadingstate">
     <!-- 顶部导航 -->
     <div id="top-menu" class="dweb">
       <div>
@@ -40,7 +38,7 @@
               <span>文章管理</span>
             </template>
             <el-menu-item-group>
-              <el-menu-item index="/add-article">发布文章</el-menu-item>
+              <el-menu-item index="/md/add-article">发布文章</el-menu-item>
               <el-menu-item index="/article-list">文章列表</el-menu-item>
               <el-menu-item index="/all-article-list">所有文章</el-menu-item>
             </el-menu-item-group>
@@ -80,13 +78,17 @@
 <script>
 import { Loading } from 'element-ui';
 import EventBus from './EventBus.js';
-let loadingInstance = Loading.service({ fullscreen: true, text: '拼命加载中.......' });
-setTimeout(() => {
-  loadingInstance.close();
-}, 2000);
+let loadingstate = false;
+let loadingInstance = Loading.service({
+  fullscreen: true,
+  background: '#00000090',
+  spinner: 'el-icon-s-promotion',
+  text: '拼命加载中.......',
+});
 export default {
   data() {
     return {
+      loadingstate: loadingstate,
       activeIndex: '1',
       screenWidth: document.body.clientWidth,
       hideMenu: 'el-icon-s-fold',
@@ -147,6 +149,10 @@ export default {
       this.mobile_left = 'xs';
       this.mobile_content = 'xs';
     }
+    setTimeout(() => {
+      loadingInstance.close();
+      this.loadingstate = true;
+    }, 1000);
   },
 
   methods: {

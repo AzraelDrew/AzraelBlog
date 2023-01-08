@@ -16,15 +16,10 @@
           <div class="new-group dweb">
             <el-form :inline="true" :model="new_group" class="demo-form-inline">
               <el-form-item>
-                <el-input
-                  v-model="new_group.name"
-                  placeholder="新用户组名称"
-                ></el-input>
+                <el-input v-model="new_group.name" placeholder="新用户组名称"></el-input>
               </el-form-item>
               <el-form-item>
-                <el-button type="primary" @click="saveNewGroup()"
-                  >保存</el-button
-                >
+                <el-button type="primary" @click="saveNewGroup()">保存</el-button>
               </el-form-item>
             </el-form>
           </div>
@@ -32,11 +27,7 @@
         <el-col :xs="24" :lg="12">
           <div class="perm_list dweb ">
             <el-row>
-              <el-col
-                v-for="(item, index) in new_group.checkList"
-                :key="index"
-                :span="24"
-              >
+              <el-col v-for="(item, index) in new_group.checkList" :key="index" :span="24">
                 <el-button
                   @click="chooseAllMethod(index)"
                   type="primary"
@@ -44,10 +35,7 @@
                   style="float: left; margin-right: 40px;margin-top: 10px;margin-left: 90px;"
                   >{{ item.name }}</el-button
                 >
-                <el-checkbox-group
-                  v-model="item.checkList"
-                  style="float: left; margin-top: 20px;"
-                >
+                <el-checkbox-group v-model="item.checkList" style="float: left; margin-top: 20px;">
                   <el-checkbox
                     v-for="method in item.perm_methods"
                     :key="method.codename"
@@ -62,25 +50,16 @@
         </el-col>
       </el-row>
     </div>
-    <div class="body dweb">
-      <h5>所有用户组</h5>
-      <!-- <el-divider></el-divider> -->
-    </div>
     <div class="body dweb flex">
-      <el-row>
-        <el-col
-          :xs="12"
-          :lg="4"
-          v-for="(item, index) in all_groups"
-          :key="index"
-        >
-          <el-button-group>
-            <el-button
-              v-if="index == choosed_group"
-              @click="choosedGroup(index)"
-              type="warning"
-              >{{ item.name }}</el-button
-            >
+      <h5>所有用户组</h5>
+    </div>
+    <div class="body dweb">
+      <el-row class="flex">
+        <el-col :xs="12" :lg="4" v-for="(item, index) in all_groups" :key="index">
+          <el-button-group class="flex">
+            <el-button v-if="index == choosed_group" @click="choosedGroup(index)" type="warning">{{
+              item.name
+            }}</el-button>
             <el-button v-else @click="choosedGroup(index)" type="primary">{{
               item.name
             }}</el-button>
@@ -93,12 +72,12 @@
         </el-col>
       </el-row>
     </div>
-    <div class="body dweb">
+    <div class="body dweb flex">
       <h5>用户列表</h5>
     </div>
     <el-row :gutter="10">
-      <el-col :span="16">
-        <div class="body dweb">
+      <el-col :span="24">
+        <div class="body dweb flex">
           <el-transfer
             filterable
             :filter-method="filterMethod"
@@ -109,11 +88,11 @@
           </el-transfer>
         </div>
       </el-col>
-      <el-col :span="8">
-        <div class="body dweb">
-          <el-button @click="setUserToGroup()" type="success" plain
-            >保存分配</el-button
-          >
+    </el-row>
+    <el-row>
+      <el-col :span="24">
+        <div class="body dweb flex">
+          <el-button @click="setUserToGroup()" type="success" plain>保存分配</el-button>
         </div>
       </el-col>
     </el-row>
@@ -362,6 +341,7 @@ export default {
               }
               if (res.data == 'OK') {
                 this.getAllUserGroup();
+                this.messageNotify('成功', '新用户组保存成功', 'success');
               }
             });
           }
@@ -374,12 +354,7 @@ export default {
     // 全选权限多选框
     chooseAllMethod(index) {
       if (this.new_group.checkList[index].checkList.length == 0) {
-        this.new_group.checkList[index].checkList = [
-          'add',
-          'delete',
-          'change',
-          'view',
-        ];
+        this.new_group.checkList[index].checkList = ['add', 'delete', 'change', 'view'];
       } else {
         this.new_group.checkList[index].checkList = [];
       }
@@ -389,6 +364,11 @@ export default {
 </script>
 
 <style scoped>
+.flex {
+  display: flex;
+  justify-content: center;
+  justify-items: center;
+}
 #user .dweb {
   padding: 10px;
 }

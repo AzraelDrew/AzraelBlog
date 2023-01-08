@@ -135,17 +135,18 @@ const routes = [
     component: () => import('../views/Article'),
     beforeEnter(to, from, next) {
       if (store.state.userinfo.token) {
-        // 判断用户权限
-        let checkInfo = {
-          contentType: 'Blog_article',
-          permissions: ['view'],
-        };
-        store.dispatch('checkUserPerm', checkInfo).then((res) => {
-          // 当有权限是才会跳转到用户管理页面  否则不会跳转(看不见用户管理界面)
-          if (res) {
-            next();
-          }
-        });
+        // // 判断用户权限
+        // let checkInfo = {
+        //   contentType: 'Blog_article',
+        //   permissions: ['view'],
+        // };
+        // store.dispatch('checkUserPerm', checkInfo).then((res) => {
+        //   // 当有权限是才会跳转到用户管理页面  否则不会跳转(看不见用户管理界面)
+        //   if (res) {
+        //     next();
+        //   }
+        // });
+        next();
       } else {
         next('/login');
       }

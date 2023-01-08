@@ -40,26 +40,38 @@
             <h5>文章列表</h5>
           </div>
           <!-- 文章列表 -->
-          <div class="dweb" style="margin-top: 10px; min-height: 45vh">
-            <el-row v-loading="loading" element-loading-text="拼命加载中">
+          <div
+            class="dweb "
+            v-loading="loading"
+            element-loading-text="拼命加载中"
+            element-loading-background="#00000060"
+            element-loading-spinner="el-icon-s-promotion"
+            style="margin-top: 10px; min-height:38.2vh"
+          >
+            <el-row>
               <el-col v-show="!loading" :span="24">
-                <div class="card dweb">
+                <div class="card dweb ">
                   <span style="color:white">栏目名称：{{ this.currentLanmu | lanmuset }}</span>
                 </div></el-col
               >
-              <el-col :span="24" v-for="item in article_list" :key="item.id">
-                <div class="card dweb">
+              <el-col v-show="!loading" :span="24" v-for="item in article_list" :key="item.id">
+                <div class="card dweb flex">
                   <el-row>
-                    <el-col :xs="24" :lg="6">
-                      <el-image style="height: 80px" :src="item.cover" :fit="'cover'"></el-image>
+                    <el-col :sm="4" :xs="4" :lg="4">
+                      <el-image
+                        class="flex text-item "
+                        :src="item.cover"
+                        :fit="'cover'"
+                        :preview-src-list="srcList"
+                      ></el-image>
                     </el-col>
-                    <el-col class="text-item" :xs="24" :lg="4">
+                    <el-col class="text-item" :sm="8" :xs="8" :lg="8">
                       <span>{{ item.title }}</span>
                     </el-col>
-                    <el-col class="text-item" :xs="12" :lg="7">
-                      <span>发布者:{{ item.nickName }}</span>
+                    <el-col class="text-item" :sm="6" :xs="6" :lg="5">
+                      <span>{{ item.nickName }}</span>
                     </el-col>
-                    <el-col class="text-item" :xs="12" :lg="7">
+                    <el-col class="text-item" :sm="6" :xs="6" :lg="7">
                       <el-popover placement="right" width="200" trigger="click">
                         <el-tree
                           :data="lanmu_tree"
@@ -106,8 +118,10 @@ import BreadMenu from '../components/BreadMenu.vue';
 import axios from 'axios';
 import Qs from 'qs';
 export default {
+  props: ['screenWidth'],
   data() {
     return {
+      srcList: [],
       loading: true,
       maxId: 0,
       currentPpage: 1,
@@ -115,9 +129,7 @@ export default {
       pageSize: 5,
       total: 100,
       article_list: [],
-
       // 新栏目名称
-
       new_lanmu_name: '',
       // 栏目结构数据
       lanmu_tree: [],
@@ -273,6 +285,9 @@ export default {
       }).then((res) => {
         this.article_list = res.data.data;
         this.total = res.data.total;
+        for (let i = 0; i < res.data.data.length; i++) {
+          this.srcList.push(res.data.data[i].cover);
+        }
         this.loading = false;
         return;
       });
@@ -352,6 +367,7 @@ export default {
   justify-content: center;
   align-items: center;
 }
+
 .text-item span {
   height: 40px;
   line-height: 20px;
