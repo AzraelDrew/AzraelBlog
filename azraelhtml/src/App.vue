@@ -30,7 +30,6 @@
           text-color="#fff"
           active-text-color="#FFCD77"
           @select="choosMenu"
-          :default-active="activeIndex"
         >
           <el-submenu index="1">
             <template slot="title">
@@ -51,11 +50,11 @@
             <i class="el-icon-s-operation"></i>
             <span slot="title">栏目管理</span>
           </el-menu-item>
-          <el-menu-item index="/user-info">
+          <!-- <el-menu-item index="/user-info">
             <i class="el-icon-user"></i>
             <span slot="title">用户信息</span>
-          </el-menu-item>
-          <el-menu-item @click="blogLogOut()" v-if="authUserLogin">
+          </el-menu-item> -->
+          <el-menu-item index="LogOut" @click="blogLogOut()" v-if="authUserLogin">
             <i class="el-icon-back"></i>
             <span slot="title">退出登录</span>
           </el-menu-item>
@@ -89,7 +88,6 @@ export default {
   data() {
     return {
       loadingstate: loadingstate,
-      activeIndex: '1',
       screenWidth: document.body.clientWidth,
       hideMenu: 'el-icon-s-fold',
       mobile_left: '',

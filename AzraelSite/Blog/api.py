@@ -13,20 +13,23 @@ import datetime
 import base64
 import os
 import json
+
 hostUrl = 'http://127.0.0.1:8000/'
 # hostUrl = 'http://42.138.126.114:8000/'
 
 
 @api_view(["GET"])
 def user_info(request):
-    data=UserInfo.objects.all().first()
+    data = UserInfo.objects.all().first()
     user_info = User.objects.all().first()
-    user_info_data={
-        "name":user_info.username,
-        "belong":"Azrael",
-         "headimg":data.headImg
+    user_info_data = {
+        "name": user_info.username,
+        "belong": "Azrael",
+        "headimg": data.headImg
     }
     return Response(user_info_data)
+
+
 # 权限鉴定
 @api_view(['POST'])
 def azrael_checkperm(request):
@@ -39,7 +42,7 @@ def azrael_checkperm(request):
         for p in permissions:
             app_str = content_type.split('_')[0]
             model_str = content_type.split("_")[1]
-            perm_str = app_str + '.'+p+"_"+model_str
+            perm_str = app_str + '.' + p + "_" + model_str
             check = user.has_perm(perm_str)
             if check == False:
                 return Response("nopermission")
@@ -47,6 +50,7 @@ def azrael_checkperm(request):
         return Response("nologin")
 
     return Response("OK")
+
 
 # 登录
 
@@ -125,6 +129,7 @@ def azrael_register(request):
         'nickname': str(username),
         'headImg': userinfo.headImg,
     }
+    print(userinfo_data)
     return Response(userinfo_data)
 
 
@@ -158,6 +163,8 @@ def article_data(request):
     else:
         article_data["lanmu"] = 'nobelong'
         return Response(article_data)
+
+
 # 发布文章
 
 
@@ -165,9 +172,7 @@ def article_data(request):
 def add_article(request):
     token = request.POST['token']
     if request.method == "PUT":
-        permList = [
-            'Blog.change_article'
-        ]
+        permList = ['Blog.change_article']
         checkUser = userLoginAndPerm(token, permList)
         if checkUser != 'perm_pass':
             return Response(checkUser)
@@ -211,8 +216,8 @@ def add_article(request):
             # 设置文件名称  时间 + 文章ID + 图片位标
             image_name = datetime.datetime.now().strftime('%Y%m%d%H%M%S')+"-" + \
                 str(new_article.id)+'-'+str(img)
-            image_data.save('upload/'+image_name+'.png')
-            new_src = hostUrl+'upload/'+image_name+'.png'
+            image_data.save('upload/' + image_name + '.png')
+            new_src = hostUrl + 'upload/' + image_name + '.png'
             content = content.replace(src, new_src)
             if cover == src:
                 cover = new_src
@@ -223,7 +228,7 @@ def add_article(request):
             image_url = os.path.join('upload', image_name).replace('\\', '/')
             with open(image_url, 'wb') as f:
                 f.write(image_data)
-            new_src = hostUrl+image_url
+            new_src = hostUrl + image_url
             content = content.replace(src, new_src)
             if cover == src:
                 cover = new_src
@@ -234,22 +239,23 @@ def add_article(request):
     new_article.save()
     return Response("OK")
 
-# markdown上传本地图片 
+
+# markdown上传本地图片
 @api_view(['POST', 'PUT'])
 def save_img(request):
 
     src = request.POST.get("imgnode")
     image_data = base64.b64decode(src.split(',')[1])
-    image_name = datetime.datetime.now().strftime('%Y%m%d%H%M%S')+"."+src.split(',')[0].split('/')[1].split(';')[0]
+    image_name = datetime.datetime.now().strftime(
+        '%Y%m%d%H%M%S') + "." + src.split(',')[0].split('/')[1].split(';')[0]
     image_url = os.path.join('upload', image_name).replace('\\', '/')
     with open(image_url, 'wb') as f:
         f.write(image_data)
-    new_src = hostUrl+image_url
+    new_src = hostUrl + image_url
 
-    image_url = {
-        'url':new_src
-    }
+    image_url = {'url': new_src}
     return Response(image_url)
+
 
 # 文章列表
 
@@ -259,7 +265,7 @@ def article_list(request):
 
     # 获取当前用户的文章
     currentname = request.GET["currentname"]
-    if currentname!='all_user':
+    if currentname != 'all_user':
         user = User.objects.filter(username=currentname)
         page = request.GET['page']
         pageSize = request.GET['pageSize']
@@ -343,8 +349,7 @@ def azrael_group(request):
     if request.method == "POST":
         token = request.POST["token"]
         permList = [
-            'auth.add_user',
-            'auth.delete_user'
+            'auth.add_user', 'auth.delete_user'
             'auth.change_user'
             'auth.view_user'
         ]
@@ -364,8 +369,7 @@ def azrael_group(request):
     if request.method == "DELETE":
         token = request.POST["token"]
         permList = [
-            'auth.add_user',
-            'auth.delete_user'
+            'auth.add_user', 'auth.delete_user'
             'auth.change_user'
             'auth.view_user'
         ]
@@ -389,8 +393,7 @@ def azrael_group(request):
     if request.method == "PUT":
         token = request.POST['token']
         permList = [
-            'auth.add_user',
-            'auth.delete_user'
+            'auth.add_user', 'auth.delete_user'
             'auth.change_user'
             'auth.view_user'
         ]
@@ -409,14 +412,15 @@ def azrael_group(request):
         for perm in perm_list:
             app_str = perm['content_type'].split('_')[0]
             model_str = perm['content_type'].split('_')[1]
-            contentType = ContentType.objects.get(
-                app_label=app_str, model=model_str)
+            contentType = ContentType.objects.get(app_label=app_str,
+                                                  model=model_str)
             for method in perm['perm_methods']:
                 codename = method + '_' + model_str
-                permission = Permission.objects.get(
-                    content_type=contentType, codename=codename)
+                permission = Permission.objects.get(content_type=contentType,
+                                                    codename=codename)
                 new_group.permissions.add(permission)
         return Response('OK')
+
 
 # 检查用户登录与权限
 
@@ -434,6 +438,7 @@ def userLoginAndPerm(token, permList):
     else:
         return 'nologin'
 
+
 # 用户列表
 
 
@@ -442,9 +447,7 @@ def azrael_userlist(request):
     userlist = User.objects.all()
     userlist_data = []
     for user in userlist:
-        user_item = {
-            'name': user.username
-        }
+        user_item = {'name': user.username}
         userlist_data.append(user_item)
     return Response(userlist_data)
 
@@ -478,9 +481,7 @@ def azrael_lanmu(request):
     if request.method == "PUT":
         token = request.POST['token']
         permList = [
-            'Blog.add_lanmu',
-            'Blog.delete_lanmu',
-            'Blog.change_lanmu',
+            'Blog.add_lanmu', 'Blog.delete_lanmu', 'Blog.change_lanmu',
             'Blog.view_lanmu'
         ]
         checkUser = userLoginAndPerm(token, permList)
@@ -494,6 +495,7 @@ def azrael_lanmu(request):
 
 
 # 循环获取栏目数据
+
 
 def loopGetLanmu(lanmu_list):
     lanmu_data = []
@@ -511,6 +513,7 @@ def loopGetLanmu(lanmu_list):
                 lanmu_item['children'].append(c)
         lanmu_data.append(lanmu_item)
     return lanmu_data
+
 
 # 循环保存栏目树形结构
 
@@ -577,9 +580,7 @@ def pinglun(request):
 
     if request.method == "POST":
         token = request.POST['token']
-        permList = [
-            'Blog.view_article'
-        ]
+        permList = ['Blog.view_article']
         checkUser = userLoginAndPerm(token, permList)
         if checkUser != 'perm_pass':
             return Response(checkUser)
@@ -655,8 +656,8 @@ def articleFavor(request):
     article_id = request.POST['article_id']
     article = Article.objects.get(id=article_id)
 
-    favored = Favourite.objects.filter(
-        belong=article, belong_user=user_token[0].user)
+    favored = Favourite.objects.filter(belong=article,
+                                       belong_user=user_token[0].user)
 
     if favored:
         favored[0].delete()

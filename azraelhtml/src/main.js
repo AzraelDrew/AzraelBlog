@@ -29,33 +29,21 @@ import VMdPreview from '@kangc/v-md-editor/lib/preview';
 import '@kangc/v-md-editor/lib/style/preview.css';
 
 import hljs from 'highlight.js';
-
-// VMdEditor.use(createLineNumbertPlugin());
-// VMdEditor.use(githubTheme, {
-//   Hljs: hljs,
-//   Prism,
-// });
-// // 编辑组件
-// Vue.use(VMdEditor);
+import Prism from 'prismjs';
 
 // 渲染组件
-VMdPreview.use(githubTheme, {
-  Hljs: hljs,
+VMdPreview.use(vuepressTheme, {
+  Prism,
 });
-Vue.use(VMdPreview);
 
-// 代码快显示行号
 VueMarkdownEditor.use(githubTheme, {
   Hljs: hljs,
-  extend(md) {
-    // md为 markdown-it 实例，可以在此处进行修改配置,并使用 plugin 进行语法扩展
-    // md.set(option).use(plugin);
-  },
 });
-Vue.use(VueMarkdownEditor);
 
-Vue.config.productionTip = false;
+Vue.use(VMdPreview);
+Vue.use(VueMarkdownEditor);
 Vue.use(ElementUI);
+Vue.config.productionTip = false;
 
 new Vue({
   router,

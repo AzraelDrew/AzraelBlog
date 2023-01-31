@@ -9,7 +9,7 @@
     </div>
     <!-- 文章列表 -->
     <div class="dweb" style="margin-top: 10px">
-      <el-row>
+      <el-row v-show="!loading">
         <el-col :span="24">
           <div class="card1 dweb">
             <el-row>

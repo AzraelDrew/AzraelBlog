@@ -2,8 +2,9 @@ body,
 html {
   margin: 0;
   padding: 0;
-  background: url('../img/1.png') no-repeat fixed;
-  /* background: linear-gradient(25deg, #4d81d4, #5295d2, #53a8cf, #51bccc) no-repeat fixed; */
+  /* background: url('../img/5.png') no-repeat fixed; */
+  /* background-color: #7a7374; */
+  background: linear-gradient(315deg, #7b9ace, #7abadd, #75daec, #6afbfb) fixed;
   background-size: 100% 100%;
   /* 图片跟随滚动 */
   /* background-attachment:fixed; */
@@ -261,11 +262,11 @@ html {
   color: #fff;
 }
 
-.github-markdown-body {
+.vuepress-markdown-body {
   background-color: #00000000 !important;
 }
-.github-markdown-body h1,
-.github-markdown-body h2 {
+.vuepress-markdown-body h1,
+.vuepress-markdown-body h2 {
   border-bottom: 1px solid #42b98360 !important;
 }
 .v-md-editor-preview h1,
@@ -273,18 +274,18 @@ html {
   border-bottom: 1px solid #b2bec3 !important;
 }
 
-.github-markdown-body h6 {
+.vuepress-markdown-body h6 {
   color: #212529 !important;
 }
 
 .v-md-pre-wrapper {
-  background-color: #dfe6e960 !important;
+  background-color: #292c3360 !important;
   border-radius: 5px;
 }
-.github-markdown-body blockquote {
+.vuepress-markdown-body blockquote {
   border-left: 0.25em solid #42b983 !important;
 }
-.github-markdown-body blockquote p {
+.vuepress-markdown-body blockquote p {
   color: #55efc490 !important;
 }
 .v-md-editor__preview-wrapper blockquote {

@@ -5,21 +5,45 @@
     <!-- 文章内容 -->
     <el-row :gutter="10">
       <el-col :xs="24" :lg="24">
+        <el-row :gutter="10">
+          <el-col :span="6">
+            <div class="body dweb flex">
+              <div class="describe flex">
+                <p>
+                  {{ article_data.title }}
+                </p>
+              </div>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="body dweb flex">
+              <div class="describe flex">
+                <p>
+                  {{ article_data.describe }}
+                </p>
+              </div>
+            </div>
+          </el-col>
+          <el-col :span="6">
+            <div class="body dweb flex">
+              <el-image
+                class=""
+                :src="article_data.cover"
+                :fit="'fill'"
+                :lazy="true"
+                style="height:30vh"
+              ></el-image>
+            </div>
+          </el-col>
+        </el-row>
+
         <div class="body dweb">
-          <div class="header">
-            {{ article_data.title }}
-          </div>
-        </div>
-        <div class="body dweb flex">
-          <div class="describe">
-            {{ article_data.describe }}
-          </div>
-        </div>
-        <div class="body dweb">
-          <el-image :src="article_data.cover" :fit="'fill'" :lazy="true"></el-image>
-        </div>
-        <div class="body dweb">
-          <v-md-preview :text="article_data.content" @image-click="click_image()"></v-md-preview>
+          <v-md-preview
+            :text="article_data.content"
+            :default-show-toc="show_preview_menu"
+            :toc-nav-position-right="show_preview_menu"
+            @image-click="click_image()"
+          ></v-md-preview>
         </div>
         <div class="body dweb like-btn">
           <el-row>
@@ -108,6 +132,7 @@ import Qs from 'qs';
 export default {
   data() {
     return {
+      show_preview_menu: true,
       show_ping_lun: false,
       current_page: 1,
       value: new Date(),
@@ -282,6 +307,9 @@ export default {
 .flex {
   display: flex;
   justify-content: center;
+  justify-items: center;
+  align-content: center;
+  align-items: center;
 }
 .flex_bt {
   display: flex;
@@ -293,12 +321,16 @@ export default {
 .body.dweb {
   padding: 10px;
   .describe {
-    text-align: center;
-    color: #fff;
-    font-size: 16px;
-    background: none;
-    width: 30vw;
-    line-height: 30px;
+    height: 30vh;
+    overflow: hidden;
+    p {
+      width: 25vw;
+      text-align: center;
+      color: #303d4e;
+      font-size: 20px;
+      line-height: 30px;
+      overflow: hidden;
+    }
   }
   &:last-child {
     margin-bottom: 0;
@@ -316,4 +348,74 @@ export default {
   color: #fff;
   font-size: 18px;
 }
+// .v-md-editor-preview {
+//   background-color: #00000000 !important;
+//   ul {
+//     li {
+//       color: white !important;
+//     }
+//   }
+//   p {
+//     color: white !important;
+//   }
+// }
+
+// .vuepress-markdown-body {
+//   background-color: #00000000 !important;
+//   color: white;
+//   h1,
+//   h2 {
+//     border-bottom: 1px solid #42b98360 !important;
+//   }
+//   blockquote {
+//     border-left: 0.25em solid #42b983 !important;
+//     p {
+//       color: #55efc490 !important;
+//     }
+//   }
+//   ul {
+//     li {
+//       color: white !important;
+//     }
+//   }
+//   p {
+//     color: white;
+//   }
+//   h6 {
+//     color: #212529 !important;
+//   }
+// }
+// .v-md-editor-preview {
+//   h1,
+//   h2 {
+//     border-bottom: 1px solid #b2bec3 !important;
+//   }
+// }
+
+// .v-md-pre-wrapper {
+//   background-color: #292c3360 !important;
+//   border-radius: 5px;
+// }
+
+// .v-md-editor__preview-wrapper {
+//   blockquote {
+//     border-left: 0.25em solid #48d5ad !important;
+//     p {
+//       color: #48d5ad !important;
+//     }
+//   }
+// }
+// .v-md-editor__right-area {
+//   background-color: none !important;
+// }
+// .v-md-editor__main {
+//   background-color: none !important;
+// }
+
+// .v-md-editor__right-area {
+//   border: none;
+// }
+// .v-md-editor--editable .v-md-editor__editor-wrapper {
+//   border-right: none;
+// }
 </style>

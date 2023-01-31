@@ -49,12 +49,15 @@
         <!-- markdown编辑器 -->
         <v-md-editor
           v-model="article_info.contents"
-          left-toolbar="undo redo clear | h bold italic strikethrough quote | ul ol table hr | link image code | tip | save"
+          left-toolbar="undo redo clear | h bold italic strikethrough quote | ul ol table hr | link image code |save"
           height="55vh"
+          :default-show-toc="show_md_menu"
+          :toc-nav-position-right="show_md_menu"
           :disabled-menus="[]"
           @upload-image="handleUploadImage"
           :autofocus="true"
           :tab-size="2"
+          placeholder="在此处输入内容"
         ></v-md-editor>
       </el-col>
     </el-row>
@@ -70,6 +73,7 @@ const text = ``;
 export default {
   data() {
     return {
+      show_md_menu: true,
       article_info: {
         title: '',
         describe: '',
@@ -194,14 +198,73 @@ export default {
   margin-top: 20px;
 }
 
-.v-md-editor__preview-wrapper blockquote {
-  border-left: 0.25em solid #42b98310 !important;
+.v-md-editor-preview {
+  background-color: #00000000 !important;
+  ul {
+    li {
+      color: white !important;
+    }
+  }
   p {
-    color: #55efc490 !important;
+    color: white !important;
   }
 }
-.v-md-editor-preview h1,
-.v-md-editor-preview h2 {
-  border-bottom: 1px solid #b2bec3 !important;
+
+.vuepress-markdown-body {
+  background-color: #00000000 !important;
+  color: white;
+  h1,
+  h2 {
+    border-bottom: 1px solid #42b98360 !important;
+  }
+  blockquote {
+    border-left: 0.25em solid #42b983 !important;
+    p {
+      color: #55efc490 !important;
+    }
+  }
+  ul {
+    li {
+      color: white !important;
+    }
+  }
+  p {
+    color: white;
+  }
+  h6 {
+    color: #212529 !important;
+  }
+}
+.v-md-editor-preview {
+  h1,
+  h2 {
+    border-bottom: 1px solid #b2bec3 !important;
+  }
+}
+
+.vuepress-markdown-body div pre {
+  background-color: #282c34;
+}
+
+.v-md-editor__preview-wrapper {
+  blockquote {
+    border-left: 0.25em solid #48d5ad !important;
+    p {
+      color: #48d5ad !important;
+    }
+  }
+}
+.v-md-editor__right-area {
+  background-color: none !important;
+}
+.v-md-editor__main {
+  background-color: none !important;
+}
+
+.v-md-editor__right-area {
+  border: none;
+}
+.v-md-editor--editable .v-md-editor__editor-wrapper {
+  border-right: none;
 }
 </style>

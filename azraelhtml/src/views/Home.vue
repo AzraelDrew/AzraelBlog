@@ -1,7 +1,12 @@
 <template>
   <div class="hsome">
-    <el-row :gutter="20" v-for="item in number" :key="item">
-      <el-col :xs="24" :lg="8">
+    <el-row :gutter="20">
+      <el-col :xs="24" :lg="24">
+        <div class="grid-content bg-purple">
+          <div class="dweb" style="height: 800px"></div>
+        </div>
+      </el-col>
+      <!-- <el-col :xs="24" :lg="8">
         <div class="grid-content bg-purple">
           <div class="dweb" style="height: 200px"></div>
         </div>
@@ -10,12 +15,7 @@
         <div class="grid-content bg-purple">
           <div class="dweb" style="height: 200px"></div>
         </div>
-      </el-col>
-      <el-col :xs="24" :lg="8">
-        <div class="grid-content bg-purple">
-          <div class="dweb" style="height: 200px"></div>
-        </div>
-      </el-col>
+      </el-col> -->
     </el-row>
   </div>
 </template>
