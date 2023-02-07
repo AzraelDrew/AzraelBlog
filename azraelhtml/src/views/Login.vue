@@ -4,22 +4,29 @@
       <div class="header">用户登录</div>
       <el-divider></el-divider>
       <div class="box flex">
-        <el-form :label-position="'left'" label-width="60px" :model="fromData">
+        <el-form
+          :label-position="'left'"
+          label-width="60px"
+          :model="fromData"
+          v-bind:style="{ position: 'relative', top: screenHight / 6 + 'px' }"
+        >
           <div class="input_box ">
             <el-form-item label="用户名">
               <el-input v-model="fromData.username"></el-input>
             </el-form-item>
             <el-form-item label="密码  ">
               <el-input v-model="fromData.password" type="password"></el-input>
+              <a href="" @click.prevent="toRestPwd()" style="color:aqua">忘记密码?</a>
             </el-form-item>
           </div>
           <el-form-item class="btn flex">
-            <el-button @click="blogLogin()" :plain="true" type="success" round
+            <el-button @click="blogLogin()" class="btn_distance" :plain="true" type="success" round
               >登录</el-button
             >
-            <el-button @click="toRegister()" type="warning" round
+            <el-button @click="toRegister()" class="btn_distance" type="warning" round
               >注册</el-button
             >
+            <!-- <el-button @click="toRestPwd()" type="warning" round>忘记密码</el-button> -->
           </el-form-item>
         </el-form>
       </div>
@@ -36,14 +43,12 @@ export default {
         password: '',
         // fullscreenLoading: false,
       },
+      screenHight: document.body.clientHeight,
     };
   },
   methods: {
     blogLogin() {
-      if (
-        this.fromData.username.length == 0 ||
-        this.fromData.password.length == 0
-      ) {
+      if (this.fromData.username.length == 0 || this.fromData.password.length == 0) {
         this.$notify({
           title: '警告',
           message: '帐号或密码不能为空!',
@@ -58,6 +63,13 @@ export default {
     },
     toRegister() {
       this.$router.push({ name: 'Register' });
+      // this.fullscreenLoading = true;
+      // setTimeout(() => {
+      //   this.fullscreenLoading = false;
+      // }, 500);
+    },
+    toRestPwd() {
+      this.$router.push({ name: 'RestPwd' });
       // this.fullscreenLoading = true;
       // setTimeout(() => {
       //   this.fullscreenLoading = false;
@@ -91,5 +103,13 @@ export default {
   width: 40vw;
   padding: 0;
   margin: 0;
+}
+
+.input_box {
+  position: relative;
+  /* right: 1.3vw; */
+}
+.btn_distance {
+  margin: 0 6vw;
 }
 </style>

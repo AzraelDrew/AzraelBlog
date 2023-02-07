@@ -28,6 +28,12 @@ const routes = [
     name: 'Register',
     component: () => import('../views/Register'),
   },
+  // 重置密码
+  {
+    path: '/rest_pwd',
+    name: 'RestPwd',
+    component: () => import('../views/RestPwd'),
+  },
 
   // 添加文章
   {
@@ -81,7 +87,30 @@ const routes = [
       }
     },
   },
-
+  // 文章内容
+  {
+    path: '/article',
+    name: 'Article',
+    component: () => import('../views/Article'),
+    beforeEnter(to, from, next) {
+      if (store.state.userinfo.token) {
+        // // 判断用户权限
+        // let checkInfo = {
+        //   contentType: 'Blog_article',
+        //   permissions: ['view'],
+        // };
+        // store.dispatch('checkUserPerm', checkInfo).then((res) => {
+        //   // 当有权限是才会跳转到用户管理页面  否则不会跳转(看不见用户管理界面)
+        //   if (res) {
+        //     next();
+        //   }
+        // });
+        next();
+      } else {
+        next('/login');
+      }
+    },
+  },
   // 用户管理
   {
     path: '/user-permission',
@@ -128,30 +157,7 @@ const routes = [
       }
     },
   },
-  // 文章内容
-  {
-    path: '/article',
-    name: 'Article',
-    component: () => import('../views/Article'),
-    beforeEnter(to, from, next) {
-      if (store.state.userinfo.token) {
-        // // 判断用户权限
-        // let checkInfo = {
-        //   contentType: 'Blog_article',
-        //   permissions: ['view'],
-        // };
-        // store.dispatch('checkUserPerm', checkInfo).then((res) => {
-        //   // 当有权限是才会跳转到用户管理页面  否则不会跳转(看不见用户管理界面)
-        //   if (res) {
-        //     next();
-        //   }
-        // });
-        next();
-      } else {
-        next('/login');
-      }
-    },
-  },
+
   {
     path: '/user-info',
     name: 'UserInfo',
@@ -174,6 +180,26 @@ VueRouter.prototype.push = function push(location) {
 
 const router = new VueRouter({
   routes,
+  // scrollBehavior(to, from, savedPosition) {
+  //   // return 期望滚动到哪个的位置
+  //   if (savedPosition) {
+  //     return savedPosition;
+  //   } else {
+  //     return new Promise((resolve, reject) => {
+  //       setTimeout(() => {
+  //         resolve({ x: 500, y: 0, behavior: 'smooth' });
+  //       }, 2000);
+  //     });
+  //   }
+  // },
+
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition;
+    } else {
+      return { x: 0, y: 0, behavior: 'smooth' };
+    }
+  },
 });
 
 export default router;

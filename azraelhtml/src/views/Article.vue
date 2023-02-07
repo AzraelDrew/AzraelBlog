@@ -10,7 +10,11 @@
             <div class="body dweb flex">
               <div class="describe flex">
                 <p>
-                  {{ article_data.title }}
+                  {{
+                    article_data.title_len > 6
+                      ? article_data.title.substring(0, 8) + '...'
+                      : article_data.title
+                  }}
                 </p>
               </div>
             </div>
@@ -19,7 +23,11 @@
             <div class="body dweb flex">
               <div class="describe flex">
                 <p>
-                  {{ article_data.describe }}
+                  {{
+                    article_data.desc_len > 50
+                      ? article_data.describe.substring(0, 50) + '...'
+                      : article_data.describe
+                  }}
                 </p>
               </div>
             </div>
@@ -30,8 +38,8 @@
                 class=""
                 :src="article_data.cover"
                 :fit="'fill'"
-                :lazy="true"
-                style="height:30vh"
+                style="height:20vh"
+                lazy
               ></el-image>
             </div>
           </el-col>
@@ -297,6 +305,10 @@ export default {
         },
       }).then((res) => {
         this.article_data = res.data;
+        this.article_data.title_len = res.data.title.length;
+        this.article_data.desc_len = res.data.describe.length;
+        // console.log(res.data.describe.length);
+        // console.log(this.article_data);
       });
     },
   },
@@ -321,10 +333,10 @@ export default {
 .body.dweb {
   padding: 10px;
   .describe {
-    height: 30vh;
+    height: 20vh;
     overflow: hidden;
     p {
-      width: 25vw;
+      width: 21vw;
       text-align: center;
       color: #303d4e;
       font-size: 20px;
@@ -348,6 +360,7 @@ export default {
   color: #fff;
   font-size: 18px;
 }
+
 // .v-md-editor-preview {
 //   background-color: #00000000 !important;
 //   ul {

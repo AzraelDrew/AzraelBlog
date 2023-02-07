@@ -1,14 +1,14 @@
 <template>
   <div id="refister-page" class="flex">
     <div class="dweb refisterbox" @keyup.enter="blogRegister">
-      <div class="header">注册</div>
+      <div class="header">修改密码</div>
       <el-divider></el-divider>
       <div class="box flex">
         <el-form
+          v-bind:style="{ position: 'relative', top: screenHight / 6 + 'px' }"
           :label-position="'left'"
           label-width="60px"
           :model="fromData"
-          v-bind:style="{ position: 'relative', top: screenHight / 6 + 'px' }"
         >
           <div class="input_box">
             <el-form-item label="用户名">
@@ -22,10 +22,10 @@
             </el-form-item>
           </div>
           <el-form-item class="btn flex">
-            <el-button @click="blogRegister" class="btn_distance" type="success" round
-              >注册</el-button
+            <el-button class="btn_distance" @click="blogRegister" type="success" round
+              >修改</el-button
             >
-            <el-button @click="toLogin" class="btn_distance" type="warning" round>登录</el-button>
+            <el-button class="btn_distance" @click="toLogin" type="success" round>登录</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -34,8 +34,8 @@
 </template>
 
 <script>
-// import axios from "axios";
-// import Qs from "qs";
+import axios from 'axios';
+import Qs from 'qs';
 export default {
   data() {
     return {
@@ -78,7 +78,21 @@ export default {
         return;
       }
 
-      this.$store.dispatch('blogRegister', this.fromData);
+      if (this.fromData.username.length != 0) {
+        axios({
+          url: this.$store.state.baseurl + 'api/azrael-rest-pwd/',
+          method: 'POST',
+          data: Qs.stringify(this.fromData),
+        }).then((res) => {
+          console.log(res.data);
+          if (res.data == 'not_exist') {
+            this.messageNotify('警告', '账号不存在!', 'warning');
+            return;
+          } else {
+            this.$router.push({ name: 'Login' });
+          }
+        });
+      }
     },
 
     toLogin() {
@@ -95,8 +109,8 @@ export default {
 .flex {
   display: flex;
   justify-content: center;
-  align-content: center;
   justify-items: center;
+  align-content: center;
   align-items: center;
 }
 .refisterbox {
@@ -108,6 +122,9 @@ export default {
   position: relative;
   left: -1.8vw;
 }
+.btn_distance {
+  margin: 0 6vw;
+}
 .el-input {
   width: 40vw;
   padding: 0;
@@ -115,9 +132,6 @@ export default {
 }
 .input_box {
   position: relative;
-  right: vw;
-}
-.btn_distance {
-  margin: 0 6vw;
+  right: 1.3vw;
 }
 </style>

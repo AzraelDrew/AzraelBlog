@@ -59,7 +59,9 @@
                 ></el-image> -->
               </el-col>
               <el-col class="text-item" :sm="8" :xs="8" :lg="8">
-                <span>{{ item.title }}</span>
+                <span>{{
+                  item.title.length > 6 ? item.title.substring(0, 5) + '...' : item.title
+                }}</span>
               </el-col>
               <el-col class="text-item" :sm="6" :xs="6" :lg="5">
                 <span>{{ item.nickName }}</span>

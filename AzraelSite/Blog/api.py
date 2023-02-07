@@ -133,9 +133,38 @@ def azrael_register(request):
     return Response(userinfo_data)
 
 
+# 重置密码
+@api_view(['POST'])
+def azrael_reset_pwd(request):
+    username = request.POST['username']
+    password = request.POST['password']
+    password2 = request.POST['password2']
+    # 注册逻辑
+    user = User.objects.filter(username=username)
+    if not user:
+        return Response('not_exist')
+    else:
+        new_password = make_password(password, username)
+        print(new_password)
+        User.objects.filter(username=username).update(password=new_password)
+        new_user = User.objects.filter(username=username)
+        print(new_user)
+        return Response("OK")
+    # # user = User.objects.filter(username=username)
+    # token = Token.objects.get_or_create(user=new_user)
+    # token = Token.objects.get(user=new_user)
+    # userinfo = UserInfo.objects.get_or_create(belong=new_user)
+    # userinfo = UserInfo.objects.get(belong=new_user)
+    # userinfo_data = {
+    #     'token': token.key,
+    #     'nickname': str(username),
+    #     'headImg': userinfo.headImg,
+    # }
+    # print(userinfo_data)
+    # return Response(userinfo_data)
+
+
 # 文章数据
-
-
 @api_view(['GET'])
 def article_data(request):
     article_id = request.GET['article_id']

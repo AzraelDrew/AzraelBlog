@@ -18,6 +18,7 @@ urlpatterns = [
     path('azrael-login/', api.azrael_login),
     # 注册
     path('azrael-register/', api.azrael_register),
+    path('azrael-rest-pwd/', api.azrael_reset_pwd),
     # 登出
     path('azrael-logout/', api.azrael_logout),
     # 自动登录

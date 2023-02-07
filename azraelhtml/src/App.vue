@@ -150,7 +150,7 @@ export default {
     setTimeout(() => {
       loadingInstance.close();
       this.loadingstate = true;
-    }, 1000);
+    }, 50);
   },
 
   methods: {
