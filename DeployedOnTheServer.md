@@ -95,33 +95,33 @@ events {
 http {
 					client_max_body_size 128m;
   server {
-				listen          8000;              #端口号  记得再服务防火墙中把端口打开
-				server_name     43.138.126.114;    #ip或域名
+				listen          8000;                                    # 端口号(Api运行的端口号)  记得再服务防火墙中把端口打开
+				server_name     ip address;                              # ip或域名
 				charset         utf-8;
 
 				location /static {
-							    alias   /var/www/venv/AzraelSite/static;   #Django样式及一些静态文件
+							    alias   /var/www/venv/AzraelSite/static;       # Django样式及一些静态文件
 
 													}
 				location /upload {
-				          alias   /var/www/venv/AzraelSite/upload;       #用于存储图片的文件夹
+				          alias   /var/www/venv/AzraelSite/upload;       # 用于存储图片的文件夹
 
 													}
 
 				location / {
-							    uwsgi_pass   127.0.0.1:9090;
-							    include      /etc/nginx/uwsgi_params;          #此文件必须上传
+							    uwsgi_pass   127.0.0.1:9090;                   # 与blog.ini中socket的内容一致
+							    include      /etc/nginx/uwsgi_params;          # 此文件必须上传
 										}
 
 				 }
 	server {
-        listen          80;
-        server_name     43.138.126.114;
+        listen          80;                                      # 前端代码的端口
+        server_name     ip address;                              # ip或域名
         charset         utf-8;
 
 
         location / {
-                  root    /var/www/dist;    #前端代码路径
+                  root    /var/www/dist;                         # 前端代码路径
                   index   index.html ;
          						}
 }
@@ -203,6 +203,8 @@ http {
 ```python
   STATIC_ROOT='/var/www/venv/AzraelSite/Blog/static'
 ```
+
+- 创建 Django 静态文件存放目录已经上传文件目录
 
 ```shell
   mkdir /var/www/venv/AzraelSite/Blog/static /var/www/venv/AzraelSite/upload

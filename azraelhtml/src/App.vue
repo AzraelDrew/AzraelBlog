@@ -38,24 +38,19 @@
             </template>
             <el-menu-item-group>
               <el-menu-item index="/md/add-article">发布文章</el-menu-item>
-              <el-menu-item index="/article-list">文章列表</el-menu-item>
+              <el-menu-item index="/article-list">我的文章</el-menu-item>
               <el-menu-item index="/all-article-list">所有文章</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
-          <el-submenu index="2">
-            <template slot="title">
-              <i class="el-icon-folder-opened"></i>
-              <span>个人信息</span>
-            </template>
-            <el-menu-item-group>
-              <el-menu-item index="/like-info">点赞</el-menu-item>
-              <el-menu-item index="/favourite-info">收藏</el-menu-item>
-            </el-menu-item-group>
-          </el-submenu>
-          <el-menu-item index="/user-info">
+
+          <!-- <el-menu-item index="/user-info">
             <i class="el-icon-user"></i>
             <span slot="title">个人信息</span>
           </el-menu-item>
+          <el-menu-item index="/favourite-info">
+            <i class="el-icon-user"></i>
+            <span slot="title">收藏</span>
+          </el-menu-item> -->
           <el-menu-item index="/user-permission">
             <i class="el-icon-user"></i>
             <span slot="title">用户管理</span>
@@ -64,6 +59,18 @@
             <i class="el-icon-s-operation"></i>
             <span slot="title">栏目管理</span>
           </el-menu-item>
+          <el-submenu index="2">
+            <template slot="title">
+              <i class="el-icon-folder-opened"></i>
+              <span>我的</span>
+            </template>
+            <el-menu-item-group>
+              <el-menu-item index="/user-info">
+                个人信息
+              </el-menu-item>
+              <el-menu-item index="/favourite-info">收藏</el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
           <!-- <el-menu-item index="/user-info">
             <i class="el-icon-user"></i>
             <span slot="title">用户信息</span>

@@ -1,85 +1,42 @@
-# AzraelBlog
+## 本地部署([服务器部署](./DeployedOnTheServer.md) )
 
 > 第一步
 
+- 自行安装 Node14(建议使用 NVM) 与 pytohn3.8
+
+> 第二步(安装所需的 python 库)
+
 ```shell
-cd azraelhtml
 
-npm i
+pip3 install django==3.2 djangorestframework django-cors-headers  Pillow requests beautifulsoup4;
 
-sudo cp -r summernote-zh-CN.js ./node_modules/summernote/lang/
 ```
 
-> Django
+> 第三步
 
 ```shell
-django-admin startproject mysite
+# 在Django项目目录下(Blog同级目录)
 
-cd mysite
-
-python3 manage.py runserver
-
-python3 manage.py startapp myblog
+mkdir upload
 
 python3 manage.py makemigrations
 
 python3 manage.py migrate
 
 python3 manage.py createsuperuser
+
+python3 manage.py runserver
+
 ```
 
-> 数据库迁移至 mysql
-
-```python
-#在setting.py中的DATABASES的默认数据改为以下配置
-        'default': {
-        'ENGINE': 'django.db.backends.mysql',   #数据库引擎更改最后一个字段
-        'NAME': "myblog",   #数据库名
-        'USER':"root",    #用户名
-        'PASSWORD':"yznaisy993279..",    #密码
-        'HOST':"localhost",   #主机地址
-        'PORT':"3306",    #端口
-    }
-```
+> 第四步
 
 ```shell
-pip install pymysql
-```
+# 在azraelhtml目录下
 
-```python
-#直接复制在setting.py同文件夹下的__init__.py
+npm i
 
-import pymysql
+sudo cp -r summernote-zh-CN.js ./node_modules/summernote/lang/
 
-pymysql.install_as_MySQLdb()
-
-```
-
-```shell
-#迁移数据库至mysql
-python3 manage.py migrate --database mysql
-
-#重建管理员
-python3 manage.py createsuperuser
-```
-
-> Django 后台样式丢失
-
-```python
-#  setting.py
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-```
-
-```conf
-#nginx.conf
-location /static {
-        alias   /var/www/venv/AzraelSite/static;   #Django样式及一些静态文件
-
-                }
-```
-
-```shell
-# 执行此命令
-python manage.py collectstatic
+npm run serve
 ```
