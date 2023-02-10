@@ -1,4 +1,4 @@
-## 本地部署([服务器部署](./DeployedOnTheServer.md) )
+## 本地部署([点击查看服务器部署](./DeployedOnTheServer.md) )
 
 > 第一步
 
