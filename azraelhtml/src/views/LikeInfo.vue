@@ -8,15 +8,7 @@
         {{ user_info.name }}</el-col
       >
     </el-row> -->
-    <el-row :gutter="10" class="dweb">
-      <div class="dweb" v-for="(fit, index) in user_info.favourite_data" :key="index">
-        <el-col :xs="12" :lg="12">收藏</el-col>
-        <el-col :xs="12" :lg="12">
-          <el-image style="width: 100px; height: 100px" :src="fit.cover" :fit="'cover'"></el-image>
-          <span class="demonstration">{{ fit.title }}</span>
-        </el-col>
-      </div>
-    </el-row>
+
     <el-row :gutter="10" class="dweb">
       点赞
       <el-col :xs="24" :lg="24">
@@ -38,7 +30,6 @@ export default {
       user_info: {
         name: '',
         avatar: '',
-        favourite_data: [],
         like_data: [],
       },
     };

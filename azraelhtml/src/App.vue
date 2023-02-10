@@ -42,6 +42,20 @@
               <el-menu-item index="/all-article-list">所有文章</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
+          <el-submenu index="2">
+            <template slot="title">
+              <i class="el-icon-folder-opened"></i>
+              <span>个人信息</span>
+            </template>
+            <el-menu-item-group>
+              <el-menu-item index="/like-info">点赞</el-menu-item>
+              <el-menu-item index="/favourite-info">收藏</el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
+          <el-menu-item index="/user-info">
+            <i class="el-icon-user"></i>
+            <span slot="title">个人信息</span>
+          </el-menu-item>
           <el-menu-item index="/user-permission">
             <i class="el-icon-user"></i>
             <span slot="title">用户管理</span>
@@ -63,7 +77,7 @@
     </div>
     <!-- 网页内容 -->
     <div id="content" :class="mobile_content">
-      <router-view :screenWidth="screenWidth"></router-view>
+      <router-view :screenWidth="screenWidth"> </router-view>
       <div id="footer" class="dweb">
         <span>Azrael For Graduation Project </span
         ><span @click="open_github"

@@ -8,24 +8,38 @@
           :label-position="'left'"
           label-width="60px"
           :model="fromData"
-          v-bind:style="{ position: 'relative', top: screenHight / 6 + 'px' }"
+          class="form_input_box"
         >
-          <div class="input_box">
-            <el-form-item label="用户名">
-              <el-input v-model="fromData.username"></el-input>
-            </el-form-item>
-            <el-form-item label="密码">
-              <el-input v-model="fromData.password" type="password"></el-input>
-            </el-form-item>
-            <el-form-item label="密码">
-              <el-input v-model="fromData.password2" type="password"></el-input>
-            </el-form-item>
+          <div class="input_box flex">
+            <div>
+              <el-input
+                placeholder="用户名"
+                v-model="fromData.username"
+                style="height: 60px;"
+              ></el-input>
+            </div>
+            <div>
+              <el-input
+                placeholder="密码"
+                v-model="fromData.password"
+                type="password "
+                style="height: 60px;"
+              ></el-input>
+            </div>
+            <div>
+              <el-input
+                placeholder="确认密码"
+                v-model="fromData.password2"
+                type="password"
+                style="height: 60px;"
+              ></el-input>
+            </div>
           </div>
           <el-form-item class="btn flex">
+            <el-button @click="toLogin" class="btn_distance" type="warning" round>去登录</el-button>
             <el-button @click="blogRegister" class="btn_distance" type="success" round
               >注册</el-button
             >
-            <el-button @click="toLogin" class="btn_distance" type="warning" round>登录</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -44,7 +58,6 @@ export default {
         password: '',
         password2: '',
       },
-      screenHight: document.body.clientHeight,
     };
   },
   methods: {
@@ -98,6 +111,7 @@ export default {
   align-content: center;
   justify-items: center;
   align-items: center;
+  flex-wrap: wrap;
 }
 .refisterbox {
   padding: 20px;
@@ -113,10 +127,12 @@ export default {
   padding: 0;
   margin: 0;
 }
-.input_box {
+
+.form_input_box {
   position: relative;
-  right: vw;
+  top: 10vh;
 }
+
 .btn_distance {
   margin: 0 6vw;
 }

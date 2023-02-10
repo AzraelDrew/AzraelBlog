@@ -68,7 +68,7 @@
 import axios from 'axios';
 import Qs from 'qs';
 import router from '../router';
-
+import EventBus from '../EventBus';
 const text = ``;
 export default {
   data() {

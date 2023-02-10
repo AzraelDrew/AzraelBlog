@@ -66,7 +66,9 @@
                       ></el-image>
                     </el-col>
                     <el-col class="text-item" :sm="8" :xs="8" :lg="8">
-                      <span>{{ item.title }}</span>
+                      <span>{{
+                        item.title.length > 5 ? item.title.substring(0, 5) + '...' : item.title
+                      }}</span>
                     </el-col>
                     <el-col class="text-item" :sm="6" :xs="6" :lg="5">
                       <span>{{ item.nickName }}</span>
@@ -151,6 +153,9 @@ export default {
   mounted() {
     this.getArticleList(this.currentPpage, this.currentLanmu);
     this.getLanmuTree();
+    if (this.article_list.length == 0) {
+      this.getArticleList(this.currentPpage, 'all');
+    }
   },
   methods: {
     //提示框

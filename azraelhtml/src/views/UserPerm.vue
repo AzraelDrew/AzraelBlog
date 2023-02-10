@@ -54,7 +54,7 @@
       <h5>所有用户组</h5>
     </div>
     <div class="body dweb">
-      <el-row class="flex">
+      <el-row class="flex" style="flex-wrap: wrap;">
         <el-col :xs="12" :lg="4" v-for="(item, index) in all_groups" :key="index">
           <el-button-group class="flex">
             <el-button v-if="index == choosed_group" @click="choosedGroup(index)" type="warning">{{

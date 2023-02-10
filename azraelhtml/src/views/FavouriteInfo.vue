@@ -17,15 +17,6 @@
         </el-col>
       </div>
     </el-row>
-    <el-row :gutter="10" class="dweb">
-      点赞
-      <el-col :xs="24" :lg="24">
-        <div class="dweb" v-for="(fit, index) in user_info.like_data" :key="index">
-          <el-image style="width: 100px; height: 100px" :src="fit.cover" :fit="'cover'"></el-image>
-          <span class="demonstration">{{ fit.title }}</span>
-        </div>
-      </el-col>
-    </el-row>
   </div>
 </template>
 
@@ -39,7 +30,6 @@ export default {
         name: '',
         avatar: '',
         favourite_data: [],
-        like_data: [],
       },
     };
   },

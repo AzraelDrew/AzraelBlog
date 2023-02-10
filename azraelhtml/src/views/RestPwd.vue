@@ -5,27 +5,44 @@
       <el-divider></el-divider>
       <div class="box flex">
         <el-form
-          v-bind:style="{ position: 'relative', top: screenHight / 6 + 'px' }"
+          class="form_input_box"
           :label-position="'left'"
           label-width="60px"
           :model="fromData"
         >
-          <div class="input_box">
-            <el-form-item label="用户名">
-              <el-input v-model="fromData.username"></el-input>
-            </el-form-item>
-            <el-form-item label="密码">
-              <el-input v-model="fromData.password" type="password"></el-input>
-            </el-form-item>
-            <el-form-item label="密码">
-              <el-input v-model="fromData.password2" type="password"></el-input>
-            </el-form-item>
+          <div
+            class="input_box flex
+          "
+          >
+            <div label="">
+              <el-input
+                placeholder="用户名"
+                v-model="fromData.username"
+                style="height: 60px;"
+              ></el-input>
+            </div>
+            <div label="">
+              <el-input
+                placeholder="密码"
+                v-model="fromData.password"
+                type="password"
+                style="height: 60px;"
+              ></el-input>
+            </div>
+            <div label="密码">
+              <el-input
+                placeholder="确认密码"
+                v-model="fromData.password2"
+                type="password"
+                style="height: 60px;"
+              ></el-input>
+            </div>
           </div>
           <el-form-item class="btn flex">
+            <el-button class="btn_distance" @click="toLogin" type="warning" round>去登录</el-button>
             <el-button class="btn_distance" @click="blogRegister" type="success" round
               >修改</el-button
             >
-            <el-button class="btn_distance" @click="toLogin" type="success" round>登录</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -44,9 +61,9 @@ export default {
         password: '',
         password2: '',
       },
-      screenHight: document.body.clientHeight,
     };
   },
+
   methods: {
     //提示框
     messageNotify(title, message, type) {
@@ -89,6 +106,7 @@ export default {
             this.messageNotify('警告', '账号不存在!', 'warning');
             return;
           } else {
+            this.messageNotify('成功', '修改成功', 'success');
             this.$router.push({ name: 'Login' });
           }
         });
@@ -112,6 +130,7 @@ export default {
   justify-items: center;
   align-content: center;
   align-items: center;
+  flex-wrap: wrap;
 }
 .refisterbox {
   padding: 20px;
@@ -130,8 +149,8 @@ export default {
   padding: 0;
   margin: 0;
 }
-.input_box {
+.form_input_box {
   position: relative;
-  right: 1.3vw;
+  top: 10vh;
 }
 </style>

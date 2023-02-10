@@ -41,4 +41,6 @@ urlpatterns = [
 
     # 用户信息
     path('user-info/', api.user_info),
+    path('like-info/', api.like_info),
+    path('favourite-info/', api.favourite_info),
 ]

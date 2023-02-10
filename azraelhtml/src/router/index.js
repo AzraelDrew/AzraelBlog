@@ -16,6 +16,43 @@ const routes = [
       }
     },
   },
+  // 用户i信息
+  {
+    path: '/user-info',
+    name: 'UserInfo',
+    component: () => import('../views/UserInfo'),
+    beforeEnter(to, from, next) {
+      if (store.state.userinfo.token) {
+        next();
+      } else {
+        next('/login');
+      }
+    },
+  },
+  {
+    path: '/like-info',
+    name: 'LikeInfo',
+    component: () => import('../views/LikeInfo'),
+    beforeEnter(to, from, next) {
+      if (store.state.userinfo.token) {
+        next();
+      } else {
+        next('/login');
+      }
+    },
+  },
+  {
+    path: '/favourite-info',
+    name: 'FavouriteInfo',
+    component: () => import('../views/FavouriteInfo'),
+    beforeEnter(to, from, next) {
+      if (store.state.userinfo.token) {
+        next();
+      } else {
+        next('/login');
+      }
+    },
+  },
   // 登录
   {
     path: '/login',
@@ -30,7 +67,7 @@ const routes = [
   },
   // 重置密码
   {
-    path: '/rest_pwd',
+    path: '/rest-pwd',
     name: 'RestPwd',
     component: () => import('../views/RestPwd'),
   },
@@ -152,20 +189,6 @@ const routes = [
             next();
           }
         });
-      } else {
-        next('/login');
-      }
-    },
-  },
-
-  {
-    path: '/user-info',
-    name: 'UserInfo',
-    component: () => import('../views/UserInfo'),
-    beforeEnter(to, from, next) {
-      // 判断用户是否登录
-      if (store.state.userinfo.token) {
-        next();
       } else {
         next('/login');
       }

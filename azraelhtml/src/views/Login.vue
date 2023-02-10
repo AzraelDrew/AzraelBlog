@@ -8,24 +8,38 @@
           :label-position="'left'"
           label-width="60px"
           :model="fromData"
-          v-bind:style="{ position: 'relative', top: screenHight / 6 + 'px' }"
+          class="form_input_box"
         >
-          <div class="input_box ">
-            <el-form-item label="用户名">
-              <el-input v-model="fromData.username"></el-input>
-            </el-form-item>
-            <el-form-item label="密码  ">
-              <el-input v-model="fromData.password" type="password"></el-input>
-              <a href="" @click.prevent="toRestPwd()" style="color:aqua">忘记密码?</a>
-            </el-form-item>
+          <div class="input_box flex">
+            <div>
+              <el-input
+                placeholder="用户名"
+                v-model="fromData.username"
+                style="height: 60px;"
+              ></el-input>
+            </div>
+            <div>
+              <el-input
+                placeholder="密码"
+                v-model="fromData.password"
+                type="password"
+                style="height: 60px;"
+              ></el-input>
+              <div style="display: flex;flex-direction: row-reverse;">
+                <a href="" @click.prevent="toRestPwd()" style="color:aqua; ">忘记密码?</a>
+              </div>
+            </div>
           </div>
           <el-form-item class="btn flex">
+            <el-button @click="toRegister()" class="btn_distance" type="warning" round
+              >去注册</el-button
+            >
             <el-button @click="blogLogin()" class="btn_distance" :plain="true" type="success" round
               >登录</el-button
             >
-            <el-button @click="toRegister()" class="btn_distance" type="warning" round
-              >注册</el-button
-            >
+            <!-- <el-button @click.prevent="toRestPwd()" class="btn_distance" type="warning" round
+              >忘记密码</el-button
+            > -->
             <!-- <el-button @click="toRestPwd()" type="warning" round>忘记密码</el-button> -->
           </el-form-item>
         </el-form>
@@ -43,7 +57,6 @@ export default {
         password: '',
         // fullscreenLoading: false,
       },
-      screenHight: document.body.clientHeight,
     };
   },
   methods: {
@@ -89,6 +102,7 @@ export default {
   align-content: center;
   justify-items: center;
   align-items: center;
+  flex-wrap: wrap;
 }
 .loginbox {
   padding: 20px;
@@ -104,12 +118,12 @@ export default {
   padding: 0;
   margin: 0;
 }
-
-.input_box {
+.form_input_box {
   position: relative;
-  /* right: 1.3vw; */
+  top: 10vh;
 }
+
 .btn_distance {
-  margin: 0 6vw;
+  margin: 20px 6vw;
 }
 </style>

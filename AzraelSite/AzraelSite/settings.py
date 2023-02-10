@@ -16,7 +16,6 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
@@ -26,8 +25,9 @@ SECRET_KEY = 'django-insecure-#ff1ar$#+qt#84j9@bx_yqeq4*+&!8p6r*d)osj&68o3uoz-i!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+APPEND_SLASH = False
 
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
@@ -76,7 +76,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'AzraelSite.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
@@ -87,7 +86,7 @@ DATABASES = {
     },
     #     'default': {
     #     'ENGINE': 'django.db.backends.mysql',
-    #     'NAME': "myblog", 
+    #     'NAME': "myblog",
     #     'USER':"root",
     #     'PASSWORD':"yznaisy993279..",
     #     'HOST':"localhost",
@@ -95,25 +94,27 @@ DATABASES = {
     # }
 }
 
-
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.CommonPasswordValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
@@ -128,7 +129,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
@@ -136,7 +136,6 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_URL = '/upload/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'upload').replace('\\', '/')
-
 
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_ALLOW_ALL = True
@@ -158,16 +157,7 @@ CORS_ALLOW_METHODS = (
     'VIEW',
 )
 
-CORS_ALLOW_HEADERS = (
-    'XMLHttpRequest',
-    'X_FILENAME',
-    'accept-encoding',
-    'authorization',
-    'content-type',
-    'dnt',
-    'origin',
-    'user-agent',
-    'x-csrftoken',
-    'x-requested-with',
-    'Pragma'
-)
+CORS_ALLOW_HEADERS = ('XMLHttpRequest', 'X_FILENAME', 'accept-encoding',
+                      'authorization', 'content-type', 'dnt', 'origin',
+                      'user-agent', 'x-csrftoken', 'x-requested-with',
+                      'Pragma')

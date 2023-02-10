@@ -15,17 +15,101 @@ import os
 import json
 
 hostUrl = 'http://127.0.0.1:8000/'
+
 # hostUrl = 'http://42.138.126.114:8000/'
 
 
-@api_view(["GET"])
+# 用户信息
+@api_view(["GET", "POST"])
 def user_info(request):
-    data = UserInfo.objects.all().first()
-    user_info = User.objects.all().first()
+    username = request.POST["name"]
+    print(username)
+    userid = User.objects.filter(username=username).first().id
+    print(userid)
+    like_article_id = Like.objects.filter(belong_user_id=userid).all()
+    print("点赞")
+    like_articles = []
+    for item in like_article_id:
+        print(item.belong_id, item.belong_user_id)
+        article = Article.objects.filter(id=item.belong_id).first()
+        print(article)
+        a_item = {"title": article.title, "cover": article.cover}
+        like_articles.append(a_item)
+
+    print("-------------")
+    favourite_article_id = Favourite.objects.filter(
+        belong_user_id=userid).all()
+    print("收藏")
+    favourite_articles = []
+    for item in favourite_article_id:
+        print(item.belong_id, item.belong_user_id)
+        article = Article.objects.filter(id=item.belong_id).first()
+        print(article)
+        a_item = {"title": article.title, "cover": article.cover}
+        favourite_articles.append(a_item)
+
+    data = UserInfo.objects.filter(id=userid).first()
+    user_info = User.objects.filter(id=userid).first()
     user_info_data = {
         "name": user_info.username,
-        "belong": "Azrael",
-        "headimg": data.headImg
+        "avatar": data.headImg,
+        "like_data": like_articles,
+        "favourite_data": favourite_articles
+    }
+    return Response(user_info_data)
+
+
+# 点赞信息
+@api_view(["GET", "POST"])
+def like_info(request):
+    username = request.POST["name"]
+    print(username)
+    userid = User.objects.filter(username=username).first().id
+    print(userid)
+    like_article_id = Like.objects.filter(belong_user_id=userid).all()
+    print("点赞")
+    like_articles = []
+    for item in like_article_id:
+        print(item.belong_id, item.belong_user_id)
+        article = Article.objects.filter(id=item.belong_id).first()
+        print(article)
+        a_item = {"title": article.title, "cover": article.cover}
+        like_articles.append(a_item)
+
+    data = UserInfo.objects.filter(id=userid).first()
+    user_info = User.objects.filter(id=userid).first()
+    user_info_data = {
+        "name": user_info.username,
+        "avatar": data.headImg,
+        "like_data": like_articles,
+    }
+    return Response(user_info_data)
+
+
+# 收藏信息
+@api_view(["GET", "POST"])
+def favourite_info(request):
+    username = request.POST["name"]
+    print(username)
+    userid = User.objects.filter(username=username).first().id
+    print(userid)
+    favourite_article_id = Favourite.objects.filter(
+        belong_user_id=userid).all()
+    print("收藏")
+    favourite_articles = []
+    for item in favourite_article_id:
+        print(item.belong_id, item.belong_user_id)
+        article = Article.objects.filter(id=item.belong_id).first()
+        print(article)
+        a_item = {"title": article.title, "cover": article.cover}
+        favourite_articles.append(a_item)
+
+    data = UserInfo.objects.filter(id=userid).first()
+    user_info = User.objects.filter(id=userid).first()
+    user_info_data = {
+        "name": user_info.username,
+        "avatar": data.headImg,
+        "favourite_data": favourite_articles
     }
     return Response(user_info_data)
 
@@ -122,7 +206,8 @@ def azrael_register(request):
         new_user.save()
     token = Token.objects.get_or_create(user=new_user)
     token = Token.objects.get(user=new_user)
-    userinfo = UserInfo.objects.get_or_create(belong=new_user)
+    userinfo = UserInfo.objects.get_or_create(belong=new_user,
+                                              nickName=username)
     userinfo = UserInfo.objects.get(belong=new_user)
     userinfo_data = {
         'token': token.key,
@@ -138,7 +223,6 @@ def azrael_register(request):
 def azrael_reset_pwd(request):
     username = request.POST['username']
     password = request.POST['password']
-    password2 = request.POST['password2']
     # 注册逻辑
     user = User.objects.filter(username=username)
     if not user:
@@ -150,18 +234,6 @@ def azrael_reset_pwd(request):
         new_user = User.objects.filter(username=username)
         print(new_user)
         return Response("OK")
-    # # user = User.objects.filter(username=username)
-    # token = Token.objects.get_or_create(user=new_user)
-    # token = Token.objects.get(user=new_user)
-    # userinfo = UserInfo.objects.get_or_create(belong=new_user)
-    # userinfo = UserInfo.objects.get(belong=new_user)
-    # userinfo_data = {
-    #     'token': token.key,
-    #     'nickname': str(username),
-    #     'headImg': userinfo.headImg,
-    # }
-    # print(userinfo_data)
-    # return Response(userinfo_data)
 
 
 # 文章数据
