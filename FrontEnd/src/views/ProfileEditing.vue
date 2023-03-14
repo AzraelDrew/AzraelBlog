@@ -16,8 +16,15 @@
       <div class="flex flexDirectionColumn box">
         <div class="flex flexJustifyStart changeAvatar">
           <TheAvatar :size="50" :src="form.avatar" />
-          <el-upload class="upload-demo flex" multiple :limit="3">
-            <el-button class="uploadAvatar" type="primary">修改头像</el-button>
+          <el-upload
+            class="upload-demo flex"
+            multiple
+            :limit="3"
+            name="avatar"
+            action="http://127.0.0.1:8000/api/upload/avatar/"
+            :on-success="Upload"
+          >
+            <el-button class="uploadAvatar" round>修改头像</el-button>
           </el-upload>
         </div>
         <div class="form">
@@ -52,7 +59,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive } from 'vue';
+import { reactive, watch } from 'vue';
 import { useRouter, RouterLink } from 'vue-router';
 import TheAvatar from '@/components/TheAvatar.vue';
 import TheNavBar from '@/components/TheNavBar.vue';
@@ -68,6 +75,7 @@ const userstore = useUserStore();
 
 const router = useRouter();
 // do not use same name with ref
+
 const form = reactive({
   name: userstore.userInfo.username,
   nickName: userstore.userInfo.name,
@@ -75,7 +83,14 @@ const form = reactive({
   phone: userstore.userInfo.phone,
   desc: userstore.userInfo.desc,
 });
-
+async function Upload(e: any) {
+  console.log(e);
+  form.avatar = '';
+  form.avatar = e.url;
+}
+watch(userstore.userInfo, async () => {
+  userstore.GetUserInfo(userstore.userInfo.token);
+});
 async function onSubmit() {
   console.log('submit!');
   let formData = new FormData();
@@ -95,7 +110,7 @@ function onCancel() {
 }
 function Logout() {
   userstore.userLogout();
-  router.replace({ name: 'Login' });
+  router.replace({ name: 'Home' });
 }
 </script>
 <style scoped>

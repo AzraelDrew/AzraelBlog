@@ -137,7 +137,7 @@
               {{ comment.text }}
             </p>
             <div style="display: flex; justify-content: end">
-              <TheButton text="删除" style="display: flex" />
+              <TheButton text="删除" style="display: flex" @click="deleteComment(comment.id)" />
             </div>
           </div>
         </template>
@@ -277,17 +277,21 @@ async function showComments() {
   console.log(res);
   comments.value = res.data.data;
 }
-function showCommentDetails(
-  commentText: string,
-  commentAvatar: string,
-  commentNickName: string,
-  commentDate: string
-) {
-  commentDeatilDrawer.value = true;
-  commentDetail.value = commentText;
-  commentDetailAvatar.value = commentAvatar;
-  commentDeatilNickName.value = commentNickName;
-  commentDetailDate.value = commentDate;
+async function deleteComment(id: any) {
+  console.log(id);
+  let data = new FormData();
+  data.append('id', id);
+  data.append('userId', userstore.userInfo.id);
+  let res = await axios.post('api/delete/comment/', data);
+  console.log(res.data);
+  if (res.data == 'OK') {
+    ElNotification({
+      title: 'Success',
+      message: '删除成功',
+      type: 'success',
+    });
+    showComments();
+  }
 }
 async function addComment(articleId: any, currentId: any) {
   if (!userstore.userInfo.token) {
@@ -307,12 +311,24 @@ async function addComment(articleId: any, currentId: any) {
     console.log(res);
   }
 }
+function showCommentDetails(
+  commentText: string,
+  commentAvatar: string,
+  commentNickName: string,
+  commentDate: string
+) {
+  commentDeatilDrawer.value = true;
+  commentDetail.value = commentText;
+  commentDetailAvatar.value = commentAvatar;
+  commentDeatilNickName.value = commentNickName;
+  commentDetailDate.value = commentDate;
+}
 function Login() {
   router.replace({ name: 'Login' });
 }
 function Logout() {
   userstore.userLogout();
-  router.replace({ name: 'Login' });
+  router.replace({ name: 'Home' });
 }
 
 async function LikeFavor(

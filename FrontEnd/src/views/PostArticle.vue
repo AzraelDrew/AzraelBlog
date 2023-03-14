@@ -24,7 +24,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import { ElNotification } from 'element-plus';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import TheButton from '@/components/TheButton.vue';
 import useAxios from '../composables/useAxios';
 import { useUserStore } from '@/stores/user';
@@ -54,6 +54,7 @@ const markDownText = `::: tip
 
 `;
 const router = useRouter();
+const route = useRoute();
 const userstore = useUserStore();
 const axios = useAxios();
 const text = ref(markDownText);
@@ -73,7 +74,7 @@ async function hendleSubmit() {
   data.append('cover', '');
   let res = await axios.post('api/add/article/', data);
   console.log(res);
-  router.push({ name: 'Home' });
+  router.push({ name: 'ViewArticle', params: { id: route.params.id } });
 }
 </script>
 <style scoped>

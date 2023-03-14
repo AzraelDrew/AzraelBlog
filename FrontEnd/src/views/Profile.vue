@@ -116,7 +116,7 @@ async function AllArticle(id: any, type: string) {
 
 function Logout() {
   userstore.userLogout();
-  router.replace({ name: 'Login' });
+  router.replace({ name: 'Home' });
 }
 </script>
 <style scoped>

@@ -72,7 +72,7 @@ function Login() {
 
 function Logout() {
   userstore.userLogout();
-  router.replace({ name: 'Login' });
+  router.replace({ name: 'Home' });
 }
 </script>
 

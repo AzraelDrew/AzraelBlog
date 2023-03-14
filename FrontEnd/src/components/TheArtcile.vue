@@ -24,7 +24,6 @@
 
 <script lang="ts" setup>
 import { ref, watch, shallowRef, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
 import { ElNotification } from 'element-plus';
 import TheArtcileGrid from './TheArtcileGrid.vue';
 import TheArtcileList from './TheArtcileList.vue';
@@ -56,7 +55,11 @@ watch(currentPage, async (newval, oldval) => {
   console.log(res.data.data);
   allArticle.value = res.data.data;
 });
-
+watch(userstore.userInfo, async (newval, oldval) => {
+  let res = await AllArticle(currentPage.value, pageSize.value, userstore.userInfo.id);
+  console.log(res.data.data);
+  allArticle.value = res.data.data;
+});
 async function CurrentPage(page: number) {
   if (page < 1) {
     ElNotification({
@@ -84,7 +87,7 @@ onMounted(async () => {
   console.log(res);
   allArticle.value = res.data.data;
 });
-async function AllArticle(page: number, pageSize: number, userId?: number | string) {
+async function AllArticle(page: 1 | number, pageSize: number, userId?: number | string) {
   let res = await axios({
     url: '/api/all/article/' + '?page=' + page + '&pageSize=' + pageSize + '&userId=' + userId,
     method: 'GET',

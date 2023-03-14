@@ -54,7 +54,7 @@
 <script lang="ts" setup>
 // import axios from 'axios';
 import { useRouter } from 'vue-router';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { ElNotification } from 'element-plus';
 import { useUserStore } from '../stores/user';
 import TheIcon from './TheIcon.vue';
