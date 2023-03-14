@@ -119,7 +119,7 @@ export default {
         let src = {
           imgnode: imgnode.src,
         };
-        console.log(imgData.result);
+        // console.log(imgData.result);
         // 讲图片存储在后端并返回对应都url
         axios.post(this.$store.state.baseurl + 'api/save-img/', Qs.stringify(src)).then((res) => {
           console.log(res.data);

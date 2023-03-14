@@ -195,7 +195,6 @@ def azrael_logout(request):
 def azrael_register(request):
     username = request.POST['username']
     password = request.POST['password']
-    password2 = request.POST['password2']
     # 注册逻辑
     user = User.objects.filter(username=username)
     if user:
@@ -288,19 +287,22 @@ def add_article(request):
         return Response("OK")
     title = request.POST['title']
     describe = request.POST['describe']
-    cover = request.POST['cover']
+    if request.POST['cover']:
+        cover = request.POST['cover']
+    else:
+        cover = hostUrl + 'upload/' + 'defaultCover.png'
+
     content = request.POST['content']
     token = request.POST['token']
 
     user_token = Token.objects.filter(key=token)
-
+    print('token', user_token)
     if len(user_token) == 0:
         return Response("nologin")
     if len(title) == 0:
         return Response("notitle")
     # 保存文章
     new_article = Article(title=title)
-    new_article.save()
     # 解析富文本html文档
     soup = BeautifulSoup(content, 'html.parser')
     # 获取所有的img标签 图片
@@ -366,7 +368,7 @@ def article_list(request):
 
     # 获取当前用户的文章
     currentname = request.GET["currentname"]
-    if currentname != 'all_user':
+    if currentname != 'alluser':
         user = User.objects.filter(username=currentname)
         page = request.GET['page']
         pageSize = request.GET['pageSize']
@@ -414,12 +416,13 @@ def article_list(request):
             'nickName': "",
             'id': a.id
         }
-        article_user = a.belong
-        userinfo = UserInfo.objects.filter(belong=article_user)
-        if userinfo[0].nickName:
-            a_item['nickName'] = userinfo[0].nickName
+        print(a.id)
+        userinfo = User.objects.filter(id=a.belong_id).first()
+
+        if userinfo:
+            a_item['nickName'] = userinfo.username
         else:
-            a_item['nickName'] = article_user.username
+            a_item['nickName'] = "admin"
         articles_data.append(a_item)
     return Response({'data': articles_data, 'total': total})
 
@@ -767,3 +770,34 @@ def articleFavor(request):
         new_favor = Favourite(belong=article, belong_user=user_token[0].user)
         new_favor.save()
         return Response('ok')
+
+
+@api_view(["GET"])
+def test_list(request):
+    id = request.GET["id"]
+    print(id)
+    article_id = id
+    article = Article.objects.get(id=article_id)
+    article_data = {
+        "title": article.title,
+        "cover": article.cover,
+        "describe": article.describe,
+        "content": article.content,
+        "nickName": article.belong.username,
+        "lanmu": "",
+        "pre_id": 0,
+        "next_id": 0
+    }
+    pre_data = Article.objects.filter(id__lt=article_id)
+    if pre_data:
+        article_data["pre_id"] = pre_data.last().id
+    next_data = Article.objects.filter(id__gt=article_id)
+    if next_data:
+        article_data["next_id"] = next_data.first().id
+
+    if article.belong_lanmu:
+        article_data["lanmu"] = article.belong_lanmu.name
+        return Response(article_data)
+    else:
+        article_data["lanmu"] = 'nobelong'
+        return Response(article_data)

@@ -2,7 +2,9 @@
 /*/node_modules
 dist
 db.sqlite3
-upload
+upload/
+__pycache__
+migrations/
 
 # local env files
 .env.local

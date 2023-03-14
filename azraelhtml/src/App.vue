@@ -59,18 +59,7 @@
             <i class="el-icon-s-operation"></i>
             <span slot="title">栏目管理</span>
           </el-menu-item>
-          <el-submenu index="2">
-            <template slot="title">
-              <i class="el-icon-folder-opened"></i>
-              <span>我的</span>
-            </template>
-            <el-menu-item-group>
-              <el-menu-item index="/user-info">
-                个人信息
-              </el-menu-item>
-              <el-menu-item index="/favourite-info">收藏</el-menu-item>
-            </el-menu-item-group>
-          </el-submenu>
+
           <!-- <el-menu-item index="/user-info">
             <i class="el-icon-user"></i>
             <span slot="title">用户信息</span>

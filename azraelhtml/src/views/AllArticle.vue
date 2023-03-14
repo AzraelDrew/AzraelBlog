@@ -163,11 +163,12 @@ export default {
         method: 'GET',
         params: {
           page,
-          currentname: 'all_user',
+          currentname: 'alluser',
           pageSize: this.pageSize,
           lanmu: lanmu,
         },
       }).then((res) => {
+        console.log(res.data);
         this.article_list = res.data.data;
         this.total = res.data.total;
         this.srcList = [];

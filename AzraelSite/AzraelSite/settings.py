@@ -121,13 +121,13 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False  # 如若设置True则数据库存储的时间为UTC时间   False则为TIME_ZONE设置的时间
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
@@ -145,6 +145,7 @@ CORS_ORIGIN_WHITELIST = (
     'http://localhost',
     'http://127.0.0.1:8000',
     'http://43.138.126.114:8000',
+    'http://192.168.3.*',
 )
 
 CORS_ALLOW_METHODS = (

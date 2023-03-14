@@ -1,5 +1,5 @@
 from django.urls import path
-from Blog import api
+from Blog import api, blog
 
 urlpatterns = [
     # 添加文章
@@ -43,4 +43,20 @@ urlpatterns = [
     path('user-info/', api.user_info),
     path('like-info/', api.like_info),
     path('favourite-info/', api.favourite_info),
+
+    # Blog
+    path('login/', blog.Login),
+    path('get/userinfo/', blog.GetUserInfo),
+    path('update/userinfo/', blog.UpdateUserInfo),
+    path('add/article/', blog.AddArticle),
+    path('upadte/article/', blog.UpdateArticle),
+    path('article/', blog.ArticleData),
+    path('article/like/', blog.ArticleLike),
+    path('article/favor/', blog.ArticleFavor),
+    path('all/article/', blog.AllArtcile),
+    path('my/article/', blog.MyArticle),
+    path('like/article/', blog.MyLikeArticle),
+    path('favourite/article/', blog.MyFavouriteArticle),
+    path('comment/', blog.Comments),
+    path('add/comment/', blog.AddComment),
 ]

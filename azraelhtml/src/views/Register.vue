@@ -22,7 +22,7 @@
               <el-input
                 placeholder="密码"
                 v-model="fromData.password"
-                type="password "
+                type="password"
                 style="height: 60px;"
               ></el-input>
             </div>
