@@ -1,13 +1,22 @@
 from Blog.models import Article, UserInfo, Lanmu, Pinglun, Like, Favourite
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view,permission_classes
 from rest_framework.authtoken.models import Token
 from django.contrib.auth.hashers import check_password, make_password
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.models import User, Group, Permission, ContentType
 from django.utils.timezone import localtime
-
+from bs4 import BeautifulSoup
+from PIL import Image
+from io import BytesIO
+import requests
+import datetime
+import base64
+import os
+import json
 hostUrl = 'http://127.0.0.1:8000/'
+
+# hostUrl = 'http://43.138.126.114:8000/'
 
 
 def CurrentUserId(token):
@@ -143,6 +152,27 @@ def UpdateUserInfo(request):
                                           desc=desc,
                                           phone=phone)
     return Response("ok")
+
+
+@api_view(('GET', "POST"))
+def UploadAvatar(request):
+    if request.method == "POST":
+        print("UploadImg")
+        avatar = request.FILES["avatar"]
+        image_name = datetime.datetime.now().strftime(
+        '%Y%m%d%H%M%S')+"."+str(avatar).split(".")[1]
+        print(image_name)
+        image_name = os.path.join('upload', image_name).replace('\\', '/')
+        print(image_name)
+        f = open(image_name, mode="wb")
+        for chunk in avatar.chunks():
+            f.write(chunk)
+        f.close()
+        url = hostUrl+image_name
+        # print(url)
+        data = {"url": url}
+        return Response(data)
+
 
 
 def UserLoginAndPerm(token, permList):
@@ -287,6 +317,7 @@ def Comments(request):
     pinglun_data = []
     for pinglun in pingluns:
         pinglun_item = {
+            'id':pinglun.id,
             "nickName":
             pinglun.belong_user.username,
             "text":
@@ -310,6 +341,18 @@ def AddComment(request):
                           belong_id=articleId,
                           text=comment)
     new_pinglun.save()
+    return Response("OK")
+
+
+@api_view(["POST"])
+def DeleteComment(request):
+    pinlunId = request.POST["id"]
+    currentId = request.POST["userId"]
+    print(pinlunId,currentId)
+    currentPinLun = Pinglun.objects.filter(id=pinlunId,belong_user_id=currentId).first()
+
+    print(currentPinLun.text)
+    currentPinLun.delete()
     return Response("OK")
 
 

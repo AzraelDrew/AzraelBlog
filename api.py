@@ -14,9 +14,9 @@ import base64
 import os
 import json
 
-hostUrl = 'http://127.0.0.1:8000/'
+# hostUrl = 'http://127.0.0.1:8000/'
 
-# hostUrl = 'http://43.138.126.114:8000/'
+hostUrl = 'http://43.138.126.114:8000/'
 
 
 # 用户信息
@@ -352,7 +352,6 @@ def save_img(request):
     image_name = datetime.datetime.now().strftime(
         '%Y%m%d%H%M%S') + "." + src.split(',')[0].split('/')[1].split(';')[0]
     image_url = os.path.join('upload', image_name).replace('\\', '/')
-    print(image_url)
     with open(image_url, 'wb') as f:
         f.write(image_data)
     new_src = hostUrl + image_url
@@ -369,15 +368,13 @@ def article_list(request):
 
     # 获取当前用户的文章
     currentname = request.GET["currentname"]
-    if currentname != 'all_user':
-        user = User.objects.filter(username=currentname).first()
+    if currentname != 'alluser':
+        user = User.objects.filter(username=currentname)
         page = request.GET['page']
-
         pageSize = request.GET['pageSize']
         lanmu = request.GET['lanmu']
         if lanmu == "all":
-            print('user',user)
-            articles = Article.objects.filter(belong=user.id)
+            articles = Article.objects.filter(belong=user[0].id)
         elif lanmu == "nobelong":
             articles = Article.objects.filter(belong_lanmu=None)
         else:

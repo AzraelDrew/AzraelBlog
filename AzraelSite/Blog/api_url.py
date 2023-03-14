@@ -48,6 +48,7 @@ urlpatterns = [
     path('login/', blog.Login),
     path('get/userinfo/', blog.GetUserInfo),
     path('update/userinfo/', blog.UpdateUserInfo),
+    path('upload/avatar/', blog.UploadAvatar),
     path('add/article/', blog.AddArticle),
     path('upadte/article/', blog.UpdateArticle),
     path('article/', blog.ArticleData),
@@ -59,4 +60,5 @@ urlpatterns = [
     path('favourite/article/', blog.MyFavouriteArticle),
     path('comment/', blog.Comments),
     path('add/comment/', blog.AddComment),
+    path('delete/comment/', blog.DeleteComment),
 ]

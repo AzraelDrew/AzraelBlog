@@ -163,7 +163,7 @@ export default {
         method: 'GET',
         params: {
           page,
-          currentname: 'alluser',
+          currentname: 'all_user',
           pageSize: this.pageSize,
           lanmu: lanmu,
         },
