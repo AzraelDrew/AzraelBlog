@@ -1,0 +1,130 @@
+body {
+  padding: 0;
+  margin: 0;
+}
+.fade-enter-from {
+  opacity: 0;
+  transform: translate(100px, -100px);
+}
+
+.fade-enter-to,
+.fade-leave-from {
+  opacity: 1;
+}
+
+.fade-leave-to {
+  opacity: 0;
+  transform: translate(-100px, 100px);
+}
+
+.fade-enter-active {
+  transition: all 0.8s ease-in-out;
+}
+
+.fade-leave-active {
+  transition: all 0.2s ease-in;
+}
+.theArtcile {
+  animation-name: blog;
+  animation-duration: 1s;
+}
+@keyframes blog {
+  0% {
+    opacity: 0;
+    transform: translate(100px, -100px);
+  }
+  20% {
+    opacity: 0.2;
+  }
+  40% {
+    opacity: 0.4;
+  }
+  60% {
+    opacity: 0.6;
+  }
+  80% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.flex {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  justify-items: center;
+  align-items: center;
+}
+.flexJustifySpaceBetween {
+  justify-content: space-between;
+}
+.flexJustifyStart {
+  justify-content: flex-start;
+}
+.flexJustifyEnd {
+  justify-content: flex-end;
+}
+.flexJustifySpaceEvenly {
+  justify-content: space-evenly;
+}
+
+.flexAlignStart {
+  align-content: flex-start;
+}
+.flexDirectionColumn {
+  flex-direction: column;
+}
+
+.flexDirectionRow {
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
+.flexWarp {
+  flex-wrap: wrap;
+}
+
+.link {
+  text-decoration: none;
+  color: #749cf1;
+  cursor: pointer;
+}
+
+.link:hover {
+  text-decoration: none;
+  color: #749cf1;
+}
+
+.likeFavor {
+  color: #749cf1;
+}
+
+.el-input__wrapper {
+  background: #fff !important;
+  color: #00000020;
+  border-radius: 15px;
+}
+.el-input__inner {
+  color: black;
+}
+
+.el-textarea__inner {
+  border-radius: 15px;
+}
+
+.el-dropdown:hover {
+  cursor: pointer;
+}
+.el-textarea__inner {
+  resize: none;
+}
+
+.el-backtop {
+  border-radius: 20px;
+}
+
+.v-md-editor,
+.v-md-editor__main {
+  border-radius: 15px;
+}
