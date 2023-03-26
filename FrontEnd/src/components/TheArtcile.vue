@@ -6,13 +6,17 @@
         v-for="(tab, index) in tabs"
         :icon="tab.icon"
         :size="30"
-        :class="{ active: index === currentTab }"
-        @click="currentTab = index"
+        :class="{ active: index === userstore.index }"
+        @click="userstore.ChangeIndex(index)"
       />
     </div>
     <div class="flexDirectionRow">
       <transition name="fade">
-        <component :is="tabs[currentTab].component" :number="7" :posts="allArticle"></component>
+        <component
+          :is="tabs[userstore.index].component"
+          :number="7"
+          :posts="allArticle"
+        ></component>
       </transition>
       <div class="flex flexJustifySpaceBetween preAndNext">
         <TheButton text="上一页" @click="CurrentPage(currentPage - 1)" />
@@ -25,16 +29,15 @@
 <script lang="ts" setup>
 import { ref, watch, shallowRef, onMounted } from 'vue';
 import { ElNotification } from 'element-plus';
+import { useUserStore } from '@/stores/user';
+import useAxios from '../composables/useAxios';
 import TheArtcileGrid from './TheArtcileGrid.vue';
 import TheArtcileList from './TheArtcileList.vue';
 import TheIcon from './TheIcon.vue';
 import TheButton from './TheButton.vue';
-import { useUserStore } from '@/stores/user';
-import useAxios from '../composables/useAxios';
+const props = defineProps(['search']);
 const axios = useAxios();
 const userstore = useUserStore();
-
-const currentTab = ref(0);
 
 const totalPage = ref<number>(0);
 const currentPage = ref(1);
@@ -50,28 +53,44 @@ const tabs = ref([
     component: shallowRef(TheArtcileList),
   },
 ]);
+watch(props, async (newval) => {
+  console.log(newval.search);
+  let res = await axios({
+    url:
+      '/api/all/article/' +
+      '?page=' +
+      1 +
+      '&pageSize=' +
+      pageSize.value +
+      '&userId=' +
+      userstore.userInfo.id +
+      '&search=' +
+      newval.search,
+    method: 'GET',
+  });
+  allArticle.value = res.data.data;
+});
 watch(currentPage, async (newval, oldval) => {
   let res = await AllArticle(newval, pageSize.value, userstore.userInfo.id);
-  console.log(res.data.data);
   allArticle.value = res.data.data;
 });
 watch(userstore.userInfo, async (newval, oldval) => {
   let res = await AllArticle(currentPage.value, pageSize.value, userstore.userInfo.id);
-  console.log(res.data.data);
   allArticle.value = res.data.data;
 });
+
 async function CurrentPage(page: number) {
   if (page < 1) {
     ElNotification({
-      title: 'Success',
+      title: 'Warning',
       message: '没有了',
-      type: 'success',
+      type: 'warning',
     });
   } else if (page > Math.ceil(totalPage.value / pageSize.value)) {
     ElNotification({
-      title: 'Success',
+      title: 'Warning',
       message: '没有了',
-      type: 'success',
+      type: 'warning',
     });
   } else {
     currentPage.value = page;
@@ -84,7 +103,6 @@ onMounted(async () => {
     userstore.userInfo.id ? userstore.userInfo.id : 0
   );
   totalPage.value = res.data.total;
-  console.log(res);
   allArticle.value = res.data.data;
 });
 async function AllArticle(page: 1 | number, pageSize: number, userId?: number | string) {

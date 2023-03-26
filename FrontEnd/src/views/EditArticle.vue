@@ -1,7 +1,7 @@
 <template>
   <transition name="fade" appear>
-    <div class="container">
-      <div class="flex flexJustifySpaceBetween">
+    <div class="container editArticle">
+      <div v-show="!isFullscreen" class="flex flexJustifySpaceBetween">
         <el-input v-model="title" class="input" placeholder="标题..." />
 
         <el-input v-model="desc" class="input" placeholder="描述..." />
@@ -11,8 +11,9 @@
         left-toolbar="undo redo clear | h bold italic strikethrough quote | emoji todo-list | ul ol table hr | link image code | save"
         v-model="text"
         height="70vh"
+        @fullscreen-change="ChangeFullscreen"
       ></v-md-editor>
-      <div class="flex flexJustifyEnd cancelPost">
+      <div v-show="!isFullscreen" class="flex flexJustifyEnd cancelPost">
         <TheButton text="取消" @click="hendleCanel" class="button cancelButton" />
         <TheButton text="发布" @click="hendleSubmit" class="button" />
       </div>
@@ -24,9 +25,9 @@
 import { ref, onMounted } from 'vue';
 import { ElNotification } from 'element-plus';
 import { useRouter, useRoute } from 'vue-router';
-import TheButton from '@/components/TheButton.vue';
-import useAxios from '../composables/useAxios';
 import { useUserStore } from '@/stores/user';
+import useAxios from '../composables/useAxios';
+import TheButton from '@/components/TheButton.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -36,16 +37,18 @@ const text = ref('');
 const title = ref('');
 const desc = ref('');
 
+const isFullscreen = ref(false);
+
+function ChangeFullscreen() {
+  isFullscreen.value = !isFullscreen.value;
+}
+
 onMounted(async () => {
-  console.log(route.params);
-  console.log(router.currentRoute.value);
-  console.log(route.params);
   let res = await axios({
     url: 'api/article/?' + 'id=' + route.params.id + '&userId=' + userstore.userInfo.id,
     method: 'GET',
   });
   let result = res.data;
-  console.log('article', result);
   title.value = result.title;
   text.value = result.content;
   desc.value = result.ddescribe;
@@ -55,7 +58,6 @@ function hendleCanel() {
   router.push({ name: 'ViewArticle', params: { id: route.params.id } });
 }
 async function hendleSubmit() {
-  console.log(route.params.id);
   let data = new FormData();
   data.append('articleId', route.params.id as string);
   data.append('token', userstore.userInfo.token);
@@ -65,6 +67,11 @@ async function hendleSubmit() {
   data.append('content', text.value);
   let res = await axios.post('api/upadte/article/', data);
   console.log(res);
+  ElNotification({
+    title: 'Success',
+    message: '修改成功',
+    type: 'success',
+  });
   router.push({ name: 'ViewArticle', params: { id: route.params.id } });
 }
 </script>

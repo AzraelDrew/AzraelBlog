@@ -1,7 +1,7 @@
 <template>
   <transition name="fade" appear>
-    <div class="container">
-      <div class="flex flexJustifySpaceBetween">
+    <div class="container editArticle">
+      <div v-show="!isFullscreen" class="flex flexJustifySpaceBetween">
         <el-input v-model="title" class="input" placeholder="标题..." />
 
         <el-input v-model="desc" class="input" placeholder="描述..." />
@@ -11,9 +11,10 @@
         left-toolbar="undo redo clear | h bold italic strikethrough quote | emoji todo-list | ul ol table hr | link image code | save"
         v-model="text"
         :autofocus="true"
+        @fullscreen-change="ChangeFullscreen"
         height="70vh"
       ></v-md-editor>
-      <div class="flex flexJustifyEnd cancelPost">
+      <div v-show="!isFullscreen" class="flex flexJustifyEnd cancelPost">
         <TheButton text="取消" @click="hendleCanel" class="button cancelButton" />
         <TheButton text="发布" @click="hendleSubmit" class="button" />
       </div>
@@ -25,9 +26,9 @@
 import { ref } from 'vue';
 import { ElNotification } from 'element-plus';
 import { useRouter, useRoute } from 'vue-router';
-import TheButton from '@/components/TheButton.vue';
-import useAxios from '../composables/useAxios';
 import { useUserStore } from '@/stores/user';
+import useAxios from '../composables/useAxios';
+import TheButton from '@/components/TheButton.vue';
 const markDownText = `::: tip
   你可以点击 toolbar 中的 tip 来快速插入
 :::
@@ -60,7 +61,11 @@ const axios = useAxios();
 const text = ref(markDownText);
 const title = ref('');
 const desc = ref('');
+const isFullscreen = ref(false);
 
+function ChangeFullscreen() {
+  isFullscreen.value = !isFullscreen.value;
+}
 function hendleCanel() {
   router.push({ name: 'Home' });
 }
@@ -74,7 +79,12 @@ async function hendleSubmit() {
   data.append('cover', '');
   let res = await axios.post('api/add/article/', data);
   console.log(res);
-  router.push({ name: 'ViewArticle', params: { id: route.params.id } });
+  ElNotification({
+    title: 'Success',
+    message: '发布成功',
+    type: 'success',
+  });
+  router.push({ name: 'ViewArticle', params: { id: res.data.id } });
 }
 </script>
 <style scoped>

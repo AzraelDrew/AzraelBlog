@@ -55,10 +55,15 @@ const router = createRouter({
       component: PostArticle,
     },
   ],
-  // scrollBehavior(to, from, savedPosition) {
-  //   // 始终滚动到顶部
-  //   return { top: 0, behavior: 'smooth' };
-  // },
+  scrollBehavior(to, from, savedPosition) {
+    // if (savedPosition) {
+    //   console.log(savedPosition);
+    //   return savedPosition;
+    // } else {
+    //   return { top: 0 };
+    // }
+    return { top: 800, behavior: 'smooth' };
+  },
 });
 
 export default router;

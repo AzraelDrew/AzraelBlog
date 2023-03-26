@@ -128,3 +128,9 @@ body {
 .v-md-editor__main {
   border-radius: 15px;
 }
+.v-md-editor__toolbar {
+  border: none;
+}
+.v-md-editor--editable .v-md-editor__editor-wrapper {
+  border: none;
+}

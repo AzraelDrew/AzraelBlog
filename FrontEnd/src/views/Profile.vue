@@ -3,7 +3,7 @@
     <TheNavBar>
       <template #avatarAndNickname>
         <router-link to="/" class="link" href=""
-          ><TheIcon class="home icon" icon="iconzhuye3" :size="30" /></router-link
+          ><TheIcon class="home icon linkColor" icon="iconzhuye3" :size="30" /></router-link
       ></template>
       <template #postIcon>
         <router-link to="/postArticle" class="link linkColor postArticle"
@@ -11,11 +11,10 @@
         /></router-link>
       </template>
       <template #dropDown>
-        <el-dropdown v-if="userstore.isLogin">
-          <a @click="Logout" class="link linkColor">退出登录</a>
-        </el-dropdown>
+        <div v-if="userstore.isLogin"><a @click="Logout" class="link linkColor"> 退出登录</a></div>
+
         <div v-else>
-          <router-link to="/">登录</router-link>
+          <router-link class="link linkColor" to="/login">登录</router-link>
         </div>
       </template>
     </TheNavBar>
@@ -40,7 +39,7 @@
           v-for="(tab, index) in tabs"
           :icon="tab.icon"
           :size="40"
-          :class="{ active: index === currentTab }"
+          :class="{ active: index == currentTab }"
           @click="GetArticle(index)"
         />
       </div>
@@ -56,18 +55,15 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 import { RouterLink, useRouter } from 'vue-router';
-
+import { useUserStore } from '../stores/user';
+import useAxios from '../composables/useAxios';
 import TheArtcileList from '../components/TheArtcileList.vue';
 import TheIcon from '../components/TheIcon.vue';
 import TheNavBar from '@/components/TheNavBar.vue';
 import TheAvatar from '@/components/TheAvatar.vue';
-import TheButton from '@/components/TheButton.vue';
 
-import { useUserStore } from '../stores/user';
-
-import useAxios from '../composables/useAxios';
 const axios = useAxios();
 
 const router = useRouter();
@@ -75,7 +71,7 @@ const userstore = useUserStore();
 
 const posts = ref([]);
 
-const currentTab = ref(0);
+const currentTab = ref(userstore.profileIndex);
 const tabs = ref([
   {
     label: 'my',
@@ -85,7 +81,6 @@ const tabs = ref([
   {
     label: 'like',
     icon: 'icondianzan',
-    number: 2,
   },
   {
     label: 'favourite',
@@ -94,15 +89,14 @@ const tabs = ref([
 ]);
 
 onMounted(async () => {
-  let res = await AllArticle(userstore.userInfo.id, 'my');
-  console.log(res);
+  let res = await AllArticle(userstore.userInfo.id, tabs.value[currentTab.value].label);
   posts.value = res.data.data;
 });
 
 async function GetArticle(index: any) {
   currentTab.value = index;
+  userstore.ChangeProfileIndex(index);
   let res = await AllArticle(userstore.userInfo.id, tabs.value[currentTab.value].label);
-  console.log(res);
   posts.value = res.data.data;
 }
 async function AllArticle(id: any, type: string) {
@@ -110,7 +104,6 @@ async function AllArticle(id: any, type: string) {
     url: '/api/' + type + '/article/' + '?id=' + id,
     method: 'GET',
   });
-
   return res;
 }
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flexWarp box">
+  <div class="flex flexWarp loginBox">
     <transition name="fade" appear>
       <!-- <img class="bg" src="../assets/imgs/avatar.jpg" alt="" /> -->
       <div class="felx login" @keydown.enter="login">
@@ -33,29 +33,59 @@
 <script setup lang="ts">
 // import axios from 'axios';
 import { ref } from 'vue';
+import { ElNotification } from 'element-plus';
 import { useRouter } from 'vue-router';
-
 import { useUserStore } from '@/stores/user';
-
 import TheButton from '@/components/TheButton.vue';
-
 const userstore = useUserStore();
 
 const name = ref('');
 const password = ref('');
 const router = useRouter();
 async function login() {
-  console.log(name.value, password.value);
-  userstore.userLogin(name.value, password.value);
-  router.replace({ name: 'Home' });
+  let res = await userstore.userLogin(name.value, password.value);
+  if (res == 'pwderr') {
+    ElNotification({
+      title: 'Error',
+      message: '密码错误',
+      type: 'error',
+    });
+    return;
+  } else if (res == 'none') {
+    ElNotification({
+      title: 'Error',
+      message: '用户不存在',
+      type: 'error',
+    });
+    return;
+  }
+  if (res == 'OK') {
+    console.log(
+      `%c
+       ███████╗██╗   ██╗ ██████╗ ██████╗███████╗███████╗███████╗██╗
+       ██╔════╝██║   ██║██╔════╝██╔════╝██╔════╝██╔════╝██╔════╝██║
+       ███████╗██║   ██║██║     ██║     █████╗  ███████╗███████╗██║
+       ╚════██║██║   ██║██║     ██║     ██╔══╝  ╚════██║╚════██║╚═╝
+       ███████║╚██████╔╝╚██████╗╚██████╗███████╗███████║███████║██╗
+       ╚══════╝ ╚═════╝  ╚═════╝ ╚═════╝╚══════╝╚══════╝╚══════╝╚═╝
+    `,
+      'color:#7c9beb'
+    );
+    ElNotification({
+      title: 'Success',
+      message: '登录成功',
+      type: 'success',
+      duration: 1000,
+    });
+    router.replace({ name: 'Home' });
+  }
 }
 </script>
 
 <style scoped>
-.box {
+.loginBox {
   min-height: 100vh;
   border-radius: 15px;
-  background: #fff;
   box-shadow: 50px -50px 50px #d3d3d3, -50px -50px 50px #d3d3d3, 50px 50px 50px #d3d3d3,
     -50px 50px 50px #ededed;
 }

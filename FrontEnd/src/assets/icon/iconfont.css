@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 1920059 */
-  src: url('iconfont.woff2?t=1678511971456') format('woff2'),
-       url('iconfont.woff?t=1678511971456') format('woff'),
-       url('iconfont.ttf?t=1678511971456') format('truetype');
+  src: url('iconfont.woff2?t=1679762816521') format('woff2'),
+       url('iconfont.woff?t=1679762816521') format('woff'),
+       url('iconfont.ttf?t=1679762816521') format('truetype');
 }
 
 .iconfont {
@@ -13,24 +13,24 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.iconmoon_fill:before {
+  content: "\e746";
+}
+
+.iconsun:before {
+  content: "\e600";
+}
+
+.iconfabu3:before {
+  content: "\ec09";
+}
+
+.iconfabu4:before {
+  content: "\e616";
+}
+
 .iconedit_light:before {
   content: "\e7de";
-}
-
-.iconquxiaofabu:before {
-  content: "\e66e";
-}
-
-.iconfabu:before {
-  content: "\e671";
-}
-
-.iconfabu1:before {
-  content: "\e66f";
-}
-
-.iconfabu2:before {
-  content: "\e694";
 }
 
 .iconpinglun2:before {

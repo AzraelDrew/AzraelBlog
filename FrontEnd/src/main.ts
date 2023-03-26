@@ -4,7 +4,9 @@ import App from './App.vue';
 import router from './router';
 
 import ElementPlus from 'element-plus';
+import { ElNotification } from 'element-plus';
 import 'element-plus/dist/index.css';
+import 'element-plus/theme-chalk/dark/css-vars.css';
 
 import './assets/icon/iconfont.css';
 
@@ -26,9 +28,13 @@ import '@kangc/v-md-editor/lib/plugins/emoji/emoji.css';
 
 import createKatexPlugin from '@kangc/v-md-editor/lib/plugins/katex/cdn';
 
+import createCopyCodePlugin from '@kangc/v-md-editor/lib/plugins/copy-code/index';
+import '@kangc/v-md-editor/lib/plugins/copy-code/copy-code.css';
 import Prism from 'prismjs';
 
 import './assets/main.css';
+import './assets/dark.css';
+
 const app = createApp(App);
 
 VueMarkdownEditor.use(vuepressTheme, {
@@ -45,7 +51,8 @@ VMdPreview.use(vuepressTheme, {
   .use(createTodoListPlugin())
   .use(createHighlightLinesPlugin())
   .use(createKatexPlugin())
-  .use(createEmojiPlugin());
+  .use(createEmojiPlugin())
+  .use(createCopyCodePlugin());
 app.use(VueMarkdownEditor);
 app.use(VMdPreview);
 app.use(ElementPlus);

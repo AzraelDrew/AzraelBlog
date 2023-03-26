@@ -24,9 +24,18 @@ export const useUserStore = defineStore('user ', () => {
     phone: '',
     desc: '',
   });
+  const index = ref(0);
+  const profileIndex = ref(0);
+
   const isLogin = computed(() => {
     return userInfo.token ? true : false;
   });
+  function ChangeIndex(tab: number) {
+    index.value = tab;
+  }
+  function ChangeProfileIndex(tab: number) {
+    profileIndex.value = tab;
+  }
 
   async function userLogin(username: string, password: string) {
     let data = new FormData();
@@ -34,14 +43,19 @@ export const useUserStore = defineStore('user ', () => {
     data.append('password', password);
     let res = await axios.post('api/login/', data);
     const result = res.data;
-    localStorage.setItem('token', result.token);
-    userInfo.token = result.token;
-    userInfo.id = result.userId;
-    userInfo.username = result.name;
-    userInfo.name = result.nickname;
-    userInfo.avatar = result.avatar;
-    userInfo.phone = result.phone;
-    userInfo.desc = result.desc;
+    if (result == 'pwderr' || result == 'none') {
+      return result;
+    } else {
+      localStorage.setItem('token', result.token);
+      userInfo.token = result.token;
+      userInfo.id = result.userId;
+      userInfo.username = result.name;
+      userInfo.name = result.nickname;
+      userInfo.avatar = result.avatar;
+      userInfo.phone = result.phone;
+      userInfo.desc = result.desc;
+      return 'OK';
+    }
   }
   async function userLogout() {
     localStorage.removeItem('token');
@@ -64,7 +78,16 @@ export const useUserStore = defineStore('user ', () => {
     userInfo.avatar = result.avatar;
     userInfo.phone = result.phone;
     userInfo.desc = result.desc;
-    console.log(result);
   }
-  return { isLogin, userInfo, userLogin, GetUserInfo, userLogout };
+  return {
+    isLogin,
+    userInfo,
+    userLogin,
+    GetUserInfo,
+    userLogout,
+    index,
+    ChangeIndex,
+    profileIndex,
+    ChangeProfileIndex,
+  };
 });

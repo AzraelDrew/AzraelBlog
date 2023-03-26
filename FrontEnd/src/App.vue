@@ -1,11 +1,29 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router';
-import { onMounted } from 'vue';
+import { onMounted, watch } from 'vue';
 import { useUserStore } from './stores/user';
+
+import { useDark, useToggle } from '@vueuse/core';
+
+const isDark = useDark();
 
 const userstore = useUserStore();
 
 onMounted(() => {
+  userstore.GetUserInfo(userstore.userInfo.token);
+  console.log(
+    `%c
+██╗  ██╗███████╗██╗     ██╗      ██████╗     ██╗    ██╗ ██████╗ ██████╗ ██╗     ██████╗ 
+██║  ██║██╔════╝██║     ██║     ██╔═══██╗    ██║    ██║██╔═══██╗██╔══██╗██║     ██╔══██╗
+███████║█████╗  ██║     ██║     ██║   ██║    ██║ █╗ ██║██║   ██║██████╔╝██║     ██║  ██║
+██╔══██║██╔══╝  ██║     ██║     ██║   ██║    ██║███╗██║██║   ██║██╔══██╗██║     ██║  ██║
+██║  ██║███████╗███████╗███████╗╚██████╔╝    ╚███╔███╔╝╚██████╔╝██║  ██║███████╗██████╔╝
+╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝ ╚═════╝      ╚══╝╚══╝  ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═════╝ 
+  `,
+    'color:#7c9beb'
+  );
+});
+watch(userstore.userInfo, () => {
   userstore.GetUserInfo(userstore.userInfo.token);
 });
 </script>

@@ -54,7 +54,6 @@
 <script lang="ts" setup>
 // import axios from 'axios';
 import { useRouter } from 'vue-router';
-import { ref, onMounted, watch } from 'vue';
 import { ElNotification } from 'element-plus';
 import { useUserStore } from '../stores/user';
 import TheIcon from './TheIcon.vue';
@@ -92,17 +91,15 @@ function viewArticle(id: any) {
 async function LikeFavor(type: 'like' | 'favor', id: number | string, userId: number | string) {
   if (!userstore.userInfo.token) {
     ElNotification({
-      title: 'Success',
+      title: 'Warning',
       message: '请登录',
-      type: 'success',
+      type: 'warning',
     });
   } else {
-    console.log(type, id);
     let res = await axios({
       url: '/api/article/' + type + '/' + '?id=' + id + '&userId=' + userId,
       method: 'GET',
     });
-    console.log(res.data);
     let result = res.data;
     if (type == 'like') {
       for (const item of props.posts) {

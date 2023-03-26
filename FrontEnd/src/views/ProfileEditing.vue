@@ -2,7 +2,7 @@
   <TheNavBar>
     <template #avatarAndNickname>
       <router-link to="/" class="link" href=""
-        ><TheIcon class="home icon" icon="iconzhuye3" :size="30" /></router-link
+        ><TheIcon class="home icon linkColor" icon="iconzhuye3" :size="30" /></router-link
     ></template>
 
     <template #dropDown>
@@ -59,15 +59,14 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, watch } from 'vue';
+import { reactive } from 'vue';
+import { ElNotification } from 'element-plus';
 import { useRouter, RouterLink } from 'vue-router';
+import { useUserStore } from '@/stores/user';
+import useAxios from '@/composables/useAxios';
 import TheAvatar from '@/components/TheAvatar.vue';
 import TheNavBar from '@/components/TheNavBar.vue';
 import TheIcon from '@/components/TheIcon.vue';
-
-import useAxios from '@/composables/useAxios';
-
-import { useUserStore } from '@/stores/user';
 
 const axios = useAxios();
 
@@ -84,15 +83,25 @@ const form = reactive({
   desc: userstore.userInfo.desc,
 });
 async function Upload(e: any) {
-  console.log(e);
   form.avatar = '';
   form.avatar = e.url;
 }
-watch(userstore.userInfo, async () => {
-  userstore.GetUserInfo(userstore.userInfo.token);
-});
+// watch(userstore.userInfo, async () => {
+//   userstore.GetUserInfo(userstore.userInfo.token);
+// });
 async function onSubmit() {
-  console.log('submit!');
+  console.log(
+    `%c
+███████╗██╗   ██╗██████╗ ███╗   ███╗██╗████████╗██╗
+██╔════╝██║   ██║██╔══██╗████╗ ████║██║╚══██╔══╝██║
+███████╗██║   ██║██████╔╝██╔████╔██║██║   ██║   ██║
+╚════██║██║   ██║██╔══██╗██║╚██╔╝██║██║   ██║   ╚═╝
+███████║╚██████╔╝██████╔╝██║ ╚═╝ ██║██║   ██║   ██╗
+╚══════╝ ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚═╝   ╚═╝   ╚═╝
+  `,
+    'color:#7c9beb'
+  );
+
   let formData = new FormData();
   formData.append('token', userstore.userInfo.token);
   formData.append('name', form.name);
@@ -102,10 +111,26 @@ async function onSubmit() {
   formData.append('desc', form.desc);
   let res = await axios.post('api/update/userinfo/', formData);
   userstore.GetUserInfo(userstore.userInfo.token);
+  ElNotification({
+    title: 'Success',
+    message: '修改成功',
+    type: 'success',
+  });
   router.replace({ name: 'Profile' });
 }
 function onCancel() {
-  console.log('cancel!');
+  console.log(
+    `%c
+  ██████╗ █████╗ ███╗   ██╗ ██████╗███████╗██╗     ██╗
+  ██╔════╝██╔══██╗████╗  ██║██╔════╝██╔════╝██║     ██║
+  ██║     ███████║██╔██╗ ██║██║     █████╗  ██║     ██║
+  ██║     ██╔══██║██║╚██╗██║██║     ██╔══╝  ██║     ╚═╝
+  ╚██████╗██║  ██║██║ ╚████║╚██████╗███████╗███████╗██╗
+   ╚═════╝╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝╚══════╝╚══════╝╚═╝
+  `,
+    'color:#7c9beb'
+  );
+
   router.replace({ name: 'Profile' });
 }
 function Logout() {
@@ -156,7 +181,7 @@ function Logout() {
 .linkColor {
   text-decoration: none;
   font-size: 14px;
-  color: #00000090;
+  color: #000;
 }
 .linkColor:hover {
   color: #87a4ed;

@@ -13,7 +13,7 @@
           ></path>
         </g>
       </svg>
-      <input placeholder="Search" type="search" class="input" />
+      <input placeholder="Search" type="search" class="input" @keyup.enter="Search" />
     </template>
     <template #postIcon v-if="userstore.isLogin">
       <router-link to="/postArticle" class="link linkColor postArticle"
@@ -47,25 +47,31 @@
   </TheNavBar>
   <div>
     <transition name="fade" appear>
-      <TheArtcile />
+      <TheArtcile :search="search" />
     </transition>
   </div>
 </template>
 <script setup lang="ts">
+import { ref } from 'vue';
 import { RouterLink, useRouter } from 'vue-router';
 import { ArrowDown } from '@element-plus/icons-vue';
+import { useUserStore } from '@/stores/user';
 
 import TheArtcile from '@/components/TheArtcile.vue';
 import TheIcon from '@/components/TheIcon.vue';
 import TheNavBar from '@/components/TheNavBar.vue';
 import TheAvatar from '@/components/TheAvatar.vue';
 
-import { useUserStore } from '@/stores/user';
-
 const router = useRouter();
 
 const userstore = useUserStore();
 
+const search = ref('');
+
+function Search(e: any) {
+  search.value = e.target.value;
+  e.target.value = '';
+}
 function Login() {
   router.replace({ name: 'Login' });
 }
@@ -85,7 +91,7 @@ function Logout() {
   margin-right: 10px;
 }
 .input {
-  width: 30vw;
+  width: 40vw;
   height: 40px;
   line-height: 28px;
   padding: 0 1rem;
@@ -125,7 +131,7 @@ input:hover {
 }
 
 .linkColor {
-  color: #6c6c6c;
+  color: #000;
 }
 .linkColor:hover {
   color: #749cf1;

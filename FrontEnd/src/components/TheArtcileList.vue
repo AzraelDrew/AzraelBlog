@@ -24,9 +24,9 @@
 </template>
 
 <script lang="ts" setup>
+import { useRouter } from 'vue-router';
 import TheIcon from './TheIcon.vue';
 import TheButton from './TheButton.vue';
-import { useRouter } from 'vue-router';
 interface RowsItem {
   [key: string]: string;
 }

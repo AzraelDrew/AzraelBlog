@@ -64,7 +64,7 @@
       </div>
     </transition>
 
-    <div class="iconButton flex flexWarp flexJustifySpaceEvenly">
+    <div class="articleButton iconButton flex flexWarp flexJustifySpaceEvenly">
       <div class="flex flexJustifySpaceBetween">
         <TheIcon
           icon="icondianzan"
@@ -159,9 +159,6 @@
           </div>
           <div style="margin-bottom: 10px">
             <p class="commentDetail">{{ commentDetail }}</p>
-            <div style="display: flex; justify-content: end">
-              <TheButton text="删除" style="display: flex" />
-            </div>
           </div>
         </div>
       </div>
@@ -175,9 +172,7 @@ import { ElNotification } from 'element-plus';
 import { RouterLink, useRouter, useRoute } from 'vue-router';
 import { ArrowDown } from '@element-plus/icons-vue';
 import { useUserStore } from '../stores/user';
-
 import useAxios from '../composables/useAxios';
-
 import TheIcon from '../components/TheIcon.vue';
 import TheButton from '@/components/TheButton.vue';
 import TheNavBar from '@/components/TheNavBar.vue';
@@ -237,16 +232,11 @@ function handleCopyCodeSuccess() {
   });
 }
 onMounted(async () => {
-  console.log(route.params);
-  console.log(router.currentRoute.value);
-  console.log(route.params);
   let res = await axios({
     url: 'api/article/?' + 'id=' + route.params.id + '&userId=' + userstore.userInfo.id,
     method: 'GET',
   });
   let result = res.data;
-  console.log('article', result);
-  console.log(typeof result.belongUser);
   artcileData.id = result.id;
   artcileData.belongUser = result.belongUser;
   text.value = result.content;
@@ -261,7 +251,6 @@ onMounted(async () => {
   artcileData.viewNumber = result.viewNumber;
   artcileData.likeStatus = result.likeStatus;
   artcileData.favorStatus = result.favorStatus;
-  console.log(artcileData);
 });
 
 async function editArticle(id: any) {
@@ -274,16 +263,13 @@ async function showComments() {
     url: 'api/comment/' + '?id=' + route.params.id,
     method: 'GET',
   });
-  console.log(res);
   comments.value = res.data.data;
 }
 async function deleteComment(id: any) {
-  console.log(id);
   let data = new FormData();
   data.append('id', id);
   data.append('userId', userstore.userInfo.id);
   let res = await axios.post('api/delete/comment/', data);
-  console.log(res.data);
   if (res.data == 'OK') {
     ElNotification({
       title: 'Success',
@@ -291,14 +277,26 @@ async function deleteComment(id: any) {
       type: 'success',
     });
     showComments();
+  } else {
+    ElNotification({
+      title: 'Warning',
+      message: '不能删除他人的评论',
+      type: 'warning',
+    });
   }
 }
 async function addComment(articleId: any, currentId: any) {
   if (!userstore.userInfo.token) {
     ElNotification({
-      title: 'Success',
+      title: 'Warning',
       message: '请登录',
-      type: 'success',
+      type: 'warning',
+    });
+  } else if (input.value == '') {
+    ElNotification({
+      title: 'Warning',
+      message: '评论不能为空',
+      type: 'warning',
     });
   } else {
     let data = new FormData();
@@ -308,7 +306,6 @@ async function addComment(articleId: any, currentId: any) {
     let res = await axios.post('api/add/comment/', data);
     input.value = '';
     showComments();
-    console.log(res);
   }
 }
 function showCommentDetails(
@@ -338,9 +335,9 @@ async function LikeFavor(
 ) {
   if (!userstore.userInfo.token) {
     ElNotification({
-      title: 'Success',
+      title: 'Warning',
       message: '请登录',
-      type: 'success',
+      type: 'warning',
     });
   } else {
     let res = await axios({
