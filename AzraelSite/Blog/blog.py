@@ -1,6 +1,6 @@
 from Blog.models import Article, UserInfo, Lanmu, Pinglun, Like, Favourite
 from rest_framework.response import Response
-from rest_framework.decorators import api_view,permission_classes
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.authtoken.models import Token
 from django.contrib.auth.hashers import check_password, make_password
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -92,12 +92,12 @@ def Login(request):
     username = request.POST['username']
     password = request.POST['password']
     # 登录逻辑
-    user = User.objects.get(username=username)
-    nickName = UserInfo.objects.get(belong_id=user.id).nickName
-    desc = UserInfo.objects.get(belong_id=user.id).desc
-    phone = UserInfo.objects.get(belong_id=user.id).phone
+    user = User.objects.filter(username=username).first()
 
     if user:
+        nickName = UserInfo.objects.get(belong_id=user.id).nickName
+        desc = UserInfo.objects.get(belong_id=user.id).desc
+        phone = UserInfo.objects.get(belong_id=user.id).phone
         checkPwd = check_password(password, user.password)
         if checkPwd:
             userinfo = UserInfo.objects.get_or_create(belong=user)
@@ -147,10 +147,10 @@ def UpdateUserInfo(request):
     phone = request.POST["phone"]
     desc = request.POST["desc"]
     User.objects.filter(id=id).update(username=name)
-    UserInfo.objects.filter(id=id).update(headImg=avatar,
-                                          nickName=nickName,
-                                          desc=desc,
-                                          phone=phone)
+    UserInfo.objects.filter(belong_id=id).update(headImg=avatar,
+                                                 nickName=nickName,
+                                                 desc=desc,
+                                                 phone=phone)
     return Response("ok")
 
 
@@ -160,7 +160,7 @@ def UploadAvatar(request):
         print("UploadImg")
         avatar = request.FILES["avatar"]
         image_name = datetime.datetime.now().strftime(
-        '%Y%m%d%H%M%S')+"."+str(avatar).split(".")[1]
+            '%Y%m%d%H%M%S') + "." + str(avatar).split(".")[1]
         print(image_name)
         image_name = os.path.join('upload', image_name).replace('\\', '/')
         print(image_name)
@@ -168,11 +168,10 @@ def UploadAvatar(request):
         for chunk in avatar.chunks():
             f.write(chunk)
         f.close()
-        url = hostUrl+image_name
+        url = hostUrl + image_name
         # print(url)
         data = {"url": url}
         return Response(data)
-
 
 
 def UserLoginAndPerm(token, permList):
@@ -200,12 +199,13 @@ def AddArticle(request):
     cover = hostUrl + 'upload/' + 'defaultCover.png'
     user_token = Token.objects.filter(user_id=id).first()
     # 保存文章
-    Article.objects.create(title=title,
-                           cover=cover,
-                           content=content,
-                           describe=describe,
-                           belong=user_token.user)
-    return Response("OK")
+    article = Article.objects.create(title=title,
+                                     cover=cover,
+                                     content=content,
+                                     describe=describe,
+                                     belong=user_token.user)
+    print(article)
+    return Response({"status": "OK", "id": article.id})
 
 
 @api_view(["POST"])
@@ -229,12 +229,20 @@ def UpdateArticle(request):
 
 @api_view(["GET"])
 def AllArtcile(request):
+    search_value = request.GET.get("search", "")
+    data_dict={}
+    if search_value:
+        print(search_value)
+
+        data_dict["title__contains"] = search_value
+        articles = Article.objects.filter(**data_dict).order_by('id')
     page = request.GET["page"]
     pageSize = request.GET["pageSize"]
     userId = request.GET['userId']
     if not userId:
         userId = 0
-    articles = Article.objects.all().order_by('id')
+    # articles = Article.objects.all().order_by('id')
+    articles = Article.objects.filter(**data_dict).order_by('id')
     total = len(articles)
     paginator = Paginator(articles, pageSize)
     try:
@@ -317,7 +325,8 @@ def Comments(request):
     pinglun_data = []
     for pinglun in pingluns:
         pinglun_item = {
-            'id':pinglun.id,
+            'id':
+            pinglun.id,
             "nickName":
             pinglun.belong_user.username,
             "text":
@@ -348,11 +357,14 @@ def AddComment(request):
 def DeleteComment(request):
     pinlunId = request.POST["id"]
     currentId = request.POST["userId"]
-    print(pinlunId,currentId)
-    currentPinLun = Pinglun.objects.filter(id=pinlunId,belong_user_id=currentId).first()
+    print(pinlunId, currentId)
+    currentPinLun = Pinglun.objects.filter(id=pinlunId,
+                                           belong_user_id=currentId).first()
 
-    print(currentPinLun.text)
-    currentPinLun.delete()
+    if currentPinLun:
+        currentPinLun.delete()
+    else:
+        return Response("none")
     return Response("OK")
 
 
