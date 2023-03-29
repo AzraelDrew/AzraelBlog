@@ -45,7 +45,7 @@ watch(userstore.userInfo, () => {
 }
 .footer.inside {
   position: absolute;
-  bottom: 20px;
+  bottom: 5px;
   width: 100%;
 }
 .backTop {

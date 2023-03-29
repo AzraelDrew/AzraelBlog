@@ -12,7 +12,7 @@ html.dark {
   color: var(--theme-color);
 }
 .dark .nav {
-  box-shadow: 50px 0px 20px #34495e, -50px 0px 20px #34495e !important;
+  box-shadow: 0px 1px 10px #202124 !important;
 }
 .dark .dropDown {
   background-color: #353b48;
@@ -36,22 +36,21 @@ html.dark {
 }
 .dark .article {
   background-color: #0e111680;
-  box-shadow: 5px 0px 10px #34495e, -5px 0px 10px #34495e, 0px 5px 10px #34495e,
-    0px -5px 10px #34495e !important;
+  box-shadow: 5px 0px 10px #202124, -5px 0px 10px #202124, 0px 5px 10px #202124,
+    0px -5px 10px #202124 !important;
 }
 .dark .articleButton.iconButton {
   background: #0e111680 !important;
 
-  box-shadow: 5px 0px 10px #34495e, -5px 0px 10px #34495e !important;
+  box-shadow: 5px 0px 10px #202124, -5px 0px 10px #202124 !important;
 }
 
 .dark .comment {
   margin-top: 20px;
   padding: 5px 20px;
   border-radius: 11px;
-  background: ffffff;
-  box-shadow: 5px 0px 10px #34495e, -5px 0px 10px #34495e, 0px 5px 10px #34495e,
-    0px -5px 10px #34495e !important;
+  box-shadow: 5px 0px 10px #202124, -5px 0px 10px #202124, 0px 5px 10px #202124,
+    0px -5px 10px #202124 !important;
 }
 
 .dark .linkColor {
@@ -59,7 +58,7 @@ html.dark {
 }
 
 .dark .box {
-  box-shadow: 9px 9px 18px #34495e, -9px -9px 18px #34495e !important;
+  box-shadow: 9px 9px 18px #202124, -9px -9px 18px #202124 !important;
 }
 .dark .el-input__wrapper {
   background: #353b48 !important;
@@ -72,12 +71,12 @@ html.dark {
 }
 .dark .login {
   background-color: #0e111680 !important;
-  box-shadow: 50px -50px 50px #353b48, -50px -50px 50px #353b48, 50px 50px 50px #353b48,
-    -50px 50px 50px #353b48 !important;
+  box-shadow: 50px -50px 50px #202124, -50px -50px 50px #202124, 50px 50px 50px #202124,
+    -50px 50px 50px #202124 !important;
 }
 .dark .linkColor:hover {
   color: #87a4ed;
 }
 .dark .userInfo .avatar {
-  box-shadow: 5px 0px 5px #34495e, -5px 0px 5px #34495e, 0px 5px 5px #34495e !important;
+  box-shadow: 5px 0px 5px #202124, -5px 0px 5px #202124, 0px 5px 5px #202124 !important;
 }

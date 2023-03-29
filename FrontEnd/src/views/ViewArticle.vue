@@ -124,7 +124,6 @@
         <template #articleContent>
           <div class="grid commentTitle">
             <h4>{{ comment.nickName }}</h4>
-            <!-- <p>1111-11-11</p> -->
             <p>{{ comment.date.split('T')[0] }} {{ comment.date.split('T')[1].split('.')[0] }}</p>
           </div>
           <div style="margin-bottom: 10px">
@@ -440,7 +439,6 @@ async function LikeFavor(
   margin-top: 20px;
   padding: 5px 20px;
   border-radius: 11px;
-  background: ffffff;
   box-shadow: 5px 0px 10px #d3d3d3, -5px 0px 10px #ededed, 0px 5px 10px #d3d3d3,
     0px -5px 10px #ededed;
 }

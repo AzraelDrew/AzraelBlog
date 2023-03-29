@@ -1,11 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router';
-// import Home from '../views/Home.vue';
-// import Login from '../views/Login.vue';
-// import Profile from '../views/Profile.vue';
-// import ProfileEditing from '../views/ProfileEditing.vue';
-// import ViewArticle from '../views/ViewArticle.vue';
-// import PostArticle from '@/views/PostArticle.vue';
-
 const Home = () => import('../views/Home.vue');
 const Login = () => import('../views/Login.vue');
 const Profile = () => import('../views/Profile.vue');
@@ -13,8 +6,6 @@ const ProfileEditing = () => import('../views/ProfileEditing.vue');
 const ViewArticle = () => import('../views/ViewArticle.vue');
 const EditArticle = () => import('../views/EditArticle.vue');
 const PostArticle = () => import('../views/PostArticle.vue');
-// const Home = ()=> import('../views/Home.vue')
-// const Home = ()=> import('../views/Home.vue')
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -55,15 +46,6 @@ const router = createRouter({
       component: PostArticle,
     },
   ],
-  scrollBehavior(to, from, savedPosition) {
-    // if (savedPosition) {
-    //   console.log(savedPosition);
-    //   return savedPosition;
-    // } else {
-    //   return { top: 0 };
-    // }
-    return { top: 800, behavior: 'smooth' };
-  },
 });
 
 export default router;

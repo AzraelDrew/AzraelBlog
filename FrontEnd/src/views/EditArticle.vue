@@ -10,8 +10,10 @@
         class="md"
         left-toolbar="undo redo clear | h bold italic strikethrough quote | emoji todo-list | ul ol table hr | link image code | save"
         v-model="text"
-        height="70vh"
+        height="76vh"
         @fullscreen-change="ChangeFullscreen"
+        :disabled-menus="[]"
+        @upload-image="handleUploadImage"
       ></v-md-editor>
       <div v-show="!isFullscreen" class="flex flexJustifyEnd cancelPost">
         <TheButton text="取消" @click="hendleCanel" class="button cancelButton" />
@@ -41,6 +43,18 @@ const isFullscreen = ref(false);
 
 function ChangeFullscreen() {
   isFullscreen.value = !isFullscreen.value;
+}
+function handleUploadImage(event: any, insertImage: any, files: any) {
+  let img = files[0];
+  let formData = new FormData();
+  formData.append('imgnode', img);
+  axios.post('api/article/img/', formData).then((res) => {
+    console.log(res.data);
+    insertImage({
+      url: res.data.url,
+      desc: '在这里插入图片描述',
+    });
+  });
 }
 
 onMounted(async () => {
@@ -102,7 +116,6 @@ button {
   padding: 17px 40px;
   border-radius: 50px;
   border: 0;
-  background-color: white;
   box-shadow: rgb(0 0 0 / 5%) 0 0 8px;
   letter-spacing: 1.5px;
   text-transform: uppercase;
