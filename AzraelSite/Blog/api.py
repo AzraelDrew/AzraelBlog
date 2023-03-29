@@ -376,7 +376,7 @@ def article_list(request):
         pageSize = request.GET['pageSize']
         lanmu = request.GET['lanmu']
         if lanmu == "all":
-            print('user',user)
+            print('user', user)
             articles = Article.objects.filter(belong=user.id)
         elif lanmu == "nobelong":
             articles = Article.objects.filter(belong_lanmu=None)

@@ -14,6 +14,7 @@ import datetime
 import base64
 import os
 import json
+
 hostUrl = 'http://127.0.0.1:8000/'
 
 # hostUrl = 'http://43.138.126.114:8000/'
@@ -208,6 +209,27 @@ def AddArticle(request):
     return Response({"status": "OK", "id": article.id})
 
 
+# markdown上传本地图片
+@api_view(['POST', 'PUT'])
+def ArticleImg(request):
+    src = request.data['imgnode']
+    print(src.name)
+    src.name = datetime.datetime.now().strftime(
+        '%Y%m%d%H%M%S') + "." + src.name.split(".")[1]
+    print(src)
+    print(src.name)
+    image_url = os.path.join('upload', src.name).replace('\\', '/')
+    f = open(image_url, mode="wb")
+    for chunk in src.chunks():
+        f.write(chunk)
+    f.close()
+    print(image_url)
+    new_src = hostUrl + image_url
+
+    image_url = {'url': new_src}
+    return Response(image_url)
+
+
 @api_view(["POST"])
 def UpdateArticle(request):
     articleId = request.POST["articleId"]
@@ -230,19 +252,19 @@ def UpdateArticle(request):
 @api_view(["GET"])
 def AllArtcile(request):
     search_value = request.GET.get("search", "")
-    data_dict={}
+    data_dict = {}
     if search_value:
         print(search_value)
 
         data_dict["title__contains"] = search_value
-        articles = Article.objects.filter(**data_dict).order_by('id')
+        articles = Article.objects.filter(**data_dict).order_by('-id')
     page = request.GET["page"]
     pageSize = request.GET["pageSize"]
     userId = request.GET['userId']
     if not userId:
         userId = 0
     # articles = Article.objects.all().order_by('id')
-    articles = Article.objects.filter(**data_dict).order_by('id')
+    articles = Article.objects.filter(**data_dict).order_by('-id')
     total = len(articles)
     paginator = Paginator(articles, pageSize)
     try:

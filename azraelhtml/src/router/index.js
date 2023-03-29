@@ -203,25 +203,8 @@ VueRouter.prototype.push = function push(location) {
 
 const router = new VueRouter({
   routes,
-  // scrollBehavior(to, from, savedPosition) {
-  //   // return 期望滚动到哪个的位置
-  //   if (savedPosition) {
-  //     return savedPosition;
-  //   } else {
-  //     return new Promise((resolve, reject) => {
-  //       setTimeout(() => {
-  //         resolve({ x: 500, y: 0, behavior: 'smooth' });
-  //       }, 2000);
-  //     });
-  //   }
-  // },
-
-  scrollBehavior(to, from, savedPosition) {
-    if (savedPosition) {
-      return savedPosition;
-    } else {
-      return { x: 0, y: 0, behavior: 'smooth' };
-    }
+  scrollBehavior(to, from) {
+    return { x: 0, y: 0, behavior: 'smooth' };
   },
 });
 
