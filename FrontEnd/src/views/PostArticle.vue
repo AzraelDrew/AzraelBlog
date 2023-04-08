@@ -70,7 +70,6 @@ function handleUploadImage(event: any, insertImage: any, files: any) {
   let formData = new FormData();
   formData.append('imgnode', img);
   axios.post('api/article/img/', formData).then((res) => {
-    console.log(res.data);
     insertImage({
       url: res.data.url,
       desc: '在这里插入图片描述',

@@ -213,20 +213,14 @@ def AddArticle(request):
 @api_view(['POST', 'PUT'])
 def ArticleImg(request):
     src = request.data['imgnode']
-    print(src.name)
     src.name = datetime.datetime.now().strftime(
         '%Y%m%d%H%M%S') + "." + src.name.split(".")[1]
-    print(src)
-    print(src.name)
     image_url = os.path.join('upload', src.name).replace('\\', '/')
     f = open(image_url, mode="wb")
     for chunk in src.chunks():
         f.write(chunk)
     f.close()
-    print(image_url)
-    new_src = hostUrl + image_url
-
-    image_url = {'url': new_src}
+    image_url = {'url': hostUrl + image_url}
     return Response(image_url)
 
 
