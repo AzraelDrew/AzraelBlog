@@ -1,9 +1,10 @@
 <template>
   <div class="flex flexWarp loginBox">
     <transition name="fade" appear>
-      <div class="felx login" @keydown.enter="login">
+      <!-- <img class="bg" src="../assets/imgs/avatar.jpg" alt="" /> -->
+      <div class="felx login" @keydown.enter="restPassword">
         <div class="flex">
-          <h1>登录</h1>
+          <h1>修改密码</h1>
         </div>
         <div class="inputBox">
           <el-input v-model="name" class="input" placeholder="用户名" />
@@ -16,41 +17,63 @@
             placeholder="密码"
             :show-password="true"
           />
-          <div class="flex flexJustifyEnd" style="margin-top: 10px">
-            <a class="forgetPwd link" @click="RestPassword">忘记密码?</a>
-          </div>
+        </div>
+        <div class="inputBox">
+          <el-input
+            v-model="password2"
+            class="input"
+            type="password"
+            placeholder="确认密码"
+            :show-password="true"
+          />
         </div>
 
         <div class="flex inputBox flexJustifySpaceBetween">
-          <TheButton class="loginButton" text="注册" @click="toRegister" />
-          <TheButton class="loginButton" text="登录" @click="login" />
+          <TheButton class="loginButton" text="去登录" @click="toLogin" />
+          <TheButton class="loginButton" text="修改" @click="restPassword" />
         </div>
       </div>
     </transition>
   </div>
 </template>
 <script setup lang="ts">
-// import axios from 'axios';
 import { ref } from 'vue';
 import { ElNotification } from 'element-plus';
 import { useRouter } from 'vue-router';
 import { useUserStore } from '@/stores/user';
 import TheButton from '@/components/TheButton.vue';
-const userstore = useUserStore();
+import useAxios from '@/composables/useAxios';
+
 
 const name = ref('');
 const password = ref('');
+const password2 = ref('');
 const router = useRouter();
-async function login() {
-  let res = await userstore.userLogin(name.value, password.value);
-  if (res == 'pwderr') {
+const axios = useAxios()
+const userstore = useUserStore()
+async function restPassword() {
+  if(password.value.length<8 ||password2.value.length<8){
     ElNotification({
       title: 'Error',
-      message: '密码错误',
+      message: '密码不能少于8个字符',
       type: 'error',
     });
     return;
-  } else if (res == 'none') {
+  }
+  if(password.value!=password2.value){
+    ElNotification({
+      title: 'Error',
+      message: '两次密码不一致',
+      type: 'error',
+    });
+    return;
+  }
+  let formData = new FormData()
+  formData.append('username',name.value)
+  formData.append('password',password.value)
+  let res = await axios.post('api/rest/password/', formData);
+  console.log(res.data);
+  if(res.data=='not_exist'){
     ElNotification({
       title: 'Error',
       message: '用户不存在',
@@ -58,32 +81,18 @@ async function login() {
     });
     return;
   }
-  if (res == 'OK') {
-    console.log(
-      `%c
-       ███████╗██╗   ██╗ ██████╗ ██████╗███████╗███████╗███████╗██╗
-       ██╔════╝██║   ██║██╔════╝██╔════╝██╔════╝██╔════╝██╔════╝██║
-       ███████╗██║   ██║██║     ██║     █████╗  ███████╗███████╗██║
-       ╚════██║██║   ██║██║     ██║     ██╔══╝  ╚════██║╚════██║╚═╝
-       ███████║╚██████╔╝╚██████╗╚██████╗███████╗███████║███████║██╗
-       ╚══════╝ ╚═════╝  ╚═════╝ ╚═════╝╚══════╝╚══════╝╚══════╝╚═╝
-    `,
-      'color:#7c9beb'
-    );
-    ElNotification({
-      title: 'Success',
-      message: '登录成功',
-      type: 'success',
-      duration: 1000,
-    });
-    router.replace({ name: 'Home' });
+  ElNotification({
+    title: 'Success',
+    message: '修改成功,请登录',
+    type: 'success',
+    duration: 1000,
+  });
+  router.replace({ name: 'Login' });
   }
-}
-function toRegister() {
-  router.replace({ name: 'Register' });
-}
-function RestPassword() {
-  router.replace({ name: 'RestPassword' });
+
+
+function toLogin() {
+  router.replace({ name: 'Login' });
 }
 </script>
 

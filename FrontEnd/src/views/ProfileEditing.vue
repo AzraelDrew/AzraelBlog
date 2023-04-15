@@ -103,6 +103,14 @@ async function onSubmit() {
     'color:#7c9beb'
   );
 
+  if(form.name.length<1||form.nickName.length<1){
+    ElNotification({
+    title: 'Warning',
+    message: '用户名或昵称不能为空',
+    type: 'warning',
+  });
+  return;
+  }
   let formData = new FormData();
   formData.append('token', userstore.userInfo.token);
   formData.append('name', form.name);

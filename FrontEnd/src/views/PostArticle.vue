@@ -31,29 +31,23 @@ import { useRouter, useRoute } from 'vue-router';
 import { useUserStore } from '@/stores/user';
 import useAxios from '../composables/useAxios';
 import TheButton from '@/components/TheButton.vue';
-const markDownText = `::: tip
-  你可以点击 toolbar 中的 tip 来快速插入
-:::
+const markDownText = `
+## 基础语法
 
-::: warning
-  这是一段警告
-:::
+# 一级标题
+## 二级标题
 
-::: danger
-  这是一个危险警告
-:::
+- 无序列表1
+- 无序列表2
 
-::: details
-  这是一个详情块，在 IE / Edge 中不生效
-:::
+1. 有序列表1
+2. 有序列表2
 
-::: tip 自定义标题
-  你也可以自定义块中的标题
-:::
+> 这是一段引用
 
-::: danger STOP
-  危险区域，禁止通行
-:::
+[baidu](https://www.baidu.com)这是一个链接
+
+![这是一个图片](https://w.wallhaven.cc/full/zy/wallhaven-zyz25o.jpg)
 
 `;
 const router = useRouter();
@@ -85,6 +79,22 @@ function hendleCanel() {
 }
 
 async function hendleSubmit() {
+  if(title.value.length<1){
+    ElNotification({
+    title: 'Warning',
+    message: '标题不能为空',
+    type: 'warning',
+  });
+  return;
+}
+if(text.value.length<1){
+  ElNotification({
+  title: 'Warning',
+  message: '文章不能为空',
+  type: 'warning',
+});
+return;
+}
   let data = new FormData();
   data.append('token', userstore.userInfo.token);
   data.append('title', title.value);
@@ -92,7 +102,6 @@ async function hendleSubmit() {
   data.append('content', text.value);
   data.append('cover', '');
   let res = await axios.post('api/add/article/', data);
-  console.log(res);
   ElNotification({
     title: 'Success',
     message: '发布成功',

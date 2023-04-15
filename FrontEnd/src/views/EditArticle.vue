@@ -10,10 +10,10 @@
         class="md"
         left-toolbar="undo redo clear | h bold italic strikethrough quote | emoji todo-list | ul ol table hr | link image code | save"
         v-model="text"
-        height="76vh"
         @fullscreen-change="ChangeFullscreen"
         :disabled-menus="[]"
         @upload-image="handleUploadImage"
+        height="76vh"
       ></v-md-editor>
       <div v-show="!isFullscreen" class="flex flexJustifyEnd cancelPost">
         <TheButton text="取消" @click="hendleCanel" class="button cancelButton" />
@@ -71,6 +71,22 @@ function hendleCanel() {
   router.push({ name: 'ViewArticle', params: { id: route.params.id } });
 }
 async function hendleSubmit() {
+  if(title.value.length<1){
+    ElNotification({
+    title: 'Warning',
+    message: '标题不能为空',
+    type: 'warning',
+  });
+  return;
+}
+if(text.value.length<1){
+  ElNotification({
+  title: 'Warning',
+  message: '文章不能为空',
+  type: 'warning',
+});
+return;
+}
   let data = new FormData();
   data.append('articleId', route.params.id as string);
   data.append('token', userstore.userInfo.token);

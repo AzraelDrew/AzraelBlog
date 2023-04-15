@@ -20,6 +20,18 @@ html.dark {
 
 .dark .vuepress-markdown-body {
   background-color: #ffffff00;
+  color: #fff;
+}
+
+.dark .vuepress-markdown-body blockquote {
+  background-color: #363b47;
+}
+.dark .vuepress-markdown-body table {
+  /* background-color: #ffffff00; */
+  border-color: #202124 !important;
+}
+.dark .vuepress-markdown-body tr:nth-child(2n) {
+  background-color: #22252e !important;
 }
 .dark .vuepress-markdown-body .comment {
   box-shadow: none !important;
@@ -71,8 +83,8 @@ html.dark {
 }
 .dark .login {
   background-color: #0e111680 !important;
-  box-shadow: 50px -50px 50px #202124, -50px -50px 50px #202124, 50px 50px 50px #202124,
-    -50px 50px 50px #202124 !important;
+  box-shadow: 10px -10px 10px #202124, -10px -10px 10px #202124, 10px 10px 10px #202124,
+    -10px 10px 10px #202124 !important;
 }
 .dark .linkColor:hover {
   color: #87a4ed;

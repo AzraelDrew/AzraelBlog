@@ -124,6 +124,10 @@ body {
   border-radius: 20px;
 }
 
+.vuepress-markdown-body blockquote {
+  border-left: 0.2rem solid #65b787;
+  background-color: #eff8f3;
+}
 .v-md-editor,
 .v-md-editor__main {
   border-radius: 15px;
@@ -133,4 +137,8 @@ body {
 }
 .v-md-editor--editable .v-md-editor__editor-wrapper {
   border: none;
+}
+
+.el-dialog{
+  border-radius: 10px ;
 }

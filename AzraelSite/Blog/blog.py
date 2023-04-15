@@ -69,9 +69,9 @@ def GetArticle(userId, article):
         'commentNumber':
         Pinglun.objects.filter(belong_id=article.id).count(),
         'userAvatar':
-        UserInfo.objects.get(id=article.belong_id).headImg,
+        UserInfo.objects.get(belong_id=article.belong_id).headImg,
         'belonguser':
-        UserInfo.objects.get(id=article.belong_id).nickName,
+        UserInfo.objects.get(belong_id=article.belong_id).nickName,
         'likeStatus':
         Like.objects.filter(belong_id=article.id,
                             belong_user_id=userId).exists(),
@@ -120,6 +120,45 @@ def Login(request):
     }
     return Response(userinfo_data)
 
+# 注册
+@api_view(['POST'])
+def Register(request):
+    username = request.POST['username']
+    password = request.POST['password']
+    # 注册逻辑
+    user = User.objects.filter(username=username)
+    if user:
+        return Response('repeat')
+    else:
+        new_password = make_password(password, username)
+        new_user = User(username=username, password=new_password)
+        new_user.save()
+    token = Token.objects.get_or_create(user=new_user)
+    token = Token.objects.get(user=new_user)
+    userinfo = UserInfo.objects.get_or_create(belong=new_user,
+                                              nickName=username)
+    userinfo = UserInfo.objects.get(belong=new_user)
+    userinfo_data = {
+        'token': token.key,
+        'nickname': str(username),
+        'headImg': userinfo.headImg,
+    }
+    return Response(userinfo_data)
+
+
+# 重置密码
+@api_view(['POST'])
+def ResetPassword(request):
+    username = request.POST['username']
+    password = request.POST['password']
+    # 注册逻辑
+    user = User.objects.filter(username=username)
+    if not user:
+        return Response('not_exist')
+    else:
+        new_password = make_password(password, username)
+        User.objects.filter(username=username).update(password=new_password)
+        return Response("OK")
 
 @api_view(["POST"])
 def GetUserInfo(request):
@@ -209,6 +248,11 @@ def AddArticle(request):
     return Response({"status": "OK", "id": article.id})
 
 
+@api_view(['POST', 'PUT'])
+def DeleteArticle(request):
+    print(request.data['id'])
+    Article.objects.filter(id=request.data['id']).delete()
+    return Response("ok")
 # markdown上传本地图片
 @api_view(['POST', 'PUT'])
 def ArticleImg(request):
@@ -281,7 +325,7 @@ def ArticleData(request):
     if not userId:
         userId = 0
     article = Article.objects.get(id=article_id)
-    userinfo = UserInfo.objects.get(id=article.belong_id)
+    userinfo = UserInfo.objects.get(belong_id=article.belong_id)
     Article.objects.filter(id=article_id).update(view=article.view + 1)
     article_data = {
         'id':

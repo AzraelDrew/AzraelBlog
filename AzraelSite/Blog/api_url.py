@@ -46,10 +46,13 @@ urlpatterns = [
 
     # Blog
     path('login/', blog.Login),
+    path('register/', blog.Register),
+    path('rest/password/', blog.ResetPassword),
     path('get/userinfo/', blog.GetUserInfo),
     path('update/userinfo/', blog.UpdateUserInfo),
     path('upload/avatar/', blog.UploadAvatar),
     path('add/article/', blog.AddArticle),
+    path('delete/article/', blog.DeleteArticle),
     path('article/img/', blog.ArticleImg),
     path('upadte/article/', blog.UpdateArticle),
     path('article/', blog.ArticleData),

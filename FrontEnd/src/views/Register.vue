@@ -1,9 +1,10 @@
 <template>
   <div class="flex flexWarp loginBox">
     <transition name="fade" appear>
-      <div class="felx login" @keydown.enter="login">
+      <!-- <img class="bg" src="../assets/imgs/avatar.jpg" alt="" /> -->
+      <div class="felx login" @keydown.enter="register">
         <div class="flex">
-          <h1>登录</h1>
+          <h1>注册</h1>
         </div>
         <div class="inputBox">
           <el-input v-model="name" class="input" placeholder="用户名" />
@@ -16,74 +17,91 @@
             placeholder="密码"
             :show-password="true"
           />
-          <div class="flex flexJustifyEnd" style="margin-top: 10px">
-            <a class="forgetPwd link" @click="RestPassword">忘记密码?</a>
-          </div>
+        </div>
+        <div class="inputBox">
+          <el-input
+            v-model="password2"
+            class="input"
+            type="password"
+            placeholder="确认密码"
+            :show-password="true"
+          />
         </div>
 
         <div class="flex inputBox flexJustifySpaceBetween">
-          <TheButton class="loginButton" text="注册" @click="toRegister" />
-          <TheButton class="loginButton" text="登录" @click="login" />
+          <TheButton class="loginButton" text="去登录" @click="toLogin" />
+          <TheButton class="loginButton" text="注册" @click="register" />
         </div>
       </div>
     </transition>
   </div>
 </template>
 <script setup lang="ts">
-// import axios from 'axios';
 import { ref } from 'vue';
 import { ElNotification } from 'element-plus';
 import { useRouter } from 'vue-router';
 import { useUserStore } from '@/stores/user';
 import TheButton from '@/components/TheButton.vue';
-const userstore = useUserStore();
+import useAxios from '@/composables/useAxios';
+
 
 const name = ref('');
 const password = ref('');
+const password2 = ref('');
 const router = useRouter();
-async function login() {
-  let res = await userstore.userLogin(name.value, password.value);
-  if (res == 'pwderr') {
+const axios = useAxios()
+const userstore = useUserStore()
+async function register() {
+  if(name.value.length<3){
     ElNotification({
       title: 'Error',
-      message: '密码错误',
-      type: 'error',
-    });
-    return;
-  } else if (res == 'none') {
-    ElNotification({
-      title: 'Error',
-      message: '用户不存在',
+      message: '用户名不能少于3个字符',
       type: 'error',
     });
     return;
   }
-  if (res == 'OK') {
-    console.log(
-      `%c
-       ███████╗██╗   ██╗ ██████╗ ██████╗███████╗███████╗███████╗██╗
-       ██╔════╝██║   ██║██╔════╝██╔════╝██╔════╝██╔════╝██╔════╝██║
-       ███████╗██║   ██║██║     ██║     █████╗  ███████╗███████╗██║
-       ╚════██║██║   ██║██║     ██║     ██╔══╝  ╚════██║╚════██║╚═╝
-       ███████║╚██████╔╝╚██████╗╚██████╗███████╗███████║███████║██╗
-       ╚══════╝ ╚═════╝  ╚═════╝ ╚═════╝╚══════╝╚══════╝╚══════╝╚═╝
-    `,
-      'color:#7c9beb'
-    );
+  if(password.value.length<8 ||password2.value.length<8){
     ElNotification({
-      title: 'Success',
-      message: '登录成功',
-      type: 'success',
-      duration: 1000,
+      title: 'Error',
+      message: '密码不能少于8个字符',
+      type: 'error',
     });
-    router.replace({ name: 'Home' });
+    return;
   }
-}
-function toRegister() {
-  router.replace({ name: 'Register' });
-}
-function RestPassword() {
-  router.replace({ name: 'RestPassword' });
+  if(password.value!=password2.value){
+    ElNotification({
+      title: 'Error',
+      message: '两次密码不一致',
+      type: 'error',
+    });
+    return;
+  }
+  let formData = new FormData()
+  formData.append('username',name.value)
+  formData.append('password',password.value)
+  let res = await axios.post('api/register/', formData);
+  console.log(res);
+  await userstore.userLogin(name.value, password.value);
+  if(res.data=='repeat'){
+    ElNotification({
+      title: 'Warning',
+      message: '用户已存在',
+      type: 'warning',
+    });
+    return;
+  }
+  ElNotification({
+    title: 'Success',
+    message: '注册成功,自动登录',
+    type: 'success',
+    duration: 1000,
+  });
+  router.replace({ name: 'Home' });
+  }
+
+
+function toLogin() {
+  router.replace({ name: 'Login' });
 }
 </script>
 

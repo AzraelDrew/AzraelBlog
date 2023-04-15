@@ -142,7 +142,7 @@ async function LikeFavor(type: 'like' | 'favor', id: number | string, userId: nu
   margin-right: 10px;
 }
 .md {
-  min-width: 60vw;
+  min-width: 40vw;
   max-width: 60vw;
   max-height: 420px;
   margin-bottom: 20px;

@@ -17,7 +17,7 @@
     </template>
     <template #postIcon v-if="userstore.isLogin">
       <router-link to="/postArticle" class="link linkColor postArticle"
-        ><TheIcon icon="iconbianji4" :size="25"
+        ><TheIcon icon="iconbianji4" :size="22"
       /></router-link>
     </template>
     <template #dropDown>

@@ -12,9 +12,14 @@
               <TheIcon icon="iconview" :size="20" />
               <p>{{ post.viewNumber }}</p>
             </div>
-            <div>
-              <slot></slot>
-              <TheButton @click="viewArticle(post.id)" text="阅读全文" />
+            <div class="flex">
+              <div @click="handleDelete(post.id)">
+                <slot ></slot>
+              </div>
+              
+              <div>
+                <TheButton @click="viewArticle(post.id)" text="阅读全文" />
+              </div>
             </div>
           </div>
         </div>
@@ -24,9 +29,16 @@
 </template>
 
 <script lang="ts" setup>
+import {ref} from 'vue'
 import { useRouter } from 'vue-router';
 import TheIcon from './TheIcon.vue';
 import TheButton from './TheButton.vue';
+import useAxios from '@/composables/useAxios';
+
+
+const emit =  defineEmits<{
+      (e: 'deleteArticle', id: any): void
+    }>()
 interface RowsItem {
   [key: string]: string;
 }
@@ -39,9 +51,16 @@ defineProps<Props>();
 
 const router = useRouter();
 
+function handleDelete(id:any){
+  emit('deleteArticle',id)
+}
+
+
 function viewArticle(id: any) {
   router.push({ name: 'ViewArticle', params: { id: id } });
 }
+
+
 </script>
 <style scoped>
 .grid {
@@ -55,7 +74,6 @@ function viewArticle(id: any) {
   max-width: 50vw;
   min-height: 5vh;
   border-radius: 11px;
-  background: ffffff;
   box-shadow: 9px 9px 18px #d3d3d3, -9px -9px 18px #ededed;
 }
 .content {
@@ -111,4 +129,5 @@ button::before {
 button:hover::before {
   width: 250%;
 }
+
 </style>

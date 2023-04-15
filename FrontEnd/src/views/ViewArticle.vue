@@ -92,7 +92,7 @@
         class="flex flexJustifySpaceBetween"
         @click="editArticle(artcileData.id)"
       >
-        <TheIcon icon="iconedit_light" :size="25" />
+        <TheIcon icon="iconedit_light" :size="27" />
       </div>
     </div>
 
