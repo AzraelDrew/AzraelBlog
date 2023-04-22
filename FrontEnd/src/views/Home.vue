@@ -82,7 +82,7 @@ function Logout() {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .avatar {
   margin-right: 10px;
 }
@@ -102,13 +102,16 @@ function Logout() {
   background-color: #f3f3f4;
   color: #0d0c22;
   transition: 0.3s ease;
-}
-
-.input::placeholder {
+  &::placeholder {
   color: #00000040;
 }
-
-.input:focus,
+&:focus {
+  outline: none;
+  border-color: #749cf1;
+  background-color: #fff;
+  box-shadow: 0 0 0 4px #749cf130;
+}
+}
 input:hover {
   outline: none;
   border-color: #749cf1;
@@ -123,17 +126,17 @@ input:hover {
   height: 1rem;
 }
 
-.example-showcase .el-dropdown-link {
-  cursor: pointer;
-  color: var(--el-color-primary);
-  display: flex;
-  align-items: center;
-}
 
 .linkColor {
   color: #000;
 }
 .linkColor:hover {
   color: #749cf1;
+}
+.example-showcase .el-dropdown-link {
+  cursor: pointer;
+  color: var(--el-color-primary);
+  display: flex;
+  align-items: center;
 }
 </style>

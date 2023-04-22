@@ -19,6 +19,9 @@ class UserInfo(models.Model):
                                   on_delete=models.CASCADE,
                                   null=True,
                                   blank=True)
+    class Meta:
+        verbose_name = "用户"
+        verbose_name_plural = "用户"
 
     def __int__(self):
         return self.id
@@ -32,7 +35,9 @@ class Lanmu(models.Model):
                                null=True,
                                blank=True,
                                related_name='lanmu_children')
-
+    class Meta:
+        verbose_name = "栏目"
+        verbose_name_plural = "栏目"
     def __str__(self):
         return self.name
 
@@ -67,7 +72,9 @@ class Article(models.Model):
         null=True,
         blank=True,
     )
-
+    class Meta:
+        verbose_name = "文章"
+        verbose_name_plural = "文章"
     def __int__(self):
         return self.id
 
@@ -93,6 +100,10 @@ class Pinglun(models.Model):
     #     null=True,
     #     blank=True,
     # )
+
+    class Meta:
+        verbose_name = "评论"
+        verbose_name_plural = "评论"
     date = models.DateTimeField(default=now)
 
     def __int__(self):
@@ -111,7 +122,9 @@ class Favourite(models.Model):
                                null=True,
                                blank=True,
                                related_name='favor_article')
-
+    class Meta:
+        verbose_name = "收藏"
+        verbose_name_plural = "收藏"
     def __str__(self):
         return self.belong_user.username + self.belong.title
 
@@ -130,7 +143,9 @@ class Like(models.Model):
                                null=True,
                                blank=True,
                                related_name='like_article')
-
+    class Meta:
+        verbose_name = "点赞"
+        verbose_name_plural = "点赞"
     def __str__(self):
         return self.belong_user.username + self.belong.title
 

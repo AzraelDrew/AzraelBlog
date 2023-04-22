@@ -90,8 +90,8 @@ def GetArticle(userId, article):
 
 @api_view(['POST'])
 def Login(request):
-    username = request.POST['username']
-    password = request.POST['password']
+    username = request.data['username']
+    password = request.data['password']
     # 登录逻辑
     user = User.objects.filter(username=username).first()
 
@@ -123,8 +123,8 @@ def Login(request):
 # 注册
 @api_view(['POST'])
 def Register(request):
-    username = request.POST['username']
-    password = request.POST['password']
+    username = request.data['username']
+    password = request.data['password']
     # 注册逻辑
     user = User.objects.filter(username=username)
     if user:
@@ -231,10 +231,10 @@ def UserLoginAndPerm(token, permList):
 
 @api_view(['POST', 'PUT'])
 def AddArticle(request):
-    title = request.POST['title']
-    describe = request.POST['describe']
-    content = request.POST['content']
-    token = request.POST["token"]
+    title = request.data['title']
+    describe = request.data['describe']
+    content = request.data['content']
+    token = request.data["token"]
     id = CurrentUserId(token)
     cover = hostUrl + 'upload/' + 'defaultCover.png'
     user_token = Token.objects.filter(user_id=id).first()
@@ -245,14 +245,13 @@ def AddArticle(request):
                                      describe=describe,
                                      belong=user_token.user)
     print(article)
-    return Response({"status": "OK", "id": article.id})
+    return Response({"status": "OK", "id": article.id,"text":"文章发布成功"})
 
 
-@api_view(['POST', 'PUT'])
+@api_view(['POST'])
 def DeleteArticle(request):
-    print(request.data['id'])
     Article.objects.filter(id=request.data['id']).delete()
-    return Response("ok")
+    return Response({"status":"ok","text":"删除文章成功"})
 # markdown上传本地图片
 @api_view(['POST', 'PUT'])
 def ArticleImg(request):
@@ -388,13 +387,13 @@ def Comments(request):
             'id':
             pinglun.id,
             "nickName":
-            pinglun.belong_user.username,
+            UserInfo.objects.filter(belong_id=pinglun.belong_user_id).first().nickName,
             "text":
             pinglun.text,
             'date':
             pinglun.date,
             "avatar":
-            UserInfo.objects.filter(id=pinglun.belong_user_id).first().headImg
+            UserInfo.objects.filter(belong_id=pinglun.belong_user_id).first().headImg
         }
         pinglun_data.append(pinglun_item)
     return Response({"data": pinglun_data, "total": total})
@@ -402,15 +401,15 @@ def Comments(request):
 
 @api_view(["POST"])
 def AddComment(request):
-    articleId = request.POST["id"]
-    currentId = request.POST["userId"]
-    comment = request.POST["text"]
+    articleId = request.data["id"]
+    currentId = request.data["userId"]
+    comment = request.data["text"]
 
     new_pinglun = Pinglun(belong_user_id=currentId,
                           belong_id=articleId,
                           text=comment)
     new_pinglun.save()
-    return Response("OK")
+    return Response({"status":"OK","text":"发布评论成功"})
 
 
 @api_view(["POST"])
@@ -430,37 +429,45 @@ def DeleteComment(request):
 
 @api_view(['GET', 'POST'])
 def ArticleLike(request):
-
-    articleId = request.GET['id']
-    userId = request.GET['userId']
+    if request.method == "POST":
+        articleId = request.data['id']
+        userId = request.data['userId']
+    if request.method == "GET":
+        articleId = request.GET['id']
+        userId = request.GET['userId']
+    
     article = Article.objects.get(id=articleId)
 
     liked = Like.objects.filter(belong=article, belong_user_id=userId)
 
     if liked:
         liked[0].delete()
-        return Response({"status": False})
+        return Response({"status": False,"text":"取消点赞"})
     else:
         new_like = Like(belong=article, belong_user_id=userId)
         new_like.save()
-        return Response({"status": True})
+        return Response({"status": True,"text":"点赞成功"})
 
 
 @api_view(['GET', 'POST'])
 def ArticleFavor(request):
-    articleId = request.GET['id']
-    userId = request.GET['userId']
+    if request.method == "POST":
+        articleId = request.data['id']
+        userId = request.data['userId']
+    if request.method == "GET":
+        articleId = request.GET['id']
+        userId = request.GET['userId']
     article = Article.objects.get(id=articleId)
 
     favored = Favourite.objects.filter(belong=article, belong_user_id=userId)
 
     if favored:
         favored[0].delete()
-        return Response({"status": False})
+        return Response({"status": False,"text":"取消收藏"})
     else:
         new_favor = Favourite(belong=article, belong_user_id=userId)
         new_favor.save()
-        return Response({"status": True})
+        return Response({"status": True,"text":"收藏成功"})
 
 
 @api_view(["GET"])

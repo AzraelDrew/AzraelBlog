@@ -62,7 +62,7 @@ function viewArticle(id: any) {
 
 
 </script>
-<style scoped>
+<style scoped lang="scss">
 .grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -105,29 +105,32 @@ function viewArticle(id: any) {
   outline: 2px solid #699df8;
 }
 
-button:hover {
-  color: #ffffff;
-  transform: scale(1.1);
-  outline: 2px solid #699df8;
-  box-shadow: 4px 5px 17px -4px #699df8;
-  cursor: pointer;
-}
+button{
 
-button::before {
-  content: '';
-  position: absolute;
-  left: -50px;
-  top: 0;
-  width: 0;
-  height: 100%;
-  background-color: #699df8;
-  transform: skewX(45deg);
-  z-index: -1;
-  transition: width 1000ms;
-}
-
-button:hover::before {
-  width: 250%;
+  &:hover {
+    color: #ffffff;
+    transform: scale(1.1);
+    outline: 2px solid #699df8;
+    box-shadow: 4px 5px 17px -4px #699df8;
+    cursor: pointer;
+  }
+  
+  &::before {
+    content: '';
+    position: absolute;
+    left: -50px;
+    top: 0;
+    width: 0;
+    height: 100%;
+    background-color: #699df8;
+    transform: skewX(45deg);
+    z-index: -1;
+    transition: width 1000ms;
+  }
+  
+  &:hover::before {
+    width: 250%;
+  }
 }
 
 </style>

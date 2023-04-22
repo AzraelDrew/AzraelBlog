@@ -3,7 +3,7 @@
     <transition name="fade" appear>
       <!-- <img class="bg" src="../assets/imgs/avatar.jpg" alt="" /> -->
       <div class="felx login" @keydown.enter="restPassword">
-        <div class="flex">
+        <div class="flex" style="margin-bottom: -50px;">
           <h1>修改密码</h1>
         </div>
         <div class="inputBox">
@@ -28,7 +28,7 @@
           />
         </div>
 
-        <div class="flex inputBox flexJustifySpaceBetween">
+        <div class="flex inputBox flexJustifySpaceBetween" style="margin-top: -20px;">
           <TheButton class="loginButton" text="去登录" @click="toLogin" />
           <TheButton class="loginButton" text="修改" @click="restPassword" />
         </div>
@@ -85,7 +85,6 @@ async function restPassword() {
     title: 'Success',
     message: '修改成功,请登录',
     type: 'success',
-    duration: 1000,
   });
   router.replace({ name: 'Login' });
   }
@@ -96,7 +95,7 @@ function toLogin() {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .loginBox {
   min-height: 100vh;
   border-radius: 15px;
@@ -104,7 +103,6 @@ function toLogin() {
     -10px 10px 10px #ededed;
 }
 .bg {
-  /* max-width: 40vw; */
   min-height: 30vh;
   max-height: 60vh;
   margin-right: 5vw;
@@ -125,9 +123,9 @@ function toLogin() {
 }
 .forgetPwd {
   color: #6bb4f1;
-}
-.forgetPwd:hover {
-  color: #2d4d66;
+  &:hover {
+    color: #2d4d66;
+  }
 }
 
 .inputBox {

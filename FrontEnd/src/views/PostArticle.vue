@@ -110,7 +110,7 @@ return;
   router.push({ name: 'ViewArticle', params: { id: res.data.id } });
 }
 </script>
-<style scoped>
+<style scoped lang="scss">
 .container {
   margin: 0 100px;
   border-radius: 20px;
@@ -142,12 +142,13 @@ button {
   text-transform: uppercase;
   font-size: 15px;
   transition: all 0.5s ease;
-}
-
-button:hover {
+  &:hover {
   letter-spacing: 3px;
   background-color: hsl(261deg 80% 48%);
   color: hsl(0, 0%, 100%);
   box-shadow: rgb(93 24 220) 0px 7px 29px 0px;
 }
+}
+
+
 </style>

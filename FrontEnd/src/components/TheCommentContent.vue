@@ -26,6 +26,7 @@ defineProps<Props>();
 }
 .commentTitle {
   justify-content: center;
+  justify-items: center;
   align-content: center;
   align-items: center;
 }

@@ -3,7 +3,7 @@
     <transition name="fade" appear>
       <!-- <img class="bg" src="../assets/imgs/avatar.jpg" alt="" /> -->
       <div class="felx login" @keydown.enter="register">
-        <div class="flex">
+        <div class="flex" style="margin-bottom: -50px;">
           <h1>注册</h1>
         </div>
         <div class="inputBox">
@@ -28,7 +28,7 @@
           />
         </div>
 
-        <div class="flex inputBox flexJustifySpaceBetween">
+        <div class="flex inputBox flexJustifySpaceBetween" style="margin-top: -20px;">
           <TheButton class="loginButton" text="去登录" @click="toLogin" />
           <TheButton class="loginButton" text="注册" @click="register" />
         </div>
@@ -94,7 +94,6 @@ async function register() {
     title: 'Success',
     message: '注册成功,自动登录',
     type: 'success',
-    duration: 1000,
   });
   router.replace({ name: 'Home' });
   }
@@ -105,7 +104,7 @@ function toLogin() {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .loginBox {
   min-height: 100vh;
   border-radius: 15px;
@@ -134,9 +133,9 @@ function toLogin() {
 }
 .forgetPwd {
   color: #6bb4f1;
-}
-.forgetPwd:hover {
-  color: #2d4d66;
+  &:hover {
+    color: #2d4d66;
+  }
 }
 
 .inputBox {

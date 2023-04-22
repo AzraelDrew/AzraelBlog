@@ -162,7 +162,7 @@ function Logout() {
   router.replace({ name: 'Home' });
 }
 </script>
-<style scoped>
+<style scoped lang="scss">
 .active {
   color: #0984e3;
 }
@@ -214,45 +214,41 @@ function Logout() {
 }
 .deleteArticle{
   margin-right: 20px;
-  /* background-color: red; */
+  &.button {
+    padding: 0.5em 0.8em;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: red;
+    transition: all 1000ms;
+    font-size: 15px;
+    position: relative;
+    overflow: hidden;
+    outline: 2px solid red;
+  }
+  &:hover {
+    color: #ffffff;
+    transform: scale(1.1);
+    outline: 2px solid red;
+    box-shadow: 4px 5px 17px -4px red;
+    cursor: pointer;
+  }
+  
+  &::before {
+    content: '';
+    position: absolute;
+    left: -50px;
+    top: 0;
+    width: 0;
+    height: 100%;
+    background-color: red;
+    transform: skewX(45deg);
+    z-index: -1;
+    transition: width 1000ms;
+  }
 }
-.deleteArticle.button {
-  padding: 0.5em 0.8em;
-  border: none;
-  border-radius: 5px;
-  font-weight: bold;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: red;
-  transition: all 1000ms;
-  font-size: 15px;
-  position: relative;
-  overflow: hidden;
-  outline: 2px solid red;
-}
-
-.deleteArticle:hover {
-  color: #ffffff;
-  transform: scale(1.1);
-  outline: 2px solid red;
-  box-shadow: 4px 5px 17px -4px red;
-  cursor: pointer;
-}
-
-.deleteArticle::before {
-  content: '';
-  position: absolute;
-  left: -50px;
-  top: 0;
-  width: 0;
-  height: 100%;
-  background-color: red;
-  transform: skewX(45deg);
-  z-index: -1;
-  transition: width 1000ms;
-}
-
-
 .dialog-footer button:first-child {
   margin-right: 10px;
 }

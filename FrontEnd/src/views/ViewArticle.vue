@@ -123,12 +123,12 @@
         </template>
         <template #articleContent>
           <div class="grid commentTitle">
-            <h4>{{ comment.nickName }}</h4>
-            <p>{{ comment.date.split('T')[0] }} {{ comment.date.split('T')[1].split('.')[0] }}</p>
+            <h4 style="justify-self: start;">{{ comment.nickName.substring(0, 20) }}</h4>
+            <p style="justify-self: end;">{{ comment.date.split('T')[0] }} </p>
           </div>
           <div style="margin-bottom: 10px">
             <p
-              class="commentContent"
+              class="commentContent commentDetail"
               @click="
                 showCommentDetails(comment.text, comment.avatar, comment.nickName, comment.date)
               "
@@ -150,14 +150,14 @@
         </div>
         <div>
           <div class="grid commentTitle">
-            <h4>{{ commentDeatilNickName }}</h4>
-            <p>
+            <h4>{{ commentDeatilNickName.substring(0, 20) }}</h4>
+            <p style="justify-self: end;">
               {{ commentDetailDate.split('T')[0] }}
-              {{ commentDetailDate.split('T')[1].split('.')[0] }}
+
             </p>
           </div>
           <div style="margin-bottom: 10px">
-            <p class="commentDetail">{{ commentDetail }}</p>
+            <p class="commentDetail "  >{{ commentDetail }}</p>
           </div>
         </div>
       </div>
@@ -364,12 +364,16 @@ async function LikeFavor(
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .grid {
   display: grid;
-  grid-template-columns: 50px 9fr;
+  // gap:20px;
+  grid-template-columns: 80px 9fr;
 }
 
+// .commentDetail{
+//   grid-column-end: 3;
+// }
 .postArticle {
   margin-right: 10px;
 }
@@ -426,9 +430,9 @@ async function LikeFavor(
 }
 .linkColor {
   color: #000000;
-}
-.linkColor:hover {
-  color: #000000;
+  &:hover {
+    color: #000000;
+  }
 }
 .iconAdnButton {
   width: 100%;
@@ -446,9 +450,12 @@ async function LikeFavor(
   justify-content: center;
   align-content: center;
   align-items: center;
+  margin-left: -20px;
 }
 .commentContent {
   margin-top: -10px;
+
+  width: 25vw;
   overflow: hidden;
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -456,5 +463,6 @@ async function LikeFavor(
 }
 .commentDetail {
   margin-top: -10px;
+  margin-left: -20px;
 }
 </style>

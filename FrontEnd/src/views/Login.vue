@@ -74,7 +74,6 @@ async function login() {
       title: 'Success',
       message: '登录成功',
       type: 'success',
-      duration: 1000,
     });
     router.replace({ name: 'Home' });
   }
@@ -87,7 +86,7 @@ function RestPassword() {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .loginBox {
   min-height: 100vh;
   border-radius: 15px;
@@ -95,7 +94,6 @@ function RestPassword() {
     -10px 10px 10px #ededed;
 }
 .bg {
-  /* max-width: 40vw; */
   min-height: 30vh;
   max-height: 60vh;
   margin-right: 5vw;
@@ -116,9 +114,9 @@ function RestPassword() {
 }
 .forgetPwd {
   color: #6bb4f1;
-}
-.forgetPwd:hover {
+  &:hover {
   color: #2d4d66;
+}
 }
 
 .inputBox {

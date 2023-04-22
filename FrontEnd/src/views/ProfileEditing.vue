@@ -147,7 +147,7 @@ function Logout() {
   router.replace({ name: 'Home' });
 }
 </script>
-<style scoped>
+<style scoped lang="scss">
 .profileEditing {
   margin-top: 50px;
   min-width: 60vw;
@@ -191,8 +191,8 @@ function Logout() {
   text-decoration: none;
   font-size: 14px;
   color: #000;
-}
-.linkColor:hover {
-  color: #87a4ed;
+  &:hover {
+    color: #87a4ed;
+  }
 }
 </style>

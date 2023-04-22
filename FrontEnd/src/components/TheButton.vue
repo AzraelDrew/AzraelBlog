@@ -11,7 +11,7 @@ interface Props {
 defineProps<Props>();
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .button {
   padding: 0.5em 0.8em;
   border: none;
@@ -26,29 +26,32 @@ defineProps<Props>();
   overflow: hidden;
   outline: 2px solid #699df8;
 }
+button{
 
-button:hover {
-  color: #ffffff;
-  transform: scale(1.1);
-  outline: 2px solid #699df8;
-  box-shadow: 4px 5px 17px -4px #699df8;
-  cursor: pointer;
+  &:hover {
+    color: #ffffff;
+    transform: scale(1.1);
+    outline: 2px solid #699df8;
+    box-shadow: 4px 5px 17px -4px #699df8;
+    cursor: pointer;
+  }
+  
+  &::before {
+    content: '';
+    position: absolute;
+    left: -50px;
+    top: 0;
+    width: 0;
+    height: 100%;
+    background-color: #699df8;
+    transform: skewX(-45deg);
+    z-index: -1;
+    transition: width 1000ms;
+  }
+  
+  &:hover::before {
+    width: 250%;
+  }
 }
 
-button::before {
-  content: '';
-  position: absolute;
-  left: -50px;
-  top: 0;
-  width: 0;
-  height: 100%;
-  background-color: #699df8;
-  transform: skewX(-45deg);
-  z-index: -1;
-  transition: width 1000ms;
-}
-
-button:hover::before {
-  width: 250%;
-}
 </style>
