@@ -132,7 +132,6 @@ USE_TZ = False  # 如若设置True则数据库存储的时间为UTC时间   Fals
 
 # SIMPLEUI配置
 
-SIMPLEUI_LOGO = '../upload/logo.png'
 SIMPLEUI_HOME_INFO = False 
 SIMPLEUI_ANALYSIS = False  
 
@@ -143,7 +142,7 @@ SIMPLEUI_HOME_ACTION = False
 # 修改左侧菜单首页设置
 SIMPLEUI_HOME_PAGE = 'http://43.138.126.114/'  # 指向页面
 SIMPLEUI_HOME_TITLE = 'RainBlog' # 首页标题
-SIMPLEUI_HOME_ICON = 'fa fa-eye' # 首页图标
+# SIMPLEUI_HOME_ICON = 'fa fa-eye' # 首页图标
 
 # 设置右上角Home图标跳转链接，会以另外一个窗口打开
 SIMPLEUI_INDEX = 'http://43.138.126.114/'

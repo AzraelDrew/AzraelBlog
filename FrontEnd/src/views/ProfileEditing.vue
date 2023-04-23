@@ -59,7 +59,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive } from 'vue';
+import { reactive ,watch} from 'vue';
 import { ElNotification } from 'element-plus';
 import { useRouter, RouterLink } from 'vue-router';
 import { useUserStore } from '@/stores/user';
@@ -87,9 +87,9 @@ async function Upload(e: any) {
   form.avatar = '';
   form.avatar = e.url;
 }
-// watch(userstore.userInfo, async () => {
-//   userstore.GetUserInfo(userstore.userInfo.token);
-// });
+watch(userstore.userInfo, async () => {
+  userstore.GetUserInfo(userstore.userInfo.token);
+});
 async function onSubmit() {
   console.log(
     `%c

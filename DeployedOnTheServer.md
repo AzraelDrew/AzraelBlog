@@ -21,7 +21,14 @@ sudo reboot
 - 安装 Nginx、python3 等环境
 
 ```shell
-apt install python3 libpython3.8-dev python3-venv nginx
+sudo apt install python3 nginx uwsgi libpython3.8-dev python3-venv
+
+若uwsgi安装不成功可以使用离线安装方式
+wget http://projects.unbit.it/downloads/uwsgi-latest.tar.gz
+tar zxvf uwsgi-latest.tar.gz
+cd uwsgi*
+make
+python3  setup.py install
 ```
 
 - 创建 python 虚拟环境
@@ -39,14 +46,9 @@ source /var/www/venv/bin/activate
 - 安装 Django 等依赖库
 
 ```shell
-pip3 install django djangorestframework django-cors-headers uwsgi Pillow requests beautifulsoup4
+pip3 install django djangorestframework django-cors-headers  Pillow requests beautifulsoup4
 
-若uwsgi安装不成功可以使用离线安装方式
-wget http://projects.unbit.it/downloads/uwsgi-latest.tar.gz
-tar zxvf uwsgi-latest.tar.gz
-cd uwsgi*
-make
-python3  setup.py install
+
 ```
 
 > 第二步
@@ -63,20 +65,19 @@ blog.ini
 
 ```ini
 [uwsgi]
-chdir   =/var/www/venv/AzraelSite
-module  =AzraelSite.wsgi
-home    =/var/www/venv/
-master  =true
+chdir   = /var/www/venv/AzraelSite
+module  = AzraelSite.wsgi
+home    = /var/www/venv/
+master  = true
 processes = 4
-socket  =127.0.0.1:9090
+socket  = 127.0.0.1:9090
 chmod-socket = 666
 vacuum = true
 
-
-venv表示python虚拟环境目录
-socket的内容必须跟nginx.conf中uwsgi_pass一致
-chdir:Django项目
-module:Django项目下的wsgi
+processes:线程数
+socket:内容必须跟nginx.conf中uwsgi_pass一致
+chdir:Django项目(包含manage.py的文件夹)
+module:Django项目下的wsgi(包含manage.py的文件夹)
 home:虚拟运行环境目录
 ```
 
@@ -95,83 +96,60 @@ events {
 http {
 					client_max_body_size 128m;
   server {
-				listen          8000;                                    # 端口号(Api运行的端口号)  记得再服务防火墙中把端口打开
-				server_name     ip address;                              # ip或域名
+        # 端口
+				listen          8000;
+        # ip地址或域名
+				server_name     ip address;
 				charset         utf-8;
 
 				location /static {
-							    alias   /var/www/venv/AzraelSite/static;       # Django样式及一些静态文件
-
-													}
+                  # django 后台静态文件(css)
+                  alias   /var/www/venv/AzraelSite/static;
+                          }
 				location /upload {
-				          alias   /var/www/venv/AzraelSite/upload;       # 用于存储图片的文件夹
-
-													}
+                  # 上传文件夹
+                  alias   /var/www/venv/AzraelSite/upload;
+                          }
 
 				location / {
-							    uwsgi_pass   127.0.0.1:9090;                   # 与blog.ini中socket的内容一致
-							    include      /etc/nginx/uwsgi_params;          # 此文件必须上传
+                  # uwsgi_pass 必须XXX.inn文件中的socket保持一致
+                  uwsgi_pass   127.0.0.1:9090;
+                  include      /etc/nginx/uwsgi_params;
 										}
 
-				 }
+          }
 	server {
-        listen          80;                                      # 前端代码的端口
-        server_name     ip address;                              # ip或域名
+        # 端口
+        listen          80;
+        # ip地址或域名
+        server_name     ip address;
         charset         utf-8;
 
-
         location / {
-                  root    /var/www/dist;                         # 前端代码路径
+                  root    /var/www/dist;
                   index   index.html ;
+                  # Vue-Router刷新页面404
+                  try_files $uri $uri/ @router;
          						}
-}
-##
-        # Basic Settings
-        ##
+          }
+
 
         sendfile on;
         tcp_nopush on;
         tcp_nodelay on;
         keepalive_timeout 65;
         types_hash_max_size 2048;
-        # server_tokens off;
-
-        # server_names_hash_bucket_size 64;
-        # server_name_in_redirect off;
 
         include /etc/nginx/mime.types;
         default_type application/octet-stream;
 
-        ##
-        # SSL Settings
-        ##
-
         ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3; # Dropping SSLv3, ref: POODLE
         ssl_prefer_server_ciphers on;
-
-        ##
-        # Logging Settings
-        ##
 
         access_log /var/log/nginx/access.log;
         error_log /var/log/nginx/error.log;
 
-        ##
-        # Gzip Settings
-        ##
-
         gzip on;
-
-        # gzip_vary on;
-        # gzip_proxied any;
-        # gzip_comp_level 6;
-        # gzip_buffers 16 8k;
-        # gzip_http_version 1.1;
-        # gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
-
-        ##
-        # Virtual Host Configs
-        ##
 
         include /etc/nginx/conf.d/*.conf;
         include /etc/nginx/sites-enabled/*;
@@ -201,13 +179,13 @@ http {
 - 在 AzraelSite setting.py 中添加
 
 ```python
-  STATIC_ROOT='/var/www/venv/AzraelSite/Blog/static'
+  STATIC_ROOT='/var/www/venv/AzraelSite/static'
 ```
 
 - 创建 Django 静态文件存放目录已经上传文件目录
 
 ```shell
-  mkdir /var/www/venv/AzraelSite/Blog/static /var/www/venv/AzraelSite/upload
+  mkdir /var/www/venv/AzraelSite/static /var/www/venv/AzraelSite/upload
 
   python3 manage.py makemigrations
 

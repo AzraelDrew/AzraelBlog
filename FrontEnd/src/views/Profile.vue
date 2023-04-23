@@ -109,9 +109,11 @@ const tabs = ref([
   },
 ]);
 
-onMounted(async () => {
-  let res = await AllArticle(userstore.userInfo.id, tabs.value[currentTab.value].label);
-  posts.value = res.data.data;
+onMounted( () => {
+  setTimeout( async() => {
+    let res = await AllArticle(userstore.userInfo.id, tabs.value[currentTab.value].label);
+    posts.value = res.data.data;
+  }, 500);
 });
 
 async function GetArticle(index: any) {
