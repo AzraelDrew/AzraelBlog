@@ -303,6 +303,7 @@ async function addComment(articleId: any, currentId: any) {
     data.append('userId', currentId);
     data.append('text', input.value);
     let res = await axios.post('api/add/comment/', data);
+    artcileData.commentNumber = res.data.commentNumber
     input.value = '';
     showComments();
   }
