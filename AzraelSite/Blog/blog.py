@@ -409,7 +409,8 @@ def AddComment(request):
                           belong_id=articleId,
                           text=comment)
     new_pinglun.save()
-    return Response({"status":"OK","text":"发布评论成功"})
+    comment_num = Pinglun.objects.filter(belong_id=articleId).count()
+    return Response({"status":"OK","text":"发布评论成功","commentNumber":comment_num})
 
 
 @api_view(["POST"])
