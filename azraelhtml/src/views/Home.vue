@@ -6,16 +6,7 @@
           <div class="dweb" style="height: 800px"></div>
         </div>
       </el-col>
-      <!-- <el-col :xs="24" :lg="8">
-        <div class="grid-content bg-purple">
-          <div class="dweb" style="height: 200px"></div>
-        </div>
-      </el-col>
-      <el-col :xs="24" :lg="8">
-        <div class="grid-content bg-purple">
-          <div class="dweb" style="height: 200px"></div>
-        </div>
-      </el-col> -->
+
     </el-row>
   </div>
 </template>
@@ -50,7 +41,6 @@ export default {
   },
   methods: {
     change_el_col() {
-      // console.log(this.screenWidth);
       if (this.screenWidth <= 1200) {
         this.number = 1;
       }

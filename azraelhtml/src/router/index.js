@@ -7,7 +7,7 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: () => import('../views/ArticleList'),
+    component: () => import('../views/AllArticle'),
     beforeEnter(to, from, next) {
       if (store.state.userinfo.token) {
         next();

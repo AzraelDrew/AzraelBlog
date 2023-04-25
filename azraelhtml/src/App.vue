@@ -31,26 +31,11 @@
           active-text-color="#FFCD77"
           @select="choosMenu"
         >
-          <el-submenu index="1">
-            <template slot="title">
-              <i class="el-icon-folder-opened"></i>
-              <span>文章管理</span>
-            </template>
-            <el-menu-item-group>
-              <el-menu-item index="/md/add-article">发布文章</el-menu-item>
-              <el-menu-item index="/article-list">我的文章</el-menu-item>
-              <el-menu-item index="/all-article-list">所有文章</el-menu-item>
-            </el-menu-item-group>
-          </el-submenu>
 
-          <!-- <el-menu-item index="/user-info">
-            <i class="el-icon-user"></i>
-            <span slot="title">个人信息</span>
+          <el-menu-item index="/all-article-list">
+            <i class="el-icon-folder-opened"></i>
+            <span  slot="title">所有文章</span>
           </el-menu-item>
-          <el-menu-item index="/favourite-info">
-            <i class="el-icon-user"></i>
-            <span slot="title">收藏</span>
-          </el-menu-item> -->
           <el-menu-item index="/user-permission">
             <i class="el-icon-user"></i>
             <span slot="title">用户管理</span>
@@ -124,25 +109,6 @@ export default {
         this.mobile_left = '';
         this.mobile_content = '';
       }
-
-      // let checkInfo_user = {
-      //   contentType: 'auth_user',
-      //   permissions: ['add', 'change', 'delete', 'view'],
-      // };
-      // this.$store.dispatch('checkUserPerm', checkInfo_user).then((res) => {
-      //   if (res) {
-      //     this.left_user = true;
-      //   }
-      // });
-      // let checkInfo_article = {
-      //   contentType: 'Blog_article',
-      //   permissions: ['add', 'change', 'delete', 'view'],
-      // };
-      // this.$store.dispatch('checkUserPerm', checkInfo_article).then((res) => {
-      //   if (res) {
-      //     this.left_lanmu = true;
-      //   }
-      // });
     },
   },
   created() {
