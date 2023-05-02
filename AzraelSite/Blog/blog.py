@@ -427,7 +427,6 @@ def DeleteComment(request):
         return Response("none")
     return Response("OK")
 
-
 @api_view(['GET', 'POST'])
 def ArticleLike(request):
     if request.method == "POST":

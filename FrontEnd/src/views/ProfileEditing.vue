@@ -2,7 +2,10 @@
   <TheNavBar>
     <template #avatarAndNickname>
       <router-link to="/" class="link" href=""
-        ><TheIcon class="home icon linkColor" icon="iconzhuye3" :size="30" /></router-link
+        ><TheIcon
+          class="home icon linkColor"
+          icon="iconzhuye3"
+          :size="30" /></router-link
     ></template>
 
     <template #dropDown>
@@ -59,14 +62,14 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive ,watch} from 'vue';
-import { ElNotification } from 'element-plus';
-import { useRouter, RouterLink } from 'vue-router';
-import { useUserStore } from '@/stores/user';
-import useAxios from '@/composables/useAxios';
-import TheAvatar from '@/components/TheAvatar.vue';
-import TheNavBar from '@/components/TheNavBar.vue';
-import TheIcon from '@/components/TheIcon.vue';
+import { reactive, watch } from "vue";
+import { ElNotification } from "element-plus";
+import { useRouter, RouterLink } from "vue-router";
+import { useUserStore } from "@/stores/user";
+import useAxios from "@/composables/useAxios";
+import TheAvatar from "@/components/TheAvatar.vue";
+import TheNavBar from "@/components/TheNavBar.vue";
+import TheIcon from "@/components/TheIcon.vue";
 
 const axios = useAxios();
 
@@ -84,7 +87,7 @@ const form = reactive({
 });
 
 async function Upload(e: any) {
-  form.avatar = '';
+  form.avatar = "";
   form.avatar = e.url;
 }
 watch(userstore.userInfo, async () => {
@@ -100,32 +103,32 @@ async function onSubmit() {
 ███████║╚██████╔╝██████╔╝██║ ╚═╝ ██║██║   ██║   ██╗
 ╚══════╝ ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚═╝   ╚═╝   ╚═╝
   `,
-    'color:#7c9beb'
+    "color:#7c9beb"
   );
 
-  if(form.name.length<1||form.nickName.length<1){
+  if (form.name.length < 1 || form.nickName.length < 1) {
     ElNotification({
-    title: 'Warning',
-    message: '用户名或昵称不能为空',
-    type: 'warning',
-  });
-  return;
+      title: "Warning",
+      message: "用户名或昵称不能为空",
+      type: "warning",
+    });
+    return;
   }
   let formData = new FormData();
-  formData.append('token', userstore.userInfo.token);
-  formData.append('name', form.name);
-  formData.append('nickName', form.nickName);
-  formData.append('avatar', form.avatar);
-  formData.append('phone', form.phone);
-  formData.append('desc', form.desc);
-  let res = await axios.post('api/update/userinfo/', formData);
+  formData.append("token", userstore.userInfo.token);
+  formData.append("name", form.name);
+  formData.append("nickName", form.nickName);
+  formData.append("avatar", form.avatar);
+  formData.append("phone", form.phone);
+  formData.append("desc", form.desc);
+  let res = await axios.post("api/update/userinfo/", formData);
   userstore.GetUserInfo(userstore.userInfo.token);
   ElNotification({
-    title: 'Success',
-    message: '修改成功',
-    type: 'success',
+    title: "Success",
+    message: "修改成功",
+    type: "success",
   });
-  router.replace({ name: 'Profile' });
+  router.replace({ name: "Profile" });
 }
 function onCancel() {
   console.log(
@@ -137,14 +140,14 @@ function onCancel() {
   ╚██████╗██║  ██║██║ ╚████║╚██████╗███████╗███████╗██╗
    ╚═════╝╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝╚══════╝╚══════╝╚═╝
   `,
-    'color:#7c9beb'
+    "color:#7c9beb"
   );
 
-  router.replace({ name: 'Profile' });
+  router.replace({ name: "Profile" });
 }
 function Logout() {
   userstore.userLogout();
-  router.replace({ name: 'Home' });
+  router.replace({ name: "Home" });
 }
 </script>
 <style scoped lang="scss">

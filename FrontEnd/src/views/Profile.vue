@@ -141,7 +141,7 @@ async function delArticle(){
   formData.append("id",String(deleteArticleId.value))
   let delMessage =  await axios.post('api/delete/article/',formData)
   console.log(delMessage);
-  if(delMessage.data=="ok"){
+  if(delMessage.data.status=="ok"){
     ElNotification({
         title: 'Success',
         message: '删除成功',
@@ -152,7 +152,7 @@ async function delArticle(){
       posts.value = res.data.data;
   }else{
     ElNotification({
-        title: 'SucErrocess',
+        title: 'Error',
         message: '删除失败',
         type: 'error',
         duration: 1000,

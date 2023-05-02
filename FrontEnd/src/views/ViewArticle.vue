@@ -43,13 +43,15 @@
           <h2>{{ artcileData.title }}</h2>
           <div class="flex flexJustifyStart">
             <TheAvatar :size="40" :src="artcileData.avatar" />
-            <span style="display: flex; align-content: center">{{ artcileData.nickeName }}</span>
+            <span style="display: flex; align-content: center">{{
+              artcileData.nickeName
+            }}</span>
           </div>
           <div class="flex flexJustifyStart">
-            <p>发布于:{{ artcileData.date.split('T')[0] }}</p>
+            <p>发布于:{{ artcileData.date.split("T")[0] }}</p>
             <div class="flex">
               <TheIcon icon="iconview" :size="25" />
-              <p>{{ artcileData.viewNumber || '' }}</p>
+              <p>{{ artcileData.viewNumber || "" }}</p>
             </div>
           </div>
         </div>
@@ -72,7 +74,7 @@
           :size="30"
           @click="LikeFavor('like', route.params.id, userstore.userInfo.id)"
         />
-        <p>{{ artcileData.likeNumber || '' }}</p>
+        <p>{{ artcileData.likeNumber || "" }}</p>
       </div>
       <div class="flex flexJustifySpaceBetween">
         <TheIcon
@@ -81,11 +83,11 @@
           :size="30"
           @click="LikeFavor('favor', route.params.id, userstore.userInfo.id)"
         />
-        <p>{{ artcileData.favouriteNumber || '' }}</p>
+        <p>{{ artcileData.favouriteNumber || "" }}</p>
       </div>
       <div class="flex flexJustifySpaceBetween" @click="showComments()">
         <TheIcon icon="iconpinglun2" :size="25" />
-        <p>{{ artcileData.commentNumber || '' }}</p>
+        <p>{{ artcileData.commentNumber || "" }}</p>
       </div>
       <div
         v-show="userstore.userInfo.id == artcileData.belongUser"
@@ -110,54 +112,82 @@
           :rows="8"
           placeholder="Please input"
         />
-        <div class="flex flexJustifySpaceBetween iconAdnButton" style="margin: 10px 20px 0px 20px">
+        <div
+          class="flex flexJustifySpaceBetween iconAdnButton"
+          style="margin: 10px 20px 0px 20px"
+        >
           <TheAvatar :size="40" :src="userstore.userInfo.avatar" />
-          <el-button type="primary" @click="addComment(artcileData.id, userstore.userInfo.id)"
+          <el-button
+            type="primary"
+            @click="addComment(artcileData.id, userstore.userInfo.id)"
             >发布评论</el-button
           >
         </div>
       </div>
       <Comment v-for="(comment, index) in comments" :key="index">
         <template #avatar>
-          <TheAvatar :size="40" :isCommentContent="true" :src="comment.avatar" />
+          <TheAvatar
+            :size="40"
+            :isCommentContent="true"
+            :src="comment.avatar"
+          />
         </template>
         <template #articleContent>
           <div class="grid commentTitle">
-            <h4 style="justify-self: start;">{{ comment.nickName.substring(0, 20) }}</h4>
-            <p style="justify-self: end;">{{ comment.date.split('T')[0] }} </p>
+            <h4 style="justify-self: start">
+              {{ comment.nickName.substring(0, 20) }}
+            </h4>
+            <p style="justify-self: end">{{ comment.date.split("T")[0] }}</p>
           </div>
           <div style="margin-bottom: 10px">
             <p
               class="commentContent commentDetail"
               @click="
-                showCommentDetails(comment.text, comment.avatar, comment.nickName, comment.date)
+                showCommentDetails(
+                  comment.text,
+                  comment.avatar,
+                  comment.nickName,
+                  comment.date
+                )
               "
             >
               {{ comment.text }}
             </p>
             <div style="display: flex; justify-content: end">
-              <TheButton text="删除" style="display: flex" @click="deleteComment(comment.id)" />
+              <TheButton
+                text="删除"
+                style="display: flex"
+                @click="deleteComment(comment.id)"
+              />
             </div>
           </div>
         </template>
       </Comment>
     </el-drawer>
 
-    <el-drawer v-model="commentDeatilDrawer" title="评论" direction="ltr" :size="commentWidth">
+    <el-drawer
+      v-model="commentDeatilDrawer"
+      title="评论"
+      direction="ltr"
+      :size="commentWidth"
+    >
       <div class="grid comment">
         <div>
-          <TheAvatar :size="40" :isCommentContent="true" :src="commentDetailAvatar" />
+          <TheAvatar
+            :size="40"
+            :isCommentContent="true"
+            :src="commentDetailAvatar"
+          />
         </div>
         <div>
           <div class="grid commentTitle">
             <h4>{{ commentDeatilNickName.substring(0, 20) }}</h4>
-            <p style="justify-self: end;">
-              {{ commentDetailDate.split('T')[0] }}
-
+            <p style="justify-self: end">
+              {{ commentDetailDate.split("T")[0] }}
             </p>
           </div>
           <div style="margin-bottom: 10px">
-            <p class="commentDetail "  >{{ commentDetail }}</p>
+            <p class="commentDetail">{{ commentDetail }}</p>
           </div>
         </div>
       </div>
@@ -166,17 +196,17 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, reactive, computed } from 'vue';
-import { ElNotification } from 'element-plus';
-import { RouterLink, useRouter, useRoute } from 'vue-router';
-import { ArrowDown } from '@element-plus/icons-vue';
-import { useUserStore } from '../stores/user';
-import useAxios from '../composables/useAxios';
-import TheIcon from '../components/TheIcon.vue';
-import TheButton from '@/components/TheButton.vue';
-import TheNavBar from '@/components/TheNavBar.vue';
-import Comment from '@/components/TheComment.vue';
-import TheAvatar from '@/components/TheAvatar.vue';
+import { ref, onMounted, reactive, computed } from "vue";
+import { ElNotification } from "element-plus";
+import { RouterLink, useRouter, useRoute } from "vue-router";
+import { ArrowDown } from "@element-plus/icons-vue";
+import { useUserStore } from "../stores/user";
+import useAxios from "../composables/useAxios";
+import TheIcon from "../components/TheIcon.vue";
+import TheButton from "@/components/TheButton.vue";
+import TheNavBar from "@/components/TheNavBar.vue";
+import Comment from "@/components/TheComment.vue";
+import TheAvatar from "@/components/TheAvatar.vue";
 
 const axios = useAxios();
 
@@ -189,19 +219,21 @@ const router = useRouter();
 const route = useRoute();
 const userstore = useUserStore();
 
-const commentWidth = computed(() => (document.body.clientWidth < 500 ? 300 : '40%'));
+const commentWidth = computed(() =>
+  document.body.clientWidth < 500 ? 300 : "40%"
+);
 const commentsDrawer = ref(false);
 const commentDeatilDrawer = ref(false);
-const text = ref('');
+const text = ref("");
 
 const artcileData = reactive({
-  id: '',
-  belongUser: '0',
-  title: '',
-  content: '',
-  nickeName: '',
-  date: '',
-  avatar: '',
+  id: "",
+  belongUser: "0",
+  title: "",
+  content: "",
+  nickeName: "",
+  date: "",
+  avatar: "",
   viewNumber: 0,
   commentNumber: 0,
   likeNumber: 0,
@@ -210,30 +242,35 @@ const artcileData = reactive({
   likeStatus: false,
 });
 
-const input = ref('');
+const input = ref("");
 interface RowsItem {
   [key: string]: string;
 }
 
 const comments = ref<RowsItem[]>();
-const commentDetail = ref('');
-const commentDetailAvatar = ref('');
-const commentDeatilNickName = ref<string>('');
-const commentDetailDate = ref<string>('');
+const commentDetail = ref("");
+const commentDetailAvatar = ref("");
+const commentDeatilNickName = ref<string>("");
+const commentDetailDate = ref<string>("");
 
 // const commentDetail
 
 function handleCopyCodeSuccess() {
   ElNotification({
-    title: 'Success',
-    message: '复制成功',
-    type: 'success',
+    title: "Success",
+    message: "复制成功",
+    type: "success",
   });
 }
 onMounted(async () => {
   let res = await axios({
-    url: 'api/article/?' + 'id=' + route.params.id + '&userId=' + userstore.userInfo.id,
-    method: 'GET',
+    url:
+      "api/article/?" +
+      "id=" +
+      route.params.id +
+      "&userId=" +
+      userstore.userInfo.id,
+    method: "GET",
   });
   let result = res.data;
   artcileData.id = result.id;
@@ -253,58 +290,75 @@ onMounted(async () => {
 });
 
 async function editArticle(id: any) {
-  router.push({ name: 'EditArticle', params: { id: route.params.id } });
+  router.push({ name: "EditArticle", params: { id: route.params.id } });
 }
 
 async function showComments() {
   commentsDrawer.value = true;
   let res = await axios({
-    url: 'api/comment/' + '?id=' + route.params.id,
-    method: 'GET',
+    url: "api/comment/" + "?id=" + route.params.id,
+    method: "GET",
   });
   comments.value = res.data.data;
 }
 async function deleteComment(id: any) {
   let data = new FormData();
-  data.append('id', id);
-  data.append('userId', userstore.userInfo.id);
-  let res = await axios.post('api/delete/comment/', data);
-  if (res.data == 'OK') {
+  data.append("id", id);
+  data.append("userId", userstore.userInfo.id);
+  let res = await axios.post("api/delete/comment/", data);
+  console.log(res.data);
+  if (res.data == "OK") {
     ElNotification({
-      title: 'Success',
-      message: '删除成功',
-      type: 'success',
+      title: "Success",
+      message: "删除成功",
+      type: "success",
     });
+    let res = await axios({
+      url:
+        "api/article/?" +
+        "id=" +
+        route.params.id +
+        "&userId=" +
+        userstore.userInfo.id,
+      method: "GET",
+    });
+    let result = res.data;
+    artcileData.commentNumber = result.commentNumber;
     showComments();
   } else {
     ElNotification({
-      title: 'Warning',
-      message: '不能删除他人的评论',
-      type: 'warning',
+      title: "Warning",
+      message: "不能删除他人的评论",
+      type: "warning",
     });
   }
 }
 async function addComment(articleId: any, currentId: any) {
   if (!userstore.userInfo.token) {
     ElNotification({
-      title: 'Warning',
-      message: '请登录',
-      type: 'warning',
+      title: "Warning",
+      message: "请登录",
+      type: "warning",
     });
-  } else if (input.value == '') {
+  } else if (input.value == "") {
     ElNotification({
-      title: 'Warning',
-      message: '评论不能为空',
-      type: 'warning',
+      title: "Warning",
+      message: "评论不能为空",
+      type: "warning",
     });
   } else {
     let data = new FormData();
-    data.append('id', articleId);
-    data.append('userId', currentId);
-    data.append('text', input.value);
-    let res = await axios.post('api/add/comment/', data);
-    artcileData.commentNumber = res.data.commentNumber
-    input.value = '';
+    data.append("id", articleId);
+    data.append("userId", currentId);
+    data.append("text", input.value);
+    let res = await axios.post("api/add/comment/", data);
+    artcileData.commentNumber = res.data.commentNumber;
+    ElNotification({
+      title: "Success",
+      message: "发布成功",
+      type: "success",
+    });
+    input.value = "";
     showComments();
   }
 }
@@ -321,32 +375,32 @@ function showCommentDetails(
   commentDetailDate.value = commentDate;
 }
 function Login() {
-  router.replace({ name: 'Login' });
+  router.replace({ name: "Login" });
 }
 function Logout() {
   userstore.userLogout();
-  router.replace({ name: 'Home' });
+  router.replace({ name: "Home" });
 }
 
 async function LikeFavor(
-  type: 'like' | 'favor',
+  type: "like" | "favor",
   id: number | string | string[],
   userId: number | string
 ) {
   if (!userstore.userInfo.token) {
     ElNotification({
-      title: 'Warning',
-      message: '请登录',
-      type: 'warning',
+      title: "Warning",
+      message: "请登录",
+      type: "warning",
     });
   } else {
     let res = await axios({
-      url: '/api/article/' + type + '/' + '?id=' + id + '&userId=' + userId,
-      method: 'GET',
+      url: "/api/article/" + type + "/" + "?id=" + id + "&userId=" + userId,
+      method: "GET",
     });
     console.log(res.data);
     let result = res.data;
-    if (type == 'like') {
+    if (type == "like") {
       if (result.status) {
         artcileData.likeNumber += 1;
       } else {
