@@ -264,13 +264,12 @@ function handleCopyCodeSuccess() {
 }
 onMounted(async () => {
   let res = await axios({
-    url:
-      "api/article/?" +
-      "id=" +
-      route.params.id +
-      "&userId=" +
-      userstore.userInfo.id,
+    url:"api/article/" ,
     method: "GET",
+    params:{
+      id:route.params.id,
+      userId:userstore.userInfo.id
+    }
   });
   let result = res.data;
   artcileData.id = result.id;
@@ -296,16 +295,19 @@ async function editArticle(id: any) {
 async function showComments() {
   commentsDrawer.value = true;
   let res = await axios({
-    url: "api/comment/" + "?id=" + route.params.id,
+    url: "api/comment/",
     method: "GET",
+    params:{
+      id:route.params.id
+    }
   });
   comments.value = res.data.data;
 }
 async function deleteComment(id: any) {
-  let data = new FormData();
-  data.append("id", id);
-  data.append("userId", userstore.userInfo.id);
-  let res = await axios.post("api/delete/comment/", data);
+  let res = await axios.post("api/delete/comment/", {
+    id:id,
+    userId:userstore.userInfo.id
+  });
   console.log(res.data);
   if (res.data == "OK") {
     ElNotification({
@@ -315,12 +317,12 @@ async function deleteComment(id: any) {
     });
     let res = await axios({
       url:
-        "api/article/?" +
-        "id=" +
-        route.params.id +
-        "&userId=" +
-        userstore.userInfo.id,
+        "api/article/",
       method: "GET",
+      params:{
+      id:route.params.id,
+      userId:userstore.userInfo.id
+    }
     });
     let result = res.data;
     artcileData.commentNumber = result.commentNumber;
@@ -347,11 +349,11 @@ async function addComment(articleId: any, currentId: any) {
       type: "warning",
     });
   } else {
-    let data = new FormData();
-    data.append("id", articleId);
-    data.append("userId", currentId);
-    data.append("text", input.value);
-    let res = await axios.post("api/add/comment/", data);
+    let res = await axios.post("api/add/comment/", {
+      id:articleId,
+      userId:currentId,
+      text:input.value
+    });
     artcileData.commentNumber = res.data.commentNumber;
     ElNotification({
       title: "Success",
@@ -395,8 +397,11 @@ async function LikeFavor(
     });
   } else {
     let res = await axios({
-      url: "/api/article/" + type + "/" + "?id=" + id + "&userId=" + userId,
+      url: `api/article/${type}/`,
       method: "GET",
+      params:{
+        id:id,userId:userId
+      }
     });
     console.log(res.data);
     let result = res.data;

@@ -95,13 +95,13 @@ if(text.value.length<1){
 });
 return;
 }
-  let data = new FormData();
-  data.append('token', userstore.userInfo.token);
-  data.append('title', title.value);
-  data.append('describe', desc.value);
-  data.append('content', text.value);
-  data.append('cover', '');
-  let res = await axios.post('api/add/article/', data);
+  let res = await axios.post('api/add/article/', {
+    token:userstore.userInfo.token,
+    title:title.value,
+    describe:desc.value,
+    content:text.value,
+    cover:""
+  });
   ElNotification({
     title: 'Success',
     message: '发布成功',

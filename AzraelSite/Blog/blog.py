@@ -1,19 +1,12 @@
-from Blog.models import Article, UserInfo, Lanmu, Pinglun, Like, Favourite
+from Blog.models import Article, UserInfo, Pinglun, Like, Favourite
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.authtoken.models import Token
 from django.contrib.auth.hashers import check_password, make_password
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.contrib.auth.models import User, Group, Permission, ContentType
-from django.utils.timezone import localtime
-from bs4 import BeautifulSoup
-from PIL import Image
-from io import BytesIO
-import requests
+from django.contrib.auth.models import User
 import datetime
-import base64
 import os
-import json
 
 hostUrl = 'http://127.0.0.1:8000/'
 
@@ -121,6 +114,8 @@ def Login(request):
     return Response(userinfo_data)
 
 # 注册
+
+
 @api_view(['POST'])
 def Register(request):
     username = request.data['username']
@@ -149,8 +144,8 @@ def Register(request):
 # 重置密码
 @api_view(['POST'])
 def ResetPassword(request):
-    username = request.POST['username']
-    password = request.POST['password']
+    username = request.data['username']
+    password = request.data['password']
     # 注册逻辑
     user = User.objects.filter(username=username)
     if not user:
@@ -160,9 +155,10 @@ def ResetPassword(request):
         User.objects.filter(username=username).update(password=new_password)
         return Response("OK")
 
+
 @api_view(["POST"])
 def GetUserInfo(request):
-    if not request.POST['token']:
+    if not request.data['token']:
         userinfo = {
             "userId": 0,
             'token': 'token',
@@ -173,19 +169,19 @@ def GetUserInfo(request):
             'desc': '',
         }
     else:
-        userinfo = ResUserInfo(request.POST['token'])
+        userinfo = ResUserInfo(request.data['token'])
     return Response(userinfo)
 
 
 @api_view(["POST"])
 def UpdateUserInfo(request):
-    token = request.POST["token"]
+    token = request.data["token"]
     id = CurrentUserId(token)
-    name = request.POST["name"]
-    nickName = request.POST["nickName"]
-    avatar = request.POST["avatar"]
-    phone = request.POST["phone"]
-    desc = request.POST["desc"]
+    name = request.data["name"]
+    nickName = request.data["nickName"]
+    avatar = request.data["avatar"]
+    phone = request.data["phone"]
+    desc = request.data["desc"]
     User.objects.filter(id=id).update(username=name)
     UserInfo.objects.filter(belong_id=id).update(headImg=avatar,
                                                  nickName=nickName,
@@ -245,14 +241,16 @@ def AddArticle(request):
                                      describe=describe,
                                      belong=user_token.user)
     print(article)
-    return Response({"status": "OK", "id": article.id,"text":"文章发布成功"})
+    return Response({"status": "OK", "id": article.id, "text": "文章发布成功"})
 
 
 @api_view(['POST'])
 def DeleteArticle(request):
     Article.objects.filter(id=request.data['id']).delete()
-    return Response({"status":"ok","text":"删除文章成功"})
+    return Response({"status": "ok", "text": "删除文章成功"})
 # markdown上传本地图片
+
+
 @api_view(['POST', 'PUT'])
 def ArticleImg(request):
     src = request.data['imgnode']
@@ -269,11 +267,11 @@ def ArticleImg(request):
 
 @api_view(["POST"])
 def UpdateArticle(request):
-    articleId = request.POST["articleId"]
-    title = request.POST['title']
-    describe = request.POST['describe']
-    content = request.POST['content']
-    token = request.POST["token"]
+    articleId = request.data["articleId"]
+    title = request.data['title']
+    describe = request.data['describe']
+    content = request.data['content']
+    token = request.data["token"]
     id = CurrentUserId(token)
     cover = hostUrl + 'upload/' + 'defaultCover.png'
 
@@ -387,13 +385,15 @@ def Comments(request):
             'id':
             pinglun.id,
             "nickName":
-            UserInfo.objects.filter(belong_id=pinglun.belong_user_id).first().nickName,
+            UserInfo.objects.filter(
+                belong_id=pinglun.belong_user_id).first().nickName,
             "text":
             pinglun.text,
             'date':
             pinglun.date,
             "avatar":
-            UserInfo.objects.filter(belong_id=pinglun.belong_user_id).first().headImg
+            UserInfo.objects.filter(
+                belong_id=pinglun.belong_user_id).first().headImg
         }
         pinglun_data.append(pinglun_item)
     return Response({"data": pinglun_data, "total": total})
@@ -410,13 +410,13 @@ def AddComment(request):
                           text=comment)
     new_pinglun.save()
     comment_num = Pinglun.objects.filter(belong_id=articleId).count()
-    return Response({"status":"OK","text":"发布评论成功","commentNumber":comment_num})
+    return Response({"status": "OK", "text": "发布评论成功", "commentNumber": comment_num})
 
 
 @api_view(["POST"])
 def DeleteComment(request):
-    pinlunId = request.POST["id"]
-    currentId = request.POST["userId"]
+    pinlunId = request.data["id"]
+    currentId = request.data["userId"]
     print(pinlunId, currentId)
     currentPinLun = Pinglun.objects.filter(id=pinlunId,
                                            belong_user_id=currentId).first()
@@ -427,6 +427,7 @@ def DeleteComment(request):
         return Response("none")
     return Response("OK")
 
+
 @api_view(['GET', 'POST'])
 def ArticleLike(request):
     if request.method == "POST":
@@ -435,18 +436,18 @@ def ArticleLike(request):
     if request.method == "GET":
         articleId = request.GET['id']
         userId = request.GET['userId']
-    
+
     article = Article.objects.get(id=articleId)
 
     liked = Like.objects.filter(belong=article, belong_user_id=userId)
 
     if liked:
         liked[0].delete()
-        return Response({"status": False,"text":"取消点赞"})
+        return Response({"status": False, "text": "取消点赞"})
     else:
         new_like = Like(belong=article, belong_user_id=userId)
         new_like.save()
-        return Response({"status": True,"text":"点赞成功"})
+        return Response({"status": True, "text": "点赞成功"})
 
 
 @api_view(['GET', 'POST'])
@@ -463,11 +464,11 @@ def ArticleFavor(request):
 
     if favored:
         favored[0].delete()
-        return Response({"status": False,"text":"取消收藏"})
+        return Response({"status": False, "text": "取消收藏"})
     else:
         new_favor = Favourite(belong=article, belong_user_id=userId)
         new_favor.save()
-        return Response({"status": True,"text":"收藏成功"})
+        return Response({"status": True, "text": "收藏成功"})
 
 
 @api_view(["GET"])

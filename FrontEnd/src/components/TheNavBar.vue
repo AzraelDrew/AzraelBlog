@@ -28,6 +28,7 @@ const toggleDark = useToggle(isDark);
 
 <style scoped>
 .nav {
+  width: 98vw;
   padding: 10px 20px;
   height: 50px;
   border-radius: 15px;

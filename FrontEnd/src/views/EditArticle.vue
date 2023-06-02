@@ -45,9 +45,8 @@ function ChangeFullscreen() {
   isFullscreen.value = !isFullscreen.value;
 }
 function handleUploadImage(event: any, insertImage: any, files: any) {
-  let img = files[0];
   let formData = new FormData();
-  formData.append('imgnode', img);
+  formData.append('imgnode', files[0]);
   axios.post('api/article/img/', formData).then((res) => {
     insertImage({
       url: res.data.url,
@@ -58,8 +57,12 @@ function handleUploadImage(event: any, insertImage: any, files: any) {
 
 onMounted(async () => {
   let res = await axios({
-    url: 'api/article/?' + 'id=' + route.params.id + '&userId=' + userstore.userInfo.id,
+    url: 'api/article/' ,
     method: 'GET',
+    params:{
+      id:route.params.id,
+      userId:userstore.userInfo.id
+    }
   });
   let result = res.data;
   title.value = result.title;
@@ -87,14 +90,15 @@ if(text.value.length<1){
 });
 return;
 }
-  let data = new FormData();
-  data.append('articleId', route.params.id as string);
-  data.append('token', userstore.userInfo.token);
-  data.append('title', title.value);
-  data.append('describe', desc.value);
-  data.append('content', text.value);
-  data.append('content', text.value);
-  let res = await axios.post('api/upadte/article/', data);
+  let res = await axios.post('api/upadte/article/',
+   {
+    articleId:`${route.params.id}`,
+    token:userstore.userInfo.token,
+    title:title.value,
+    describe:desc.value,
+    content:text.value
+  }
+  );
   console.log(res);
   ElNotification({
     title: 'Success',

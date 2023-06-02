@@ -1,6 +1,6 @@
 <template>
-  <div class="articleList">
-    <h1 class="flex">最新博客</h1>
+  <div class="articleList" >
+    <h1 class="flex" >最新博客</h1>
     <div class="flex">
       <TheIcon
         v-for="(tab, index) in tabs"
@@ -57,16 +57,14 @@ watch(props, async (newval) => {
   console.log(newval.search);
   let res = await axios({
     url:
-      '/api/all/article/' +
-      '?page=' +
-      1 +
-      '&pageSize=' +
-      pageSize.value +
-      '&userId=' +
-      userstore.userInfo.id +
-      '&search=' +
-      newval.search,
+      '/api/all/article/',
     method: 'GET',
+    params:{
+      page:1,
+      pageSize:pageSize.value,
+      userId:userstore.userInfo.id,
+      search:newval.search
+    }
   });
   allArticle.value = res.data.data;
 });
@@ -107,8 +105,12 @@ onMounted(async () => {
 });
 async function AllArticle(page: 1 | number, pageSize: number, userId?: number | string) {
   let res = await axios({
-    url: '/api/all/article/' + '?page=' + page + '&pageSize=' + pageSize + '&userId=' + userId,
-    method: 'GET',
+    url: '/api/all/article/',
+    params:{
+      page:page,
+      pageSize:pageSize,
+      userId:userId
+    }
   });
 
   return res;

@@ -68,10 +68,10 @@ async function restPassword() {
     });
     return;
   }
-  let formData = new FormData()
-  formData.append('username',name.value)
-  formData.append('password',password.value)
-  let res = await axios.post('api/rest/password/', formData);
+  let res = await axios.post('api/rest/password/', {
+    username:name.value,
+    password:password.value
+  });
   console.log(res.data);
   if(res.data=='not_exist'){
     ElNotification({

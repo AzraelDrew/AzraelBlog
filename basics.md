@@ -1,19 +1,18 @@
 > Django
 
 ```shell
-django-admin startproject mysite
+django-admin startproject projectName
 
-cd mysite
+cd projectName
 
 python3 manage.py runserver
 
-python3 manage.py startapp myblog
+python3 manage.py startapp appName
 
 python3 manage.py makemigrations
 
 python3 manage.py migrate
 
-python3 manage.py createsuperuser
 ```
 
 > 数据库迁移至 mysql
@@ -45,8 +44,10 @@ pymysql.install_as_MySQLdb()
 
 ```shell
 #迁移数据库至mysql
-python3 manage.py migrate --database mysql
+python3 manage.py migrate
+```
 
+```shell
 #重建管理员
 python3 manage.py createsuperuser
 ```

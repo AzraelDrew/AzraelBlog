@@ -114,14 +114,15 @@ async function onSubmit() {
     });
     return;
   }
-  let formData = new FormData();
-  formData.append("token", userstore.userInfo.token);
-  formData.append("name", form.name);
-  formData.append("nickName", form.nickName);
-  formData.append("avatar", form.avatar);
-  formData.append("phone", form.phone);
-  formData.append("desc", form.desc);
-  let res = await axios.post("api/update/userinfo/", formData);
+
+  let res = await axios.post("api/update/userinfo/", {
+    token:userstore.userInfo.token,
+    name:form.name,
+    nickName:form.nickName,
+    avatar:form.avatar,
+    phone:form.phone,
+    desc:form.desc
+  });
   userstore.GetUserInfo(userstore.userInfo.token);
   ElNotification({
     title: "Success",

@@ -38,10 +38,11 @@ export const useUserStore = defineStore('user ', () => {
   }
 
   async function userLogin(username: string, password: string) {
-    let data = new FormData();
-    data.append('username', username);
-    data.append('password', password);
-    let res = await axios.post('api/login/', data);
+
+    let res = await axios.post('api/login/', {
+      username:username,
+      password:password
+    });
     const result = res.data;
     if (result == 'pwderr' || result == 'none') {
       return result;
@@ -68,9 +69,10 @@ export const useUserStore = defineStore('user ', () => {
     userInfo.desc = '';
   }
   async function GetUserInfo(token: string) {
-    let data = new FormData();
-    data.append('token', token);
-    let res = await axios.post('api/get/userinfo/', data);
+
+    let res = await axios.post('api/get/userinfo/', {
+      token:token
+    });
     const result = res.data;
     userInfo.id = result.userId;
     userInfo.username = result.name;

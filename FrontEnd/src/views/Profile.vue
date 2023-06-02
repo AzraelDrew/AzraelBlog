@@ -124,8 +124,11 @@ async function GetArticle(index: any) {
 }
 async function AllArticle(id: any, type: string) {
   let res = await axios({
-    url: '/api/' + type + '/article/' + '?id=' + id,
+    url: `/api/${type}/article/`,
     method: 'GET',
+    params:{
+      id:id
+    }
   });
   return res;
 }
@@ -137,9 +140,10 @@ function askDelete(id:any){
 
 async function delArticle(){
   dialogVisible.value = false
-  let formData = new FormData()
-  formData.append("id",String(deleteArticleId.value))
-  let delMessage =  await axios.post('api/delete/article/',formData)
+
+  let delMessage =  await axios.post('api/delete/article/',{
+    id:String(deleteArticleId.value)
+  })
   console.log(delMessage);
   if(delMessage.data.status=="ok"){
     ElNotification({

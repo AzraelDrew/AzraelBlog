@@ -3,7 +3,8 @@
 dist
 db.sqlite3
 upload/
-__pycache__
+media/
+__pycache__/
 migrations/
 
 # local env files

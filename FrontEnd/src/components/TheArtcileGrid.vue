@@ -52,7 +52,6 @@
 </template>
 
 <script lang="ts" setup>
-// import axios from 'axios';
 import { useRouter } from 'vue-router';
 import { ElNotification } from 'element-plus';
 import { useUserStore } from '../stores/user';
@@ -97,8 +96,11 @@ async function LikeFavor(type: 'like' | 'favor', id: number | string, userId: nu
     });
   } else {
     let res = await axios({
-      url: '/api/article/' + type + '/' + '?id=' + id + '&userId=' + userId,
+      url: `/api/article/${type}/`,
       method: 'GET',
+      params:{
+        id:id,userId:userId
+      }
     });
     let result = res.data;
     if (type == 'like') {

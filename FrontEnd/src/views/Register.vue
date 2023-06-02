@@ -76,10 +76,10 @@ async function register() {
     });
     return;
   }
-  let formData = new FormData()
-  formData.append('username',name.value)
-  formData.append('password',password.value)
-  let res = await axios.post('api/register/', formData);
+  let res = await axios.post('api/register/', {
+    username:name.value,
+    password:password.value
+  });
   console.log(res);
   await userstore.userLogin(name.value, password.value);
   if(res.data=='repeat'){
